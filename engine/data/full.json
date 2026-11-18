@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-19 00:39",
+ "generated": "2026-11-19 00:51",
  "source": "官方 webapi.sporttery.cn getMatchCalculatorV1（竞彩 had，8 场）",
  "matches": [
   {
@@ -780,6 +780,6 @@
   0.15
  ],
  "note": "伤停/状态/交锋/天气/xG 无免费源，标记为 est；比分概率来自官方 crs 赔率",
- "official_update": "2026-11-19 00:39",
+ "official_update": "2026-11-19 00:51",
  "official_source": "sporttery.cn"
 }

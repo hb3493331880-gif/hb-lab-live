@@ -43,7 +43,9 @@ jobs:
             echo "本轮无变化，跳过提交"
           else
             git commit -m "chore(auto): $(date -u '+%F %H:%M') UTC"
-            git push
+            # 上一轮/本地可能刚推过，先 rebase 再推，避免 non-fast-forward 直接失败
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME:-main}" || true
+            git push || (git pull --rebase --autostash origin "${GITHUB_REF_NAME:-main}" && git push)
           fi
 
       - name: 部署到 Netlify

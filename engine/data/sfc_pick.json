@@ -11,11 +11,25 @@
   "arank": 15,
   "hrank_lg": "1",
   "arank_lg": "15",
-  "no_odds": true,
-  "o": null,
-  "odds": null,
-  "p": null,
-  "src": "未开售"
+  "no_odds": false,
+  "o": [
+   1.08,
+   12.02,
+   21.14
+  ],
+  "odds": [
+   1.08,
+   12.02,
+   21.14
+  ],
+  "p": [
+   87.6,
+   7.9,
+   4.5
+  ],
+  "src": "okooo-m",
+  "rec": "主胜",
+  "draw_p": 7.9
  },
  {
   "no": "02",
@@ -29,11 +43,25 @@
   "arank": 4,
   "hrank_lg": "6",
   "arank_lg": "4",
-  "no_odds": true,
-  "o": null,
-  "odds": null,
-  "p": null,
-  "src": "未开售"
+  "no_odds": false,
+  "o": [
+   2.21,
+   3.51,
+   2.92
+  ],
+  "odds": [
+   2.21,
+   3.51,
+   2.92
+  ],
+  "p": [
+   41.9,
+   26.4,
+   31.7
+  ],
+  "src": "okooo-m",
+  "rec": "主胜",
+  "draw_p": 26.4
  },
  {
   "no": "03",
@@ -47,11 +75,25 @@
   "arank": 7,
   "hrank_lg": "17",
   "arank_lg": "7",
-  "no_odds": true,
-  "o": null,
-  "odds": null,
-  "p": null,
-  "src": "未开售"
+  "no_odds": false,
+  "o": [
+   3.25,
+   3.71,
+   2.0
+  ],
+  "odds": [
+   3.25,
+   3.71,
+   2.0
+  ],
+  "p": [
+   28.6,
+   25.0,
+   46.4
+  ],
+  "src": "okooo-m",
+  "rec": "客胜",
+  "draw_p": 25.0
  },
  {
   "no": "04",
@@ -65,11 +107,25 @@
   "arank": 13,
   "hrank_lg": "7",
   "arank_lg": "13",
-  "no_odds": true,
-  "o": null,
-  "odds": null,
-  "p": null,
-  "src": "未开售"
+  "no_odds": false,
+  "o": [
+   1.46,
+   4.36,
+   6.69
+  ],
+  "odds": [
+   1.46,
+   4.36,
+   6.69
+  ],
+  "p": [
+   64.4,
+   21.6,
+   14.1
+  ],
+  "src": "okooo-m",
+  "rec": "主胜",
+  "draw_p": 21.6
  },
  {
   "no": "05",
@@ -83,11 +139,25 @@
   "arank": 18,
   "hrank_lg": "17",
   "arank_lg": "18",
-  "no_odds": true,
-  "o": null,
-  "odds": null,
-  "p": null,
-  "src": "未开售"
+  "no_odds": false,
+  "o": [
+   2.12,
+   3.43,
+   3.31
+  ],
+  "odds": [
+   2.12,
+   3.43,
+   3.31
+  ],
+  "p": [
+   44.3,
+   27.4,
+   28.4
+  ],
+  "src": "okooo-m",
+  "rec": "主胜",
+  "draw_p": 27.4
  },
  {
   "no": "06",
@@ -101,11 +171,25 @@
   "arank": 15,
   "hrank_lg": "9",
   "arank_lg": "15",
-  "no_odds": true,
-  "o": null,
-  "odds": null,
-  "p": null,
-  "src": "未开售"
+  "no_odds": false,
+  "o": [
+   2.08,
+   3.27,
+   3.36
+  ],
+  "odds": [
+   2.08,
+   3.27,
+   3.36
+  ],
+  "p": [
+   44.3,
+   28.2,
+   27.5
+  ],
+  "src": "okooo-m",
+  "rec": "主胜",
+  "draw_p": 28.2
  },
  {
   "no": "07",
@@ -119,11 +203,25 @@
   "arank": 6,
   "hrank_lg": "2",
   "arank_lg": "6",
-  "no_odds": true,
-  "o": null,
-  "odds": null,
-  "p": null,
-  "src": "未开售"
+  "no_odds": false,
+  "o": [
+   1.77,
+   3.67,
+   4.03
+  ],
+  "odds": [
+   1.77,
+   3.67,
+   4.03
+  ],
+  "p": [
+   52.0,
+   25.1,
+   22.9
+  ],
+  "src": "okooo-m",
+  "rec": "主胜",
+  "draw_p": 25.1
  },
  {
   "no": "08",
@@ -137,11 +235,25 @@
   "arank": 13,
   "hrank_lg": "11",
   "arank_lg": "13",
-  "no_odds": true,
-  "o": null,
-  "odds": null,
-  "p": null,
-  "src": "未开售"
+  "no_odds": false,
+  "o": [
+   2.01,
+   3.54,
+   3.29
+  ],
+  "odds": [
+   2.01,
+   3.54,
+   3.29
+  ],
+  "p": [
+   45.9,
+   26.1,
+   28.0
+  ],
+  "src": "okooo-m",
+  "rec": "主胜",
+  "draw_p": 26.1
  },
  {
   "no": "09",
@@ -155,11 +267,25 @@
   "arank": 12,
   "hrank_lg": "7",
   "arank_lg": "12",
-  "no_odds": true,
-  "o": null,
-  "odds": null,
-  "p": null,
-  "src": "未开售"
+  "no_odds": false,
+  "o": [
+   2.06,
+   3.28,
+   3.36
+  ],
+  "odds": [
+   2.06,
+   3.28,
+   3.36
+  ],
+  "p": [
+   44.6,
+   28.0,
+   27.4
+  ],
+  "src": "okooo-m",
+  "rec": "主胜",
+  "draw_p": 28.0
  },
  {
   "no": "10",
@@ -173,11 +299,25 @@
   "arank": 5,
   "hrank_lg": "8",
   "arank_lg": "5",
-  "no_odds": true,
-  "o": null,
-  "odds": null,
-  "p": null,
-  "src": "未开售"
+  "no_odds": false,
+  "o": [
+   2.01,
+   3.36,
+   3.44
+  ],
+  "odds": [
+   2.01,
+   3.36,
+   3.44
+  ],
+  "p": [
+   45.8,
+   27.4,
+   26.8
+  ],
+  "src": "okooo-m",
+  "rec": "主胜",
+  "draw_p": 27.4
  },
  {
   "no": "11",
@@ -191,11 +331,25 @@
   "arank": 4,
   "hrank_lg": "2",
   "arank_lg": "4",
-  "no_odds": true,
-  "o": null,
-  "odds": null,
-  "p": null,
-  "src": "未开售"
+  "no_odds": false,
+  "o": [
+   2.65,
+   3.82,
+   2.19
+  ],
+  "odds": [
+   2.65,
+   3.82,
+   2.19
+  ],
+  "p": [
+   34.4,
+   23.9,
+   41.7
+  ],
+  "src": "okooo-m",
+  "rec": "客胜",
+  "draw_p": 23.9
  },
  {
   "no": "12",
@@ -209,11 +363,25 @@
   "arank": 3,
   "hrank_lg": "10",
   "arank_lg": "3",
-  "no_odds": true,
-  "o": null,
-  "odds": null,
-  "p": null,
-  "src": "未开售"
+  "no_odds": false,
+  "o": [
+   2.0,
+   3.84,
+   3.0
+  ],
+  "odds": [
+   2.0,
+   3.84,
+   3.0
+  ],
+  "p": [
+   45.7,
+   23.8,
+   30.5
+  ],
+  "src": "okooo-m",
+  "rec": "主胜",
+  "draw_p": 23.8
  },
  {
   "no": "13",
@@ -227,11 +395,25 @@
   "arank": 5,
   "hrank_lg": "13",
   "arank_lg": "5",
-  "no_odds": true,
-  "o": null,
-  "odds": null,
-  "p": null,
-  "src": "未开售"
+  "no_odds": false,
+  "o": [
+   3.45,
+   3.7,
+   1.87
+  ],
+  "odds": [
+   3.45,
+   3.7,
+   1.87
+  ],
+  "p": [
+   26.5,
+   24.7,
+   48.8
+  ],
+  "src": "okooo-m",
+  "rec": "客胜",
+  "draw_p": 24.7
  },
  {
   "no": "14",
@@ -245,10 +427,24 @@
   "arank": 2,
   "hrank_lg": "5",
   "arank_lg": "2",
-  "no_odds": true,
-  "o": null,
-  "odds": null,
-  "p": null,
-  "src": "未开售"
+  "no_odds": false,
+  "o": [
+   3.32,
+   4.29,
+   1.83
+  ],
+  "odds": [
+   3.32,
+   4.29,
+   1.83
+  ],
+  "p": [
+   27.9,
+   21.6,
+   50.6
+  ],
+  "src": "okooo-m",
+  "rec": "客胜",
+  "draw_p": 21.6
  }
 ]
