@@ -35,6 +35,8 @@ def main():
     # 四个板块各抓各的，任何一个源挂了都不阻断出页：脚本自己保留旧数据并返回 0
     step('1/6 抓取官方竞彩', [os.path.join('scripts', 'fetch.py')], required=False)
     step('2/6 抓取任九 14 场', [os.path.join('scripts', 'fetch_sfc.py')], required=False)
+    # 2b：官方 500 开售前没有 data-sp，用澳客 m 站（手机 UA）补 14 场终盘欧赔
+    step('2b/6 任九补赔率（澳客 m 站）', [os.path.join('scripts', 'fetch_sfc_okooo.py')], required=False)
     step('3/6 抓取北单在售', [os.path.join('scripts', 'fetch_bjdc.py')], required=False)
     step('4/6 抓取大乐透开奖 + 选号', [os.path.join('scripts', 'fetch_dlt.py')], required=False)
     # 5/8：把浏览器抓下来的 500 数据页文本解析成 intel500.json（本地没有抓取目录就跳过）
