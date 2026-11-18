@@ -23,6 +23,7 @@ BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA = os.path.join(BASE, 'engine', 'data')
 FULL = os.path.join(DATA, 'full.json')
 ARCH = os.path.join(DATA, '_archive_done.json')
+INTEL = os.path.join(DATA, 'intel500.json')
 LB = ['主胜', '平局', '客胜']
 
 VERDICT_DRAW = ('胜平负：平局率28.4%偏高、方向不稳，建议降低单注信心或整场放弃'
@@ -46,6 +47,12 @@ def band(p):
 def main():
     arch = json.load(io.open(ARCH, encoding='utf-8'))
     full = json.load(io.open(FULL, encoding='utf-8'))
+    intel = {}
+    if os.path.exists(INTEL):
+        try:
+            intel = json.load(io.open(INTEL, encoding='utf-8'))
+        except Exception as e:
+            print('[enrich] intel500.json 读取失败，按无情报处理：%s' % e)
     ms = full.get('matches') or []
     if not ms:
         print('[enrich] full.json 没有场次，跳过')
@@ -86,6 +93,10 @@ def main():
         if len(p) != 3:
             continue
         h, a, lg = norm(m.get('h')), norm(m.get('a')), (m.get('lg') or '')
+        # 幂等：首次运行时把原始一句话分析存进 ana_base，之后每次都从底稿重建，避免重复追加
+        if m.get('ana_base') is None:
+            m['ana_base'] = (m.get('ana') or '').strip()
+        base = (m.get('ana_base') or '').strip()
         mp = float(m.get('main_p') or max(p))
         main = m.get('main') or LB[p.index(max(p))]
         parts = []
@@ -133,21 +144,63 @@ def main():
         else:
             parts.append('【联赛平局特性】%s 在本库归档样本不足 8 场，不给联赛平局基准，不编造。' % (lg or '本场联赛'))
 
-        # ⑤ 历史交锋
-        hits = [x for x in arch if {norm(x.get('h')), norm(x.get('a'))} == {h, a} and x.get('actual')]
-        if hits:
-            hw = len([x for x in hits if x['actual'] == '主胜'])
-            dr = len([x for x in hits if x['actual'] == '平局'])
-            aw = len([x for x in hits if x['actual'] == '客胜'])
-            last = hits[-1]
-            parts.append('【历史交锋】归档里两队交手 %d 次：主胜 %d / 平 %d / 客胜 %d。最近一次 %s（%s）。'
-                         % (len(hits), hw, dr, aw, last.get('note') or last.get('no') or '—', last.get('no') or ''))
+        # ⑤ 500 情报：近况 / 主客场 / 场均 / 阵型 / 交锋 / 伤停
+        q = intel.get(m.get('no')) if intel else None
+        if q and q.get('home'):
+            h10, a10 = q['home'], q.get('away') or {}
+            parts.append('【近期状态·500】%s 近10场 %d胜%d平%d负（胜率%d%%），进%d失%d（净%d）；'
+                         '%s 近10场 %d胜%d平%d负（胜率%s%%），进%s失%s。'
+                         % (m.get('h'), h10['w'], h10['d'], h10['l'], h10['win_pct'],
+                            h10['gf'], h10['ga'], h10['gd'],
+                            m.get('a'), a10.get('w', 0), a10.get('d', 0), a10.get('l', 0),
+                            a10.get('win_pct', '—'), a10.get('gf', '—'), a10.get('ga', '—')))
+            hh, aa = q.get('home_home'), q.get('away_away')
+            if hh and aa:
+                parts.append('【主客场拆分】%s 主场近10场 %d胜%d平%d负（胜率%d%%，进%d失%d）；'
+                             '%s 客场近10场 %d胜%d平%d负（胜率%d%%，进%d失%d）。'
+                             % (m.get('h'), hh['w'], hh['d'], hh['l'], hh['win_pct'], hh['gf'], hh['ga'],
+                                m.get('a'), aa['w'], aa['d'], aa['l'], aa['win_pct'], aa['gf'], aa['ga']))
+            if q.get('home_avg'):
+                ha = q['home_avg']
+                aa2 = q.get('away_avg') or {}
+                parts.append('【场均进失】%s 场均进%.2f失%.2f（主场 %.2f/%.2f）；%s 场均进%.2f失%.2f（客场 %.2f/%.2f）。'
+                             % (m.get('h'), ha['gf'][0], ha['ga'][0], ha['gf'][1], ha['ga'][1],
+                                m.get('a'), (aa2.get('gf') or [0])[0], (aa2.get('ga') or [0])[0],
+                                (aa2.get('gf') or [0, 0])[2] if len(aa2.get('gf') or []) > 2 else 0,
+                                (aa2.get('ga') or [0, 0])[2] if len(aa2.get('ga') or []) > 2 else 0))
+            if q.get('home_form'):
+                parts.append('【预计阵型·500】%s %s / %s %s（500 赛前预计，仅供参考布置，不参与概率）。'
+                             % (m.get('h'), q['home_form'], m.get('a'), q.get('away_form') or '未列'))
         else:
-            parts.append('【历史交锋】归档里这两队没有交手记录（跨联赛/首次相遇），不套用他队数据。')
+            parts.append('【近期状态·500】本场未取到 500 数据页，近况与阵型留空。')
 
-        # ⑥ 伤停（本轮没接独立伤停源）
-        parts.append('【伤停】独立伤停接口本轮未接通（官方 getMatchListV1 被 WAF 拦 567、澳客 403），'
-                     '按铁律不臆测名单，只标"未采集"。')
+        # ⑥ 历史交锋
+        if q and q.get('h2h_rec'):
+            parts.append('【历史交锋·500】对赛成绩 %s %s（500 口径，主队视角）。'
+                         % (q.get('h2h') or m.get('h'), q['h2h_rec']))
+        else:
+            hits = [x for x in arch if {norm(x.get('h')), norm(x.get('a'))} == {h, a} and x.get('actual')]
+            if hits:
+                hw = len([x for x in hits if x['actual'] == '主胜'])
+                dr = len([x for x in hits if x['actual'] == '平局'])
+                aw = len([x for x in hits if x['actual'] == '客胜'])
+                last = hits[-1]
+                parts.append('【历史交锋】归档里两队交手 %d 次：主胜 %d / 平 %d / 客胜 %d。最近一次 %s（%s）。'
+                             % (len(hits), hw, dr, aw, last.get('note') or last.get('no') or '—', last.get('no') or ''))
+            else:
+                parts.append('【历史交锋】本库归档与 500 都没有这两队的交手记录，不套用他队数据。')
+
+        # ⑦ 伤停
+        if q and q.get('inj'):
+            parts.append('【伤停·500】' + q['inj'])
+        else:
+            parts.append('【伤停·500】500 数据页「伤病/停赛」栏为空（赛前名单通常开赛前才补），按铁律不臆测名单。')
+
+        # ⑧ 第三方观点（只引用，不进模型）
+        if q and q.get('tip'):
+            tip = q['tip'].split('对赛成绩')[0].strip()
+            if tip:
+                parts.append('【第三方观点·500】%s（原样引用，未并入本页概率）。' % tip)
 
         # ⑦ 结论
         if p[1] >= 27:
@@ -156,9 +209,8 @@ def main():
             parts.append('【结论】主推 %s 概率 %.1f%%，模型与该档历史命中率基本一致，'
                          '按单选口径执行；不建议加双选（归档回测双选 EV 全面更差）。' % (main, mp))
 
-        m['ana'] = '，'.join([m['ana']]) if m.get('ana') else ''
-        m['ana'] = (m.get('ana', '').rstrip('。') + '。' if m.get('ana') else '') + '\n'.join(parts)
-        m['ana_ver'] = 'enrich-1'
+        m['ana'] = ((base.rstrip('。') + '。') if base else '') + '\n'.join(parts)
+        m['ana_ver'] = 'enrich-2'
         updated += 1
 
     tmp = FULL + '.tmp'
