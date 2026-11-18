@@ -75,6 +75,65 @@ def jc_today():
     return out
 
 
+def _bj_ana(m, sp, p, best, lg):
+    """北单逐场分析：只用赔率+归档算，缺的如实写缺失，不编。（对齐脑图 12 维里能落地的部分）"""
+    arch = load('_archive_done.json') or []
+    if not getattr(_bj_ana, '_cache', None):
+        tot = len([x for x in arch if x.get('actual')])
+        draw_n = len([x for x in arch if x.get('actual') == '平局'])
+        flip = [x for x in arch if x.get('actual') and x.get('main') and x['actual'] != x['main']]
+        lg_d = {}
+        band = {}
+        for x in arch:
+            g = x.get('lg') or ''
+            if g:
+                d = lg_d.setdefault(g, [0, 0])
+                d[1] += 1
+                if x.get('actual') == '平局':
+                    d[0] += 1
+            if x.get('main_p') and x.get('actual'):
+                b = int(float(x['main_p']) // 5) * 5
+                s = band.setdefault(b, [0, 0])
+                s[1] += 1
+                if x['actual'] == x['main']:
+                    s[0] += 1
+        fl = {}
+        for x in flip:
+            fl[x['actual']] = fl.get(x['actual'], 0) + 1
+        _bj_ana._cache = {'tot': tot, 'draw': draw_n, 'flip': len(flip), 'fl': fl,
+                          'lg': lg_d, 'band': band}
+    c = _bj_ana._cache
+    parts = []
+    parts.append('【定价】SP %.2f/%.2f/%.2f 去水后 主%.1f%% 平%.1f%% 客%.1f%%，主推 %s。'
+                 % (sp[0], sp[1], sp[2], p[0], p[1], p[2], LB[best]))
+    mp = p[best]
+    b = int(mp // 5) * 5
+    s = c['band'].get(b)
+    if s and s[1] >= 8:
+        hit = s[0] / s[1] * 100
+        parts.append('【同档校准】%d-%d%% 档归档 %d 场命中 %.1f%%（差 %+.1f）。' % (b, b + 5, s[1], hit, hit - mp))
+    else:
+        parts.append('【同档校准】%d-%d%% 档归档不足 8 场，样本不足不评。' % (b, b + 5))
+    if c['tot']:
+        parts.append('【翻车形态】归档 %d 场主推未中 %d 场（%.1f%%），其中平局 %d、客胜 %d、主胜 %d；全样本平局率 %.1f%%。'
+                     % (c['tot'], c['flip'], c['flip'] / c['tot'] * 100,
+                        c['fl'].get('平局', 0), c['fl'].get('客胜', 0), c['fl'].get('主胜', 0),
+                        c['draw'] / c['tot'] * 100))
+    ls = c['lg'].get(lg)
+    if ls and ls[1] >= 8:
+        parts.append('【联赛平局特性】%s 归档 %d 场平局 %d 场（%.1f%%），本场模型平局 %.1f%%。'
+                     % (lg, ls[1], ls[0], ls[0] / ls[1] * 100, p[1]))
+    else:
+        parts.append('【联赛平局特性】%s 归档样本不足 8 场，不给基准。' % (lg or '本场联赛'))
+    parts.append('【情报缺口】北单这 22 场没跑 500 数据页（竞彩 8 场已接），近况/阵容/反转都不编；'
+                 '要看这些场次的情报，说一声我按同一条链路补抓。')
+    if p[1] >= 27:
+        parts.append('【结论】和联赛常态比平局偏热，方向不稳；北单返奖率低，建议降低注量或整场放弃。')
+    else:
+        parts.append('【结论】主推 %s %.1f%%，按单场口径执行，不做长串。' % (LB[best], mp))
+    return '\n'.join(parts)
+
+
 def bj_today(limit=10):
     b = load('_bj_latest_full.json') or {}
     now = time.strftime('%Y-%m-%d %H:%M')
@@ -94,7 +153,8 @@ def bj_today(limit=10):
                      'sp': [round(x, 2) for x in sp],
                      'h': round(p[0], 1), 'd': round(p[1], 1), 'a': round(p[2], 1),
                      'rec': LB[best], 'hcap': m.get('hcap') or 0,
-                     'tm': m.get('tm'), 'fund': None, 'dt': m.get('dt')})
+                     'tm': m.get('tm'), 'fund': None, 'dt': m.get('dt'),
+                     'ana': _bj_ana(m, [round(x, 2) for x in sp], p, best, m.get('lg') or '')})
     rows.sort(key=lambda x: x['dt'])
     return rows[:limit]
 
