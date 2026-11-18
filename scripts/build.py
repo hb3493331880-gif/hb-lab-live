@@ -37,6 +37,8 @@ def main():
     step('2/6 抓取任九 14 场', [os.path.join('scripts', 'fetch_sfc.py')], required=False)
     step('3/6 抓取北单在售', [os.path.join('scripts', 'fetch_bjdc.py')], required=False)
     step('4/6 抓取大乐透开奖 + 选号', [os.path.join('scripts', 'fetch_dlt.py')], required=False)
+    # 5/8：按归档真实赛果把每场分析从一句扩成多段（排名/校准/翻车/联赛平局/交锋/结论）
+    step('5/8 分析增强（归档实算）', [os.path.join('scripts', 'enrich_ana.py')], required=False)
     step('5/6 生成单页', ['make_live.py'], cwd=os.path.join(BASE, 'engine'))
     step('6/6 后处理（文案/布局修正）', [os.path.join('scripts', 'postfix.py')])
     # 7/7：模板里「今日竞彩 / 今日北单 / 2串1」是写死的旧快照，必须用当天抓到的真实数据覆盖
