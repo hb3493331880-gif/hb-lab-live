@@ -38,6 +38,8 @@ def main():
     # 2b：官方 500 开售前没有 data-sp，用澳客 m 站（手机 UA）补 14 场终盘欧赔
     step('2b/6 任九补赔率（澳客 m 站）', [os.path.join('scripts', 'fetch_sfc_okooo.py')], required=False)
     step('3/6 抓取北单在售', [os.path.join('scripts', 'fetch_bjdc.py')], required=False)
+    # 3b：北单逐场近况/交锋（澳客比赛页；500 全站被 EdgeOne 拦，云端只能走澳客）
+    step('3b/6 北单情报（澳客近况/交锋）', [os.path.join('scripts', 'fetch_bj_okooo.py')], required=False)
     step('4/6 抓取大乐透开奖 + 选号', [os.path.join('scripts', 'fetch_dlt.py')], required=False)
     # 5/8：把浏览器抓下来的 500 数据页文本解析成 intel500.json（本地没有抓取目录就跳过）
     step('5/8 解析 500 情报', [os.path.join('scripts', 'parse_intel500.py')], required=False)

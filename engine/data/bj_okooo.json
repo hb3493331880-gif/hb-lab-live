@@ -1,0 +1,312 @@
+{
+ "19": {
+  "src": "m.okooo.com/match/history.php?MatchID=1317046",
+  "home": {
+   "w": 2,
+   "d": 2,
+   "l": 6,
+   "venue": {
+    "w": 1,
+    "d": 2,
+    "l": 2
+   }
+  },
+  "away": {
+   "w": 4,
+   "d": 3,
+   "l": 3
+  },
+  "h2h": {
+   "w": 2,
+   "d": 2,
+   "l": 6,
+   "venue": {
+    "w": 1,
+    "d": 1,
+    "l": 3
+   }
+  },
+  "pair_okooo": "科里蒂巴 vs 桑托斯",
+  "match_id": "1317046",
+  "fetched_at": "2026-11-19 00:39"
+ },
+ "21": {
+  "src": "m.okooo.com/match/history.php?MatchID=1317039",
+  "home": {
+   "w": 6,
+   "d": 4,
+   "l": 0,
+   "venue": {
+    "w": 4,
+    "d": 2,
+    "l": 0
+   }
+  },
+  "away": {
+   "w": 2,
+   "d": 4,
+   "l": 4
+  },
+  "h2h": {
+   "w": 6,
+   "d": 2,
+   "l": 2,
+   "venue": {
+    "w": 4,
+    "d": 0,
+    "l": 1
+   }
+  },
+  "pair_okooo": "弗拉门戈 vs 巴拉纳竞技",
+  "match_id": "1317039",
+  "fetched_at": "2026-11-19 00:39"
+ },
+ "22": {
+  "src": "m.okooo.com/match/history.php?MatchID=1317045",
+  "home": {
+   "w": 3,
+   "d": 4,
+   "l": 3,
+   "venue": {
+    "w": 2,
+    "d": 2,
+    "l": 1
+   }
+  },
+  "away": {
+   "w": 5,
+   "d": 1,
+   "l": 4
+  },
+  "h2h": {
+   "w": 3,
+   "d": 4,
+   "l": 3,
+   "venue": {
+    "w": 2,
+    "d": 2,
+    "l": 1
+   }
+  },
+  "pair_okooo": "格雷米奥 vs 巴伊亚",
+  "match_id": "1317045",
+  "fetched_at": "2026-11-19 00:39"
+ },
+ "23": {
+  "src": "m.okooo.com/match/history.php?MatchID=1317042",
+  "home": {
+   "w": 1,
+   "d": 3,
+   "l": 6,
+   "venue": {
+    "w": 1,
+    "d": 1,
+    "l": 2
+   }
+  },
+  "away": {
+   "w": 3,
+   "d": 3,
+   "l": 4
+  },
+  "h2h": {
+   "w": 4,
+   "d": 2,
+   "l": 4,
+   "venue": {
+    "w": 2,
+    "d": 1,
+    "l": 1
+   }
+  },
+  "pair_okooo": "科林蒂安 vs 博塔弗戈",
+  "match_id": "1317042",
+  "fetched_at": "2026-11-19 00:39"
+ },
+ "24": {
+  "src": "m.okooo.com/match/history.php?MatchID=1340359",
+  "home": {
+   "w": 4,
+   "d": 2,
+   "l": 4,
+   "venue": {
+    "w": 3,
+    "d": 1,
+    "l": 1
+   }
+  },
+  "away": {
+   "w": 4,
+   "d": 3,
+   "l": 3
+  },
+  "h2h": {
+   "w": 5,
+   "d": 1,
+   "l": 3,
+   "venue": {
+    "w": 2,
+    "d": 0,
+    "l": 2
+   }
+  },
+  "pair_okooo": "腓特烈西亚 vs 希勒罗德",
+  "match_id": "1340359",
+  "fetched_at": "2026-11-19 00:39"
+ },
+ "25": {
+  "src": "m.okooo.com/match/history.php?MatchID=1317047",
+  "home": {
+   "w": 2,
+   "d": 3,
+   "l": 5,
+   "venue": {
+    "w": 2,
+    "d": 1,
+    "l": 3
+   }
+  },
+  "away": {
+   "w": 3,
+   "d": 3,
+   "l": 4
+  },
+  "h2h": {
+   "w": 4,
+   "d": 0,
+   "l": 6,
+   "venue": {
+    "w": 4,
+    "d": 0,
+    "l": 1
+   }
+  },
+  "pair_okooo": "维多利亚 vs 布拉干蒂诺",
+  "match_id": "1317047",
+  "fetched_at": "2026-11-19 00:39"
+ },
+ "26": {
+  "src": "m.okooo.com/match/history.php?MatchID=1317040",
+  "home": {
+   "w": 5,
+   "d": 1,
+   "l": 4,
+   "venue": {
+    "w": 2,
+    "d": 1,
+    "l": 2
+   }
+  },
+  "away": {
+   "w": 4,
+   "d": 1,
+   "l": 5
+  },
+  "h2h": {
+   "w": 3,
+   "d": 1,
+   "l": 6,
+   "venue": {
+    "w": 1,
+    "d": 0,
+    "l": 3
+   }
+  },
+  "pair_okooo": "瓦斯科达伽 vs 巴西国际",
+  "match_id": "1317040",
+  "fetched_at": "2026-11-19 00:39"
+ },
+ "27": {
+  "src": "m.okooo.com/match/history.php?MatchID=1317041",
+  "home": {
+   "w": 3,
+   "d": 3,
+   "l": 4,
+   "venue": {
+    "w": 3,
+    "d": 2,
+    "l": 1
+   }
+  },
+  "away": {
+   "w": 5,
+   "d": 0,
+   "l": 5
+  },
+  "h2h": {
+   "w": 3,
+   "d": 1,
+   "l": 6,
+   "venue": {
+    "w": 3,
+    "d": 1,
+    "l": 0
+   }
+  },
+  "pair_okooo": "圣保罗 vs 弗鲁米嫩塞",
+  "match_id": "1317041",
+  "fetched_at": "2026-11-19 00:39"
+ },
+ "28": {
+  "src": "m.okooo.com/match/history.php?MatchID=1350991",
+  "home": {
+   "w": 3,
+   "d": 3,
+   "l": 4,
+   "venue": {
+    "w": 3,
+    "d": 1,
+    "l": 0
+   }
+  },
+  "away": {
+   "w": 4,
+   "d": 2,
+   "l": 4
+  },
+  "h2h": {
+   "w": 2,
+   "d": 3,
+   "l": 5,
+   "venue": {
+    "w": 0,
+    "d": 2,
+    "l": 3
+   }
+  },
+  "pair_okooo": "奥兰多城 vs 辛辛那提",
+  "match_id": "1350991",
+  "fetched_at": "2026-11-19 00:39"
+ },
+ "29": {
+  "src": "m.okooo.com/match/history.php?MatchID=1350992",
+  "home": {
+   "w": 5,
+   "d": 2,
+   "l": 3,
+   "venue": {
+    "w": 4,
+    "d": 1,
+    "l": 1
+   }
+  },
+  "away": {
+   "w": 5,
+   "d": 1,
+   "l": 4
+  },
+  "h2h": {
+   "w": 3,
+   "d": 2,
+   "l": 5,
+   "venue": {
+    "w": 3,
+    "d": 1,
+    "l": 1
+   }
+  },
+  "pair_okooo": "西雅图海湾 vs 皇家盐湖城",
+  "match_id": "1350992",
+  "fetched_at": "2026-11-19 00:39"
+ }
+}

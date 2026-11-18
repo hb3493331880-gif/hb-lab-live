@@ -421,6 +421,11 @@ if os.path.exists(bjdc_path):
     except Exception:
         pass
     _nFix = 0
+    # 澳客北单情报（近况/交锋），由 scripts/fetch_bj_okooo.py 抓取；缺文件就当没有
+    try:
+        _bjo = json.load(open(os.path.join(BASE, 'data', 'bj_okooo.json'), encoding='utf-8'))
+    except Exception:
+        _bjo = {}
     for _m in bjdc.get('matches', []):
         if _m.get('ana'):
             continue
@@ -469,7 +474,34 @@ if os.path.exists(bjdc_path):
                           % (_lgm, _lsm[1], _lsm[0], _lsm[0] / _lsm[1] * 100))
         else:
             _parts.append('【联赛平局特性】%s 归档样本不足 8 场，不给基准。' % (_lgm or '本场联赛'))
-        _parts.append('【情报缺口】本场没跑 500 数据页，近况/阵容/交锋留空不编；要看就说一声，我按竞彩那条链路补抓。')
+        # 近况/交锋：澳客比赛页（fetch_bj_okooo.py 抓的），有就写、没有就照实说缺
+        _oi = _bjo.get(str(_m.get('no'))) or _bjo.get(_m.get('no'))
+        if _oi and (_oi.get('home') or _oi.get('away')):
+            _hv, _av = _oi.get('home') or {}, _oi.get('away') or {}
+            _line = '【近况·澳客】'
+            if _hv:
+                _line += '%s 近10场 %d胜%d平%d负' % (_m.get('h'), _hv.get('w', 0), _hv.get('d', 0), _hv.get('l', 0))
+                if _hv.get('venue'):
+                    _v = _hv['venue']
+                    _line += '（主场 %d胜%d平%d负）' % (_v.get('w', 0), _v.get('d', 0), _v.get('l', 0))
+                _line += '%s' % ('；' if _av else '。')
+            if _av:
+                _line += '%s 近10场 %d胜%d平%d负' % (_m.get('a'), _av.get('w', 0), _av.get('d', 0), _av.get('l', 0))
+                if _av.get('venue'):
+                    _v = _av['venue']
+                    _line += '（客场 %d胜%d平%d负）' % (_v.get('w', 0), _v.get('d', 0), _v.get('l', 0))
+                _line += '。'
+            _parts.append(_line)
+            if _oi.get('h2h'):
+                _h2 = _oi['h2h']
+                _sub = '【交锋】往绩主队 %d胜%d平%d负' % (_h2.get('w', 0), _h2.get('d', 0), _h2.get('l', 0))
+                if _h2.get('venue'):
+                    _v = _h2['venue']
+                    _sub += '，主场 %d胜%d平%d负' % (_v.get('w', 0), _v.get('d', 0), _v.get('l', 0))
+                _parts.append(_sub + '（澳客统计，只作参考，不进模型）。')
+            _parts.append('【情报缺口】澳客已给近况与交锋；500 数据页被 EdgeOne 拦，阵容/伤停/推介未采集，不编。')
+        else:
+            _parts.append('【情报缺口】本场没跑 500 数据页，近况/阵容/交锋留空不编；要看就说一声，我按竞彩那条链路补抓。')
         _parts.append('【结论】%s %.1f%%%s。北单返奖率约 65%%，同样一笔钱长期亏得比竞彩多，注量要压住。'
                       % (_lb[_mi] if isinstance(_mi, int) else _lb[0], _top,
                          '，平局偏热方向不稳，可考虑整场放弃' if _mp[1] >= 27 else '，按单场口径执行，不做长串'))
