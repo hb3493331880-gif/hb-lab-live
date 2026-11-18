@@ -174,7 +174,26 @@ def main():
         else:
             parts.append('【近期状态·500】本场未取到 500 数据页，近况与阵型留空。')
 
-        # ⑥ 历史交锋
+        # ⑥ 战术对位（脑图第四条：阵型 / 局型 / 攻防倾向；只用页面已有数据，不编打法细节）
+        lam = m.get('tot') or m.get('lam') or m.get('tot_p')
+        feat = m.get('feat') or ''
+        top3 = m.get('top3') or []
+        hf = (q or {}).get('home_form') if isinstance(q, dict) else None
+        af = (q or {}).get('away_form') if isinstance(q, dict) else None
+        if hf and af:
+            same = '两边同为 %s，属同阵型对位，拼的是执行与个人能力。' % hf if hf == af else \
+                   '%s 对 %s，宽度与中场人数不对等，边路与中路谁先被打穿是关键。' % (hf, af)
+            parts.append('【战术对位】' + same)
+        else:
+            parts.append('【战术对位】本场没取到双方阵型，战术对位不作推断。')
+        if lam or feat or top3:
+            parts.append('【局型推演】总进球预期 %s 球%s；比分主推 %s。这是按 λ 与赔率算出的分布，'
+                         '不是脚本假设：λ 高则对攻局、λ 低则闷战局，比赛进程会跟着变。'
+                         % (('%.1f' % float(lam)) if lam else '—',
+                            ('（%s）' % feat) if feat else '',
+                            '、'.join([str(x) if not isinstance(x, dict) else str(x.get('s')) for x in top3[:3]]) or '—'))
+
+
         if q and q.get('h2h_rec'):
             parts.append('【历史交锋·500】对赛成绩 %s %s（500 口径，主队视角）。'
                          % (q.get('h2h') or m.get('h'), q['h2h_rec']))
@@ -201,6 +220,16 @@ def main():
             tip = q['tip'].split('对赛成绩')[0].strip()
             if tip:
                 parts.append('【第三方观点·500】%s（原样引用，未并入本页概率）。' % tip)
+
+        # ⑨ 综合评估（脑图第十二条：置信度 / 风险等级 / 最终口径）
+        gap = m.get('gap')
+        star = '★★☆☆☆' if mp < 55 else ('★★★☆☆' if mp < 65 else ('★★★★☆' if mp < 75 else '★★★★★'))
+        risk = '高' if (gap is not None and float(gap) < 12) or p[1] >= 27 else (
+            '中' if mp < 60 else '低')
+        parts.append('【综合评估】主推 %s %.1f%%（%s），与次选差 %s 个百分点；风险等级 %s。'
+                     '本页概率只由赔率去水得出，8 维因子只解释文字不参与计算，'
+                     '所以别把它当成比市场更准的独立预测。'
+                     % (main, mp, star, ('%.1f' % float(gap)) if gap is not None else '—', risk))
 
         # ⑦ 结论
         if p[1] >= 27:
