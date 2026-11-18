@@ -1,0 +1,22 @@
+{
+  "_template": true,
+  "_howto": "把真实榜单填进 leagues / groups 后：① 删掉本行 _template 或改成 false；② 文件名改为 uel_rank.json（覆盖/新建均可）；③ 跑 python3 _uel_table.py && python3 _uel_ana.py && python3 _uel_motivation.py && python3 _radar310.py。带 _template=true 时三个脚本都跳过，不会把示例当真数据。",
+  "_schema": "每个球队条目：name(中文队名，与竞彩一致) / ranking(组内或总榜名次) / points(积分) / w,d,l(胜平负，用于推定已赛轮次) / gf,ga(进失球，同分排序用)。可选 totalRounds(总轮次，不填则按4队6轮、3队4轮、36队8轮推定)。",
+  "_group_note": "欧国联等用小组键，键名含 G1/G2/第1组 等即自动识别为小组榜；组内名次 1~4 不与竞彩 hrank(FIFA/总榜口径)对账。欧冠/欧罗巴/欧协联 2024-25 起是 36 队联赛阶段单榜，用赛事名作键。",
+  "snapshot": "20261114",
+  "source": "FotMob 联赛阶段 / 小组积分榜",
+  "leagues": {
+    "欧冠": [
+      {"name": "示例队甲", "ranking": 1, "points": 12, "w": 4, "d": 0, "l": 0, "gf": 11, "ga": 3},
+      {"name": "示例队乙", "ranking": 8, "points": 9, "w": 3, "d": 0, "l": 1, "gf": 8, "ga": 5},
+      {"name": "示例队丙", "ranking": 24, "points": 6, "w": 2, "d": 0, "l": 2, "gf": 6, "ga": 7},
+      {"name": "示例队丁", "ranking": 25, "points": 4, "w": 1, "d": 1, "l": 2, "gf": 4, "ga": 8}
+    ],
+    "欧国联A-G1": [
+      {"name": "示例A1", "ranking": 1, "points": 9, "w": 3, "d": 0, "l": 1, "gf": 8, "ga": 4},
+      {"name": "示例A2", "ranking": 2, "points": 6, "w": 2, "d": 0, "l": 2, "gf": 6, "ga": 6},
+      {"name": "示例A3", "ranking": 3, "points": 4, "w": 1, "d": 1, "l": 2, "gf": 4, "ga": 7},
+      {"name": "示例A4", "ranking": 4, "points": 1, "w": 0, "d": 1, "l": 3, "gf": 2, "ga": 9}
+    ]
+  }
+}

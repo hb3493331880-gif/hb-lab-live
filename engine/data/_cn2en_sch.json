@@ -1,0 +1,1334 @@
+{
+ "鹿岛鹿角": {
+  "en": "Kashima Antlers",
+  "c": "japan"
+ },
+ "浦和红钻": {
+  "en": "Urawa Reds",
+  "c": "japan"
+ },
+ "横滨水手": {
+  "en": "Yokohama F. Marinos",
+  "c": "japan"
+ },
+ "川崎前锋": {
+  "en": "Kawasaki Frontale",
+  "c": "japan"
+ },
+ "神户胜利船": {
+  "en": "Vissel Kobe",
+  "c": "japan"
+ },
+ "大阪钢巴": {
+  "en": "Gamba Osaka",
+  "c": "japan"
+ },
+ "名古屋鲸八": {
+  "en": "Nagoya Grampus",
+  "c": "japan"
+ },
+ "名古屋鲸鱼": {
+  "en": "Nagoya Grampus",
+  "c": "japan"
+ },
+ "广岛三箭": {
+  "en": "Sanfrecce Hiroshima",
+  "c": "japan"
+ },
+ "FC东京": {
+  "en": "Tokyo",
+  "c": "japan"
+ },
+ "东京FC": {
+  "en": "Tokyo",
+  "c": "japan"
+ },
+ "大阪樱花": {
+  "en": "Cerezo Osaka",
+  "c": "japan"
+ },
+ "札幌冈萨多": {
+  "en": "Consadole Sapporo",
+  "c": "japan"
+ },
+ "札幌": {
+  "en": "Consadole Sapporo",
+  "c": "japan"
+ },
+ "湘南海洋": {
+  "en": "Shonan Bellmare",
+  "c": "japan"
+ },
+ "柏太阳神": {
+  "en": "Kashiwa Reysol",
+  "c": "japan"
+ },
+ "福冈黄蜂": {
+  "en": "Avispa Fukuoka",
+  "c": "japan"
+ },
+ "新潟天鹅": {
+  "en": "Albirex Niigata",
+  "c": "japan"
+ },
+ "町田泽维亚": {
+  "en": "Machida Zelvia",
+  "c": "japan"
+ },
+ "京都不死鸟": {
+  "en": "Kyoto Sanga",
+  "c": "japan"
+ },
+ "鸟栖砂岩": {
+  "en": "Sagan Tosu",
+  "c": "japan"
+ },
+ "东京绿茵": {
+  "en": "Tokyo Verdy",
+  "c": "japan"
+ },
+ "清水心跳": {
+  "en": "Shimizu S-Pulse",
+  "c": "japan"
+ },
+ "磐田喜悦": {
+  "en": "Jubilo Iwata",
+  "c": "japan"
+ },
+ "大分三神": {
+  "en": "Oita Trinita",
+  "c": "japan"
+ },
+ "长崎航海": {
+  "en": "V Nagasaki Hualian",
+  "c": "japan"
+ },
+ "甲府风林": {
+  "en": "Ventforet Kofu",
+  "c": "japan"
+ },
+ "仙台七夕": {
+  "en": "Vegalta Sendai",
+  "c": "japan"
+ },
+ "松本山雅": {
+  "en": "Matsumoto Yamaga",
+  "c": "japan"
+ },
+ "山形山神": {
+  "en": "Montedio Yamagata",
+  "c": "japan"
+ },
+ "大宫松鼠": {
+  "en": "Omiya Ardija",
+  "c": "japan"
+ },
+ "德岛漩涡": {
+  "en": "Tokushima Vortis",
+  "c": "japan"
+ },
+ "横滨FC": {
+  "en": "Yokohama",
+  "c": "japan"
+ },
+ "冈山绿雉": {
+  "en": "Fagiano Okayama",
+  "c": "japan"
+ },
+ "FC首尔": {
+  "en": "Seoul",
+  "c": "korea-republic"
+ },
+ "首尔FC": {
+  "en": "Seoul",
+  "c": "korea-republic"
+ },
+ "仁川联": {
+  "en": "Incheon United",
+  "c": "korea-republic"
+ },
+ "安养FC": {
+  "en": "Anyang",
+  "c": "korea-republic"
+ },
+ "江原FC": {
+  "en": "Gangwon",
+  "c": "korea-republic"
+ },
+ "济州SK": {
+  "en": "Jeju FC",
+  "c": "korea-republic"
+ },
+ "济州联": {
+  "en": "Jeju FC",
+  "c": "korea-republic"
+ },
+ "浦项铁人": {
+  "en": "Pohang Steelers",
+  "c": "korea-republic"
+ },
+ "蔚山HD": {
+  "en": "Ulsan HD",
+  "c": "korea-republic"
+ },
+ "蔚山现代": {
+  "en": "Ulsan HD",
+  "c": "korea-republic"
+ },
+ "全北现代": {
+  "en": "Jeonbuk Motors",
+  "c": "korea-republic"
+ },
+ "大邱": {
+  "en": "Daegu",
+  "c": "korea-republic"
+ },
+ "水原三星": {
+  "en": "Suwon Bluewings",
+  "c": "korea-republic"
+ },
+ "水原FC": {
+  "en": "Suwon",
+  "c": "korea-republic"
+ },
+ "光州": {
+  "en": "Gwangju",
+  "c": "korea-republic"
+ },
+ "光州FC": {
+  "en": "Gwangju",
+  "c": "korea-republic"
+ },
+ "大田": {
+  "en": "Daejeon Hana Citizen",
+  "c": "korea-republic"
+ },
+ "城南FC": {
+  "en": "Seongnam FC",
+  "c": "korea-republic"
+ },
+ "釜山偶像": {
+  "en": "Busan Ipark",
+  "c": "korea-republic"
+ },
+ "庆南FC": {
+  "en": "Gyeongnam FC",
+  "c": "korea-republic"
+ },
+ "全南天龙": {
+  "en": "Jeonnam Dragons",
+  "c": "korea-republic"
+ },
+ "金泉尚武": {
+  "en": "Gimcheon Sangmu",
+  "c": "korea-republic"
+ },
+ "亚特兰大联": {
+  "en": "Atlanta United",
+  "c": "united-states"
+ },
+ "休斯敦迪纳摩": {
+  "en": "Houston Dynamo",
+  "c": "united-states"
+ },
+ "圣何塞地震": {
+  "en": "San Jose Earthquakes",
+  "c": "united-states"
+ },
+ "多伦多FC": {
+  "en": "Toronto FC",
+  "c": "united-states"
+ },
+ "奥斯汀FC": {
+  "en": "Austin",
+  "c": "united-states"
+ },
+ "新英格兰革命": {
+  "en": "New England Revolution",
+  "c": "united-states"
+ },
+ "明尼苏达联": {
+  "en": "Minnesota United FC",
+  "c": "united-states"
+ },
+ "波特兰伐木工": {
+  "en": "Portland Timbers",
+  "c": "united-states"
+ },
+ "洛杉矶FC": {
+  "en": "Los Angeles FC",
+  "c": "united-states"
+ },
+ "洛杉矶银河": {
+  "en": "Los Angeles Galaxy",
+  "c": "united-states"
+ },
+ "温哥华白浪": {
+  "en": "Vancouver Whitecaps",
+  "c": "united-states"
+ },
+ "皇家盐湖城": {
+  "en": "Real Salt Lake",
+  "c": "united-states"
+ },
+ "科罗拉多急流": {
+  "en": "Colorado Rapids",
+  "c": "united-states"
+ },
+ "纳什维尔SC": {
+  "en": "Nashville Mls",
+  "c": "united-states"
+ },
+ "芝加哥火焰": {
+  "en": "Chicago Fire",
+  "c": "united-states"
+ },
+ "哥伦布机员": {
+  "en": "Columbus Crew",
+  "c": "united-states"
+ },
+ "纽约城": {
+  "en": "New York City FC",
+  "c": "united-states"
+ },
+ "纽约红牛": {
+  "en": "New York RB",
+  "c": "united-states"
+ },
+ "奥兰多城": {
+  "en": "Orlando City",
+  "c": "united-states"
+ },
+ "费城联合": {
+  "en": "Philadelphia Union",
+  "c": "united-states"
+ },
+ "西雅图海湾人": {
+  "en": "Seattle Sounders",
+  "c": "united-states"
+ },
+ "堪萨斯城": {
+  "en": "Sporting Kansas City",
+  "c": "united-states"
+ },
+ "圣路易斯城": {
+  "en": "St. Louis City",
+  "c": "united-states"
+ },
+ "华盛顿联": {
+  "en": "D C United",
+  "c": "united-states"
+ },
+ "达拉斯FC": {
+  "en": "FC Dallas",
+  "c": "united-states"
+ },
+ "辛辛那提": {
+  "en": "Fc Cincinnati",
+  "c": "united-states"
+ },
+ "蒙特利尔": {
+  "en": "Montreal Impacts",
+  "c": "united-states"
+ },
+ "夏洛特": {
+  "en": "Charlotte Mls",
+  "c": "united-states"
+ },
+ "圣地亚哥": {
+  "en": "San Diego",
+  "c": "united-states"
+ },
+ "博卡青年": {
+  "en": "Boca Juniors",
+  "c": "argentina"
+ },
+ "河床": {
+  "en": "River Plate",
+  "c": "argentina"
+ },
+ "圣洛伦索": {
+  "en": "San Lorenzo",
+  "c": "argentina"
+ },
+ "拉努斯": {
+  "en": "CA Lanus",
+  "c": "argentina"
+ },
+ "拉普拉塔大学生": {
+  "en": "Estudiantes",
+  "c": "argentina"
+ },
+ "纽维尔老男孩": {
+  "en": "Newells Old Boys",
+  "c": "argentina"
+ },
+ "萨斯菲尔德": {
+  "en": "Velez Sarsfield",
+  "c": "argentina"
+ },
+ "塔勒瑞斯": {
+  "en": "Talleres Cordoba",
+  "c": "argentina"
+ },
+ "科尔多瓦学院": {
+  "en": "Instituto Cordoba",
+  "c": "argentina"
+ },
+ "贝尔格拉诺": {
+  "en": "Belgrano Cordoba",
+  "c": "argentina"
+ },
+ "圣塔菲联": {
+  "en": "Union De Santa Fe",
+  "c": "argentina"
+ },
+ "利斯特雷": {
+  "en": "Deportivo Riestra",
+  "c": "argentina"
+ },
+ "巴拉卡斯中央": {
+  "en": "Barracas Central",
+  "c": "argentina"
+ },
+ "竞技俱乐部": {
+  "en": "Racing Club",
+  "c": "argentina"
+ },
+ "独立队": {
+  "en": "Independiente",
+  "c": "argentina"
+ },
+ "罗萨里奥中央": {
+  "en": "Rosario Central",
+  "c": "argentina"
+ },
+ "拉普拉塔体操": {
+  "en": "Gimnasia La Plata",
+  "c": "argentina"
+ },
+ "班菲尔德": {
+  "en": "CA Banfield",
+  "c": "argentina"
+ },
+ "国防与司法": {
+  "en": "Defensa Y Justicia",
+  "c": "argentina"
+ },
+ "图库曼竞技": {
+  "en": "Atlético Tucumán",
+  "c": "argentina"
+ },
+ "中央科尔多瓦": {
+  "en": "Central Córdoba",
+  "c": "argentina"
+ },
+ "飓风": {
+  "en": "Huracan",
+  "c": "argentina"
+ },
+ "老虎": {
+  "en": "Tigre",
+  "c": "argentina"
+ },
+ "阿尔多希维": {
+  "en": "Aldosivi",
+  "c": "argentina"
+ },
+ "萨米恩托": {
+  "en": "Sarmiento De Junin",
+  "c": "argentina"
+ },
+ "普拉滕斯": {
+  "en": "Platense",
+  "c": "argentina"
+ },
+ "戈多伊克鲁斯": {
+  "en": "CD Godoy Cruz",
+  "c": "argentina"
+ },
+ "阿根廷青年人": {
+  "en": "Argentinos Juniors",
+  "c": "argentina"
+ },
+ "科隆": {
+  "en": "CA Colon",
+  "c": "argentina"
+ },
+ "图库曼圣马丁": {
+  "en": "San Martin Tucuman",
+  "c": "argentina"
+ },
+ "里瓦达维亚独立": {
+  "en": "Independiente Rivadavia",
+  "c": "argentina"
+ },
+ "尤文图德": {
+  "en": "Juventude RS",
+  "c": "brazil"
+ },
+ "米内罗美洲": {
+  "en": "America MG",
+  "c": "brazil"
+ },
+ "累西腓体育": {
+  "en": "Sport Club Recife",
+  "c": "brazil"
+ },
+ "累西腓航海": {
+  "en": "Clube Nautico",
+  "c": "brazil"
+ },
+ "阿瓦伊": {
+  "en": "Avai FC",
+  "c": "brazil"
+ },
+ "弗拉门戈": {
+  "en": "Flamengo",
+  "c": "brazil"
+ },
+ "帕尔梅拉斯": {
+  "en": "Se Palmeiras",
+  "c": "brazil"
+ },
+ "圣保罗": {
+  "en": "Sao Paulo FC",
+  "c": "brazil"
+ },
+ "科林蒂安": {
+  "en": "Corinthians SP",
+  "c": "brazil"
+ },
+ "格雷米奥": {
+  "en": "Gremio Porto Alegre",
+  "c": "brazil"
+ },
+ "国际": {
+  "en": "Internacional",
+  "c": "brazil"
+ },
+ "米内罗竞技": {
+  "en": "Atletico Mineiro",
+  "c": "brazil"
+ },
+ "巴拉纳竞技": {
+  "en": "Atletico Paranaense",
+  "c": "brazil"
+ },
+ "弗鲁米嫩塞": {
+  "en": "Fluminense RJ",
+  "c": "brazil"
+ },
+ "桑托斯": {
+  "en": "Santos FC",
+  "c": "brazil"
+ },
+ "瓦斯科": {
+  "en": "Vasco Da Gama",
+  "c": "brazil"
+ },
+ "克鲁塞罗": {
+  "en": "Cruzeiro EC",
+  "c": "brazil"
+ },
+ "巴伊亚": {
+  "en": "EC Bahia",
+  "c": "brazil"
+ },
+ "福塔莱萨": {
+  "en": "Fortaleza",
+  "c": "brazil"
+ },
+ "塞阿拉": {
+  "en": "Ceara SC",
+  "c": "brazil"
+ },
+ "戈亚斯": {
+  "en": "Goias EC",
+  "c": "brazil"
+ },
+ "科里蒂巴": {
+  "en": "Coritiba FC",
+  "c": "brazil"
+ },
+ "维多利亚": {
+  "en": "EC Vitoria Ba",
+  "c": "brazil"
+ },
+ "布拉甘蒂诺": {
+  "en": "Bragantino",
+  "c": "brazil"
+ },
+ "KFUM奥斯陆": {
+  "en": "KFUM",
+  "c": "norway"
+ },
+ "克里斯蒂安松": {
+  "en": "Kristiansund",
+  "c": "norway"
+ },
+ "利勒斯特罗姆": {
+  "en": "Lillestroem SK",
+  "c": "norway"
+ },
+ "布兰": {
+  "en": "Brann",
+  "c": "norway"
+ },
+ "斯达": {
+  "en": "Ik Start",
+  "c": "norway"
+ },
+ "汉坎": {
+  "en": "HamKam",
+  "c": "norway"
+ },
+ "特罗姆瑟": {
+  "en": "Tromsø",
+  "c": "norway"
+ },
+ "瓦勒伦加": {
+  "en": "Vålerenga",
+  "c": "norway"
+ },
+ "莫尔德": {
+  "en": "Molde",
+  "c": "norway"
+ },
+ "萨普斯堡": {
+  "en": "Sarpsborg 08",
+  "c": "norway"
+ },
+ "博德闪耀": {
+  "en": "Bodø / Glimt",
+  "c": "norway"
+ },
+ "罗森博格": {
+  "en": "Rosenborg",
+  "c": "norway"
+ },
+ "维京": {
+  "en": "Viking",
+  "c": "norway"
+ },
+ "斯特罗姆加斯特": {
+  "en": "Strømsgodset",
+  "c": "norway"
+ },
+ "海于格松": {
+  "en": "Haugesund",
+  "c": "norway"
+ },
+ "桑德菲杰": {
+  "en": "Sandefjord",
+  "c": "norway"
+ },
+ "奥德": {
+  "en": "Odds Bk",
+  "c": "norway"
+ },
+ "腓特烈斯塔": {
+  "en": "Fredrikstad",
+  "c": "norway"
+ },
+ "布莱尼": {
+  "en": "Bryne",
+  "c": "norway"
+ },
+ "奥勒松": {
+  "en": "Aalesunds FK",
+  "c": "norway"
+ },
+ "斯塔贝克": {
+  "en": "Stabaek If",
+  "c": "norway"
+ },
+ "兰黑姆": {
+  "en": "Ranheim Il",
+  "c": "norway"
+ },
+ "松达尔": {
+  "en": "Sogndal Il",
+  "c": "norway"
+ },
+ "姆延达伦": {
+  "en": "Mjoendalen If",
+  "c": "norway"
+ },
+ "代格福什": {
+  "en": "Degerfors",
+  "c": "sweden"
+ },
+ "哈马比": {
+  "en": "Hammarby",
+  "c": "sweden"
+ },
+ "哥德堡": {
+  "en": "IFK Göteborg",
+  "c": "sweden"
+ },
+ "埃尔夫斯堡": {
+  "en": "Elfsborg",
+  "c": "sweden"
+ },
+ "尤尔加登": {
+  "en": "Djurgården",
+  "c": "sweden"
+ },
+ "布洛马波卡纳": {
+  "en": "Brommapojkarna",
+  "c": "sweden"
+ },
+ "赫根": {
+  "en": "Häcken",
+  "c": "sweden"
+ },
+ "马尔默": {
+  "en": "Malmö FF",
+  "c": "sweden"
+ },
+ "索尔纳": {
+  "en": "AIK",
+  "c": "sweden"
+ },
+ "AIK索尔纳": {
+  "en": "AIK",
+  "c": "sweden"
+ },
+ "北雪平": {
+  "en": "Norrköping",
+  "c": "sweden"
+ },
+ "天狼星": {
+  "en": "Sirius",
+  "c": "sweden"
+ },
+ "米亚尔比": {
+  "en": "Mjällby",
+  "c": "sweden"
+ },
+ "韦纳穆": {
+  "en": "Värnamo",
+  "c": "sweden"
+ },
+ "厄斯特": {
+  "en": "Öster",
+  "c": "sweden"
+ },
+ "哈尔姆斯塔德": {
+  "en": "Halmstad",
+  "c": "sweden"
+ },
+ "盖斯": {
+  "en": "GAIS",
+  "c": "sweden"
+ },
+ "瓦斯特拉斯": {
+  "en": "Vaesteras SK",
+  "c": "sweden"
+ },
+ "松兹瓦尔": {
+  "en": "Gif Sundsvall",
+  "c": "sweden"
+ },
+ "厄勒布鲁": {
+  "en": "Oerebro SK",
+  "c": "sweden"
+ },
+ "赫尔辛堡": {
+  "en": "Helsingborgs If",
+  "c": "sweden"
+ },
+ "卡尔马": {
+  "en": "Kalmar Ff",
+  "c": "sweden"
+ },
+ "厄斯特松德": {
+  "en": "Oestersunds FK",
+  "c": "sweden"
+ },
+ "瓦尔贝里": {
+  "en": "Varbergs Bois FC",
+  "c": "sweden"
+ },
+ "中日德兰": {
+  "en": "Midtjylland",
+  "c": "denmark"
+ },
+ "北西兰": {
+  "en": "Nordsjælland",
+  "c": "denmark"
+ },
+ "奥胡斯": {
+  "en": "AGF",
+  "c": "denmark"
+ },
+ "布隆德比": {
+  "en": "Brøndby",
+  "c": "denmark"
+ },
+ "欧登塞": {
+  "en": "Odense Bk",
+  "c": "denmark"
+ },
+ "维堡": {
+  "en": "Viborg",
+  "c": "denmark"
+ },
+ "锡尔克堡": {
+  "en": "Silkeborg",
+  "c": "denmark"
+ },
+ "哥本哈根": {
+  "en": "København",
+  "c": "denmark"
+ },
+ "兰讷斯": {
+  "en": "Randers",
+  "c": "denmark"
+ },
+ "林比": {
+  "en": "Lyngby",
+  "c": "denmark"
+ },
+ "奥尔堡": {
+  "en": "AaB",
+  "c": "denmark"
+ },
+ "瓦埃勒": {
+  "en": "Vejle",
+  "c": "denmark"
+ },
+ "桑德捷斯基": {
+  "en": "SønderjyskE",
+  "c": "denmark"
+ },
+ "霍森斯": {
+  "en": "AC Horsens",
+  "c": "denmark"
+ },
+ "霍尔森斯": {
+  "en": "AC Horsens",
+  "c": "denmark"
+ },
+ "埃斯比约": {
+  "en": "Esbjerg Fb",
+  "c": "denmark"
+ },
+ "奥卢": {
+  "en": "Oulu",
+  "c": "finland"
+ },
+ "库普斯": {
+  "en": "KuPS",
+  "c": "finland"
+ },
+ "赫尔辛基": {
+  "en": "HJK",
+  "c": "finland"
+ },
+ "国际图尔库": {
+  "en": "Inter Turku",
+  "c": "finland"
+ },
+ "塞伊奈约基": {
+  "en": "SJK",
+  "c": "finland"
+ },
+ "拉赫蒂": {
+  "en": "FC Lahti",
+  "c": "finland"
+ },
+ "埃尔维斯": {
+  "en": "Ilves",
+  "c": "finland"
+ },
+ "玛丽港": {
+  "en": "Mariehamn",
+  "c": "finland"
+ },
+ "瓦萨": {
+  "en": "VPS",
+  "c": "finland"
+ },
+ "洪卡": {
+  "en": "FC Honka",
+  "c": "finland"
+ },
+ "卢加诺": {
+  "en": "Lugano",
+  "c": "switzerland"
+ },
+ "卢塞恩": {
+  "en": "Luzern",
+  "c": "switzerland"
+ },
+ "图恩": {
+  "en": "FC Thun",
+  "c": "switzerland"
+ },
+ "巴塞尔": {
+  "en": "Basel",
+  "c": "switzerland"
+ },
+ "年轻人": {
+  "en": "Young Boys",
+  "c": "switzerland"
+ },
+ "洛桑": {
+  "en": "Lausanne-Sport",
+  "c": "switzerland"
+ },
+ "苏黎世": {
+  "en": "Zürich",
+  "c": "switzerland"
+ },
+ "锡永": {
+  "en": "Sion",
+  "c": "switzerland"
+ },
+ "圣加仑": {
+  "en": "St.Gallen",
+  "c": "switzerland"
+ },
+ "塞尔维特": {
+  "en": "Servette",
+  "c": "switzerland"
+ },
+ "草蜢": {
+  "en": "Grasshoppers",
+  "c": "switzerland"
+ },
+ "温特图尔": {
+  "en": "Winterthur",
+  "c": "switzerland"
+ },
+ "伊韦尔东": {
+  "en": "Yverdon Sport",
+  "c": "switzerland"
+ },
+ "阿劳": {
+  "en": "FC Aarau",
+  "c": "switzerland"
+ },
+ "瓦杜兹": {
+  "en": "Vaduz",
+  "c": "switzerland"
+ },
+ "纳沙泰尔": {
+  "en": "Neuchatel Xamax FCS",
+  "c": "switzerland"
+ },
+ "中央海岸水手": {
+  "en": "Central Coast Mariners",
+  "c": "australia"
+ },
+ "墨尔本胜利": {
+  "en": "Melbourne Victory",
+  "c": "australia"
+ },
+ "珀斯光荣": {
+  "en": "Perth Glory",
+  "c": "australia"
+ },
+ "阿德莱德联": {
+  "en": "Adelaide United FC",
+  "c": "australia"
+ },
+ "悉尼FC": {
+  "en": "Sydney",
+  "c": "australia"
+ },
+ "墨尔本城": {
+  "en": "Melbourne City FC",
+  "c": "australia"
+ },
+ "西悉尼流浪者": {
+  "en": "Western Sydney Wanderers",
+  "c": "australia"
+ },
+ "纽卡斯尔喷气机": {
+  "en": "Newcastle Jets FC",
+  "c": "australia"
+ },
+ "布里斯班狮吼": {
+  "en": "Brisbane Roar FC",
+  "c": "australia"
+ },
+ "惠灵顿凤凰": {
+  "en": "Wellington Phoenix",
+  "c": "australia"
+ },
+ "麦克阿瑟": {
+  "en": "Macarthur FC",
+  "c": "australia"
+ },
+ "西部联": {
+  "en": "Western United FC",
+  "c": "australia"
+ },
+ "奥克兰": {
+  "en": "Auckland",
+  "c": "australia"
+ },
+ "GKS卡托威斯": {
+  "en": "GKS Katowice",
+  "c": "poland"
+ },
+ "维德祖罗兹": {
+  "en": "Widzew Łódź",
+  "c": "poland"
+ },
+ "华沙莱吉亚": {
+  "en": "Legia Warszawa",
+  "c": "poland"
+ },
+ "波兹南莱赫": {
+  "en": "Lech Poznań",
+  "c": "poland"
+ },
+ "拉克夫": {
+  "en": "Raków Częstochowa",
+  "c": "poland"
+ },
+ "什切青": {
+  "en": "Pogoń Szczecin",
+  "c": "poland"
+ },
+ "卢宾": {
+  "en": "Zagłębie Lubin",
+  "c": "poland"
+ },
+ "克拉科维亚": {
+  "en": "Cracovia",
+  "c": "poland"
+ },
+ "皮亚斯特": {
+  "en": "Piast Gliwice",
+  "c": "poland"
+ },
+ "扎布热": {
+  "en": "Górnik Zabrze",
+  "c": "poland"
+ },
+ "比亚韦斯托克": {
+  "en": "Jagiellonia Białystok",
+  "c": "poland"
+ },
+ "凯尔采": {
+  "en": "Korona Kielce",
+  "c": "poland"
+ },
+ "弗罗茨瓦夫": {
+  "en": "Śląsk Wrocław",
+  "c": "poland"
+ },
+ "格但斯克": {
+  "en": "Lechia Gdańsk",
+  "c": "poland"
+ },
+ "UTA阿拉德": {
+  "en": "UTA Arad",
+  "c": "romania"
+ },
+ "克拉约瓦大学": {
+  "en": "Universitatea Craiova",
+  "c": "romania"
+ },
+ "加拉茨钢铁": {
+  "en": "Oţelul",
+  "c": "romania"
+ },
+ "布加勒斯特迪纳摩": {
+  "en": "Dinamo Bucureşti",
+  "c": "romania"
+ },
+ "波图森尼": {
+  "en": "Botoșani",
+  "c": "romania"
+ },
+ "舍佩斯": {
+  "en": "Sepsi",
+  "c": "romania"
+ },
+ "克卢日": {
+  "en": "CFR Cluj",
+  "c": "romania"
+ },
+ "布加勒斯特星": {
+  "en": "FCSB",
+  "c": "romania"
+ },
+ "布加勒斯特快速": {
+  "en": "Rapid Bucureşti",
+  "c": "romania"
+ },
+ "赫尔曼施塔特": {
+  "en": "Hermannstadt",
+  "c": "romania"
+ },
+ "雅西": {
+  "en": "Politehnica Iași",
+  "c": "romania"
+ },
+ "沃伦塔里": {
+  "en": "FC Voluntari",
+  "c": "romania"
+ },
+ "佩特罗鲁": {
+  "en": "Petrolul Ploiesti",
+  "c": "romania"
+ },
+ "法鲁尔": {
+  "en": "Farul Constanta",
+  "c": "romania"
+ },
+ "俄斯特拉发": {
+  "en": "Baník Ostrava",
+  "c": "czech-republic"
+ },
+ "博莱斯拉夫": {
+  "en": "Mladá Boleslav",
+  "c": "czech-republic"
+ },
+ "布拉格斯巴达": {
+  "en": "Sparta Praha",
+  "c": "czech-republic"
+ },
+ "比尔森": {
+  "en": "Viktoria Plzeň",
+  "c": "czech-republic"
+ },
+ "波希米亚1905": {
+  "en": "Bohemians 1905",
+  "c": "czech-republic"
+ },
+ "赫拉德茨": {
+  "en": "Hradec Králové",
+  "c": "czech-republic"
+ },
+ "布拉格斯拉维亚": {
+  "en": "Slavia Praha",
+  "c": "czech-republic"
+ },
+ "利贝雷茨": {
+  "en": "Slovan Liberec",
+  "c": "czech-republic"
+ },
+ "奥洛穆茨": {
+  "en": "Sigma Olomouc",
+  "c": "czech-republic"
+ },
+ "亚布洛内茨": {
+  "en": "Jablonec",
+  "c": "czech-republic"
+ },
+ "特普利采": {
+  "en": "Teplice",
+  "c": "czech-republic"
+ },
+ "兹林": {
+  "en": "FC Fastav Zlin",
+  "c": "czech-republic"
+ },
+ "布尔诺": {
+  "en": "FC Zbrojovka Brno",
+  "c": "czech-republic"
+ },
+ "帕尔杜比采": {
+  "en": "Pardubice",
+  "c": "czech-republic"
+ },
+ "卡尔维纳": {
+  "en": "Karviná",
+  "c": "czech-republic"
+ },
+ "斯洛瓦茨科": {
+  "en": "Slovácko",
+  "c": "czech-republic"
+ },
+ "布德约维采": {
+  "en": "České Budějovice",
+  "c": "czech-republic"
+ },
+ "杜克拉": {
+  "en": "Dukla Praha",
+  "c": "czech-republic"
+ },
+ "努布伦斯": {
+  "en": "Club De Deportes Nublense",
+  "c": "chile"
+ },
+ "塞雷那": {
+  "en": "La Serena",
+  "c": "chile"
+ },
+ "天主大学": {
+  "en": "Universidad Católica",
+  "c": "chile"
+ },
+ "奥伊金斯": {
+  "en": "Ohiggins",
+  "c": "chile"
+ },
+ "智利大学": {
+  "en": "Universidad de Chile",
+  "c": "chile"
+ },
+ "瓦奇巴托": {
+  "en": "CD Huachipato",
+  "c": "chile"
+ },
+ "科洛科洛": {
+  "en": "Colo Colo",
+  "c": "chile"
+ },
+ "帕莱斯蒂诺": {
+  "en": "CD Palestino",
+  "c": "chile"
+ },
+ "奥达克斯": {
+  "en": "Audax Italiano",
+  "c": "chile"
+ },
+ "西班牙联盟": {
+  "en": "Union Espanola",
+  "c": "chile"
+ },
+ "拉卡莱拉": {
+  "en": "Union La Calera",
+  "c": "chile"
+ },
+ "科布雷罗亚": {
+  "en": "Cd Cobreloa",
+  "c": "chile"
+ },
+ "科布雷萨尔": {
+  "en": "Cobresal",
+  "c": "chile"
+ },
+ "安托法加斯塔": {
+  "en": "Antofagasta",
+  "c": "chile"
+ },
+ "伊基克": {
+  "en": "Deportes Iquique",
+  "c": "chile"
+ },
+ "库里科": {
+  "en": "Provincial Curico Unido",
+  "c": "chile"
+ },
+ "埃弗顿": {
+  "en": "Everton",
+  "c": "chile"
+ },
+ "马加拉内斯": {
+  "en": "CD Magallanes",
+  "c": "chile"
+ },
+ "圣地亚哥早晨": {
+  "en": "Santiago Morning",
+  "c": "chile"
+ },
+ "流浪者": {
+  "en": "Santiago Wanderers",
+  "c": "chile"
+ },
+ "特木科": {
+  "en": "Deportes Temuco",
+  "c": "chile"
+ },
+ "北京国安": {
+  "en": "Beijing Guoan",
+  "c": "china-pr"
+ },
+ "上海海港": {
+  "en": "Shanghai Port",
+  "c": "china-pr"
+ },
+ "上海申花": {
+  "en": "Shanghai Shenhua",
+  "c": "china-pr"
+ },
+ "山东泰山": {
+  "en": "Shandong Taishan",
+  "c": "china-pr"
+ },
+ "成都蓉城": {
+  "en": "Chengdu Rongcheng",
+  "c": "china-pr"
+ },
+ "武汉三镇": {
+  "en": "Wuhan Three Towns",
+  "c": "china-pr"
+ },
+ "浙江": {
+  "en": "Zhejiang",
+  "c": "china-pr"
+ },
+ "天津津门虎": {
+  "en": "Tianjin Jinmen Tiger",
+  "c": "china-pr"
+ },
+ "青岛海牛": {
+  "en": "Qingdao Hainiu",
+  "c": "china-pr"
+ },
+ "长春亚泰": {
+  "en": "Changchun Yatai",
+  "c": "china-pr"
+ },
+ "河南": {
+  "en": "Henan",
+  "c": "china-pr"
+ },
+ "梅州客家": {
+  "en": "Meizhou Hakka",
+  "c": "china-pr"
+ },
+ "云南玉昆": {
+  "en": "Yunnan Yukun",
+  "c": "china-pr"
+ },
+ "泽尼特": {
+  "en": "Zenit",
+  "c": "russia"
+ },
+ "莫斯科斯巴达": {
+  "en": "Spartak Moskva",
+  "c": "russia"
+ },
+ "莫斯科中央陆军": {
+  "en": "CSKA Moskva",
+  "c": "russia"
+ },
+ "莫斯科火车头": {
+  "en": "Lokomotiv Moskva",
+  "c": "russia"
+ },
+ "莫斯科迪纳摩": {
+  "en": "Dinamo Moskva",
+  "c": "russia"
+ },
+ "克拉斯诺达尔": {
+  "en": "Krasnodar",
+  "c": "russia"
+ },
+ "罗斯托夫": {
+  "en": "Rostov",
+  "c": "russia"
+ },
+ "喀山红宝石": {
+  "en": "Rubin Kazan",
+  "c": "russia"
+ },
+ "乌拉尔": {
+  "en": "FK Ural",
+  "c": "russia"
+ },
+ "格罗兹尼": {
+  "en": "Akhmat Grozny",
+  "c": "russia"
+ }
+}

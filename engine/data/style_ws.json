@@ -1,0 +1,7 @@
+{
+ "_src": "whoscored.com/Teams/<id>/  (web_fetch 抓取，2026-10-26)",
+ "_note": "Style of Play 与 Strengths 为 WhoScored 官方标签，非我臆造；team id 需验证",
+ "Barcelona": {"id":65,"poss":64.4,"pass":89.2,"shots":19.7,
+   "style":["Possession football","Short passes","Attempt through balls often","Attack through the middle","Play the offside trap","Non-aggressive"],
+   "strengths":["Finishing scoring chances: Very Strong","Attacking down the wings: Very Strong","Creating long shot opportunities: Very Strong"]}
+}

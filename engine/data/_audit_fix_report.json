@@ -1,0 +1,287 @@
+[
+ {
+  "tag": "P0-0 选择状态合并@index.html",
+  "status": "skip",
+  "detail": "已修复"
+ },
+ {
+  "tag": "P0-0 选择状态合并@index_live.html",
+  "status": "skip",
+  "detail": "已修复"
+ },
+ {
+  "tag": "P0-2 爆冷候选@index.html",
+  "status": "skip",
+  "detail": "已修复"
+ },
+ {
+  "tag": "P0-2 爆冷候选@index_live.html",
+  "status": "skip",
+  "detail": "已修复"
+ },
+ {
+  "tag": "P0-2 ensure无候选提示@index.html",
+  "status": "skip",
+  "detail": "已修复"
+ },
+ {
+  "tag": "P0-2 ensure无候选提示@index_live.html",
+  "status": "skip",
+  "detail": "已修复"
+ },
+ {
+  "tag": "P1-2 倒计时读截止@index.html",
+  "status": "skip",
+  "detail": "已修复"
+ },
+ {
+  "tag": "P1-2 倒计时读截止@index_live.html",
+  "status": "skip",
+  "detail": "已修复"
+ },
+ {
+  "tag": "P2-0b esc单引号@index.html",
+  "status": "skip",
+  "detail": "已修复"
+ },
+ {
+  "tag": "P2-0b esc单引号@index_live.html",
+  "status": "skip",
+  "detail": "已修复"
+ },
+ {
+  "tag": "附录 默认r9AutoTop@index.html",
+  "status": "skip",
+  "detail": "已修复"
+ },
+ {
+  "tag": "附录 默认r9AutoTop@index_live.html",
+  "status": "skip",
+  "detail": "已修复"
+ },
+ {
+  "tag": "P1-3 四注差异化@index.html",
+  "status": "skip",
+  "detail": "已修复"
+ },
+ {
+  "tag": "P1-3 四注差异化@index_live.html",
+  "status": "skip",
+  "detail": "已修复"
+ },
+ {
+  "tag": "P0-1B 标签改口径@index.html",
+  "status": "skip",
+  "detail": "已修复"
+ },
+ {
+  "tag": "P0-1B 标签改口径@index_live.html",
+  "status": "skip",
+  "detail": "已修复"
+ },
+ {
+  "tag": "P0-1B 比分说明@index.html",
+  "status": "skip",
+  "detail": "已修复"
+ },
+ {
+  "tag": "P0-1B 比分说明@index_live.html",
+  "status": "skip",
+  "detail": "已修复"
+ },
+ {
+  "tag": "P0-1B λ说明@index.html",
+  "status": "skip",
+  "detail": "已修复"
+ },
+ {
+  "tag": "P0-1B λ说明@index_live.html",
+  "status": "skip",
+  "detail": "已修复"
+ },
+ {
+  "tag": "P0-3 雷达页头实测口径@index.html",
+  "status": "skip",
+  "detail": "已修复"
+ },
+ {
+  "tag": "P0-3 雷达页头实测口径@index_live.html",
+  "status": "skip",
+  "detail": "已修复"
+ },
+ {
+  "tag": "P0-4 雷达阈值@_radar310.py",
+  "status": "skip",
+  "detail": "已修复"
+ },
+ {
+  "tag": "P0-4 竞彩阈值@_diverge347.py",
+  "status": "skip",
+  "detail": "已修复"
+ },
+ {
+  "tag": "P0-4 产物背离文案@index.html",
+  "status": "skip",
+  "detail": "已修复"
+ },
+ {
+  "tag": "P0-4 产物背离文案@index_live.html",
+  "status": "skip",
+  "detail": "已修复"
+ },
+ {
+  "tag": "P0-5 末档名@_calc_radar.py",
+  "status": "skip",
+  "detail": "已修复"
+ },
+ {
+  "tag": "P0-5 产物末档名@index.html",
+  "status": "ok",
+  "detail": "替换 0 处"
+ },
+ {
+  "tag": "P0-5 产物末档名@index_live.html",
+  "status": "ok",
+  "detail": "替换 0 处"
+ },
+ {
+  "tag": "P0-7 雷达形态@_radar310.py",
+  "status": "skip",
+  "detail": "已修复"
+ },
+ {
+  "tag": "P0-7 计算形态@_calc_radar.py",
+  "status": "skip",
+  "detail": "已修复"
+ },
+ {
+  "tag": "P0-7 产物形态文案@index.html",
+  "status": "ok",
+  "detail": "替换 0 处"
+ },
+ {
+  "tag": "P0-7 产物形态文案@index_live.html",
+  "status": "ok",
+  "detail": "替换 0 处"
+ },
+ {
+  "tag": "P1-4 加_stz",
+  "status": "skip",
+  "detail": "已存在"
+ },
+ {
+  "tag": "P1-4 字段 d.get('ranking') or d.ge@_st_official.py",
+  "status": "skip",
+  "detail": "已修复"
+ },
+ {
+  "tag": "P1-4 字段 d.get('points') or '?'@_st_official.py",
+  "status": "skip",
+  "detail": "已修复"
+ },
+ {
+  "tag": "P1-4 字段 d.get('winGoalMatchCnt')@_st_official.py",
+  "status": "skip",
+  "detail": "已修复"
+ },
+ {
+  "tag": "P1-4 字段 d.get('drawMatchCnt') or@_st_official.py",
+  "status": "skip",
+  "detail": "已修复"
+ },
+ {
+  "tag": "P1-4 字段 d.get('lossGoalMatchCnt'@_st_official.py",
+  "status": "skip",
+  "detail": "已修复"
+ },
+ {
+  "tag": "P1-4 字段 d.get('goalCnt') or d.ge@_st_official.py",
+  "status": "skip",
+  "detail": "已修复"
+ },
+ {
+  "tag": "P1-4 字段 d.get('lossGoalCnt') or @_st_official.py",
+  "status": "skip",
+  "detail": "已修复"
+ },
+ {
+  "tag": "P1-4 产物战绩问号@index.html",
+  "status": "ok",
+  "detail": "替换 0 处"
+ },
+ {
+  "tag": "P1-4 产物战绩问号@index_live.html",
+  "status": "ok",
+  "detail": "替换 0 处"
+ },
+ {
+  "tag": "P1-4 产物进失问号@index.html",
+  "status": "ok",
+  "detail": "替换 0 处"
+ },
+ {
+  "tag": "P1-4 产物进失问号@index_live.html",
+  "status": "ok",
+  "detail": "替换 0 处"
+ },
+ {
+  "tag": "P0-6 校准段标注@_ana332.py",
+  "status": "skip",
+  "detail": "已修复"
+ },
+ {
+  "tag": "P0-6 结论段标注@_ana310.py",
+  "status": "skip",
+  "detail": "已修复"
+ },
+ {
+  "tag": "P0-6 产物校准段标注@index.html",
+  "status": "ok",
+  "detail": "替换 0 处"
+ },
+ {
+  "tag": "P0-6 产物校准段标注@index_live.html",
+  "status": "ok",
+  "detail": "替换 7 处"
+ },
+ {
+  "tag": "P0-6 产物结论段标注@index.html",
+  "status": "ok",
+  "detail": "替换 0 处"
+ },
+ {
+  "tag": "P0-6 产物结论段标注@index_live.html",
+  "status": "ok",
+  "detail": "替换 63 处"
+ },
+ {
+  "tag": "P1-8 已开赛判定@index.html",
+  "status": "skip",
+  "detail": "已修复"
+ },
+ {
+  "tag": "P1-8 已开赛判定@index_live.html",
+  "status": "skip",
+  "detail": "已修复"
+ },
+ {
+  "tag": "P1-8 投注建议置灰@index.html",
+  "status": "skip",
+  "detail": "已修复"
+ },
+ {
+  "tag": "P1-8 投注建议置灰@index_live.html",
+  "status": "skip",
+  "detail": "已修复"
+ },
+ {
+  "tag": "P1-10 finite校验@index.html",
+  "status": "skip",
+  "detail": "已修复"
+ },
+ {
+  "tag": "P1-10 finite校验@index_live.html",
+  "status": "skip",
+  "detail": "已修复"
+ }
+]

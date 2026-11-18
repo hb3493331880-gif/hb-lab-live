@@ -1,0 +1,340 @@
+{
+ "_template": false,
+ "same_source": true,
+ "source": "竞彩官方积分榜（项目内已落盘快照，非 FotMob 独立源）",
+ "snapshot": "20261113",
+ "note": "从 intel/tab 响应整理；快照日 20261113，可能滞后一场。库里没有的队不写进快照，缺积分者按硬规矩不出战意等级。",
+ "groups": {
+  "欧国联A-G3": [
+   {
+    "name": "英格兰",
+    "ranking": 2,
+    "points": 12,
+    "winGoalMatchCnt": 4,
+    "drawMatchCnt": 0,
+    "lossGoalMatchCnt": 1,
+    "goalCnt": 16,
+    "lossGoalCnt": 4,
+    "totalLegCnt": 5,
+    "group": "欧国联A-G3"
+   },
+   {
+    "name": "克罗地亚",
+    "ranking": 3,
+    "points": 3,
+    "winGoalMatchCnt": 1,
+    "drawMatchCnt": 0,
+    "lossGoalMatchCnt": 4,
+    "goalCnt": 5,
+    "lossGoalCnt": 16,
+    "totalLegCnt": 5,
+    "group": "欧国联A-G3",
+    "cn": "克罗地"
+   },
+   {
+    "name": "捷克",
+    "ranking": 4,
+    "points": 0,
+    "winGoalMatchCnt": 0,
+    "drawMatchCnt": 0,
+    "lossGoalMatchCnt": 5,
+    "goalCnt": 2,
+    "lossGoalCnt": 12,
+    "totalLegCnt": 5,
+    "group": "欧国联A-G3"
+   },
+   {
+    "name": "西班牙",
+    "ranking": 1,
+    "points": 15,
+    "winGoalMatchCnt": 5,
+    "drawMatchCnt": 0,
+    "lossGoalMatchCnt": 0,
+    "goalCnt": 14,
+    "lossGoalCnt": 5,
+    "totalLegCnt": 5,
+    "group": "欧国联A-G3"
+   }
+  ],
+  "欧国联C-G3": [
+   {
+    "name": "摩尔多瓦",
+    "ranking": 3,
+    "points": 4,
+    "winGoalMatchCnt": 1,
+    "drawMatchCnt": 1,
+    "lossGoalMatchCnt": 2,
+    "goalCnt": 3,
+    "lossGoalCnt": 8,
+    "totalLegCnt": 4,
+    "group": "欧国联C-G3"
+   },
+   {
+    "name": "哈萨克",
+    "ranking": 4,
+    "points": 2,
+    "winGoalMatchCnt": 0,
+    "drawMatchCnt": 2,
+    "lossGoalMatchCnt": 2,
+    "goalCnt": 5,
+    "lossGoalCnt": 7,
+    "totalLegCnt": 4,
+    "group": "欧国联C-G3"
+   },
+   {
+    "name": "斯洛伐克",
+    "ranking": 1,
+    "points": 10,
+    "winGoalMatchCnt": 3,
+    "drawMatchCnt": 1,
+    "lossGoalMatchCnt": 0,
+    "goalCnt": 9,
+    "lossGoalCnt": 2,
+    "totalLegCnt": 4,
+    "group": "欧国联C-G3"
+   },
+   {
+    "name": "法罗群岛",
+    "ranking": 2,
+    "points": 4,
+    "winGoalMatchCnt": 0,
+    "drawMatchCnt": 4,
+    "lossGoalMatchCnt": 0,
+    "goalCnt": 5,
+    "lossGoalCnt": 5,
+    "totalLegCnt": 4,
+    "group": "欧国联C-G3"
+   }
+  ],
+  "欧国联C-G4": [
+   {
+    "name": "保加利亚",
+    "ranking": 3,
+    "points": 4,
+    "winGoalMatchCnt": 1,
+    "drawMatchCnt": 1,
+    "lossGoalMatchCnt": 2,
+    "goalCnt": 3,
+    "lossGoalCnt": 5,
+    "totalLegCnt": 4,
+    "group": "欧国联C-G4"
+   },
+   {
+    "name": "冰岛",
+    "ranking": 1,
+    "points": 8,
+    "winGoalMatchCnt": 2,
+    "drawMatchCnt": 2,
+    "lossGoalMatchCnt": 0,
+    "goalCnt": 7,
+    "lossGoalCnt": 1,
+    "totalLegCnt": 4,
+    "group": "欧国联C-G4"
+   },
+   {
+    "name": "卢森堡",
+    "ranking": 4,
+    "points": 3,
+    "winGoalMatchCnt": 1,
+    "drawMatchCnt": 0,
+    "lossGoalMatchCnt": 3,
+    "goalCnt": 2,
+    "lossGoalCnt": 7,
+    "totalLegCnt": 4,
+    "group": "欧国联C-G4"
+   },
+   {
+    "name": "爱沙尼亚",
+    "ranking": 2,
+    "points": 6,
+    "winGoalMatchCnt": 1,
+    "drawMatchCnt": 3,
+    "lossGoalMatchCnt": 0,
+    "goalCnt": 2,
+    "lossGoalCnt": 1,
+    "totalLegCnt": 4,
+    "group": "欧国联C-G4"
+   }
+  ],
+  "欧国联B-G1": [
+   {
+    "name": "苏格兰",
+    "ranking": 3,
+    "points": 4,
+    "winGoalMatchCnt": 1,
+    "drawMatchCnt": 1,
+    "lossGoalMatchCnt": 2,
+    "goalCnt": 3,
+    "lossGoalCnt": 5,
+    "totalLegCnt": 4,
+    "group": "欧国联B-G1"
+   },
+   {
+    "name": "北马其顿",
+    "ranking": 4,
+    "points": 0,
+    "winGoalMatchCnt": 0,
+    "drawMatchCnt": 0,
+    "lossGoalMatchCnt": 4,
+    "goalCnt": 0,
+    "lossGoalCnt": 10,
+    "totalLegCnt": 4,
+    "group": "欧国联B-G1"
+   },
+   {
+    "name": "斯洛文尼",
+    "ranking": 2,
+    "points": 7,
+    "winGoalMatchCnt": 2,
+    "drawMatchCnt": 1,
+    "lossGoalMatchCnt": 1,
+    "goalCnt": 5,
+    "lossGoalCnt": 3,
+    "totalLegCnt": 4,
+    "group": "欧国联B-G1"
+   },
+   {
+    "name": "瑞士",
+    "ranking": 1,
+    "points": 12,
+    "winGoalMatchCnt": 4,
+    "drawMatchCnt": 0,
+    "lossGoalMatchCnt": 0,
+    "goalCnt": 11,
+    "lossGoalCnt": 1,
+    "totalLegCnt": 4,
+    "group": "欧国联B-G1"
+   }
+  ],
+  "欧国联A-G2": [
+   {
+    "name": "塞尔维亚",
+    "ranking": 4,
+    "points": 0,
+    "winGoalMatchCnt": 0,
+    "drawMatchCnt": 0,
+    "lossGoalMatchCnt": 4,
+    "goalCnt": 3,
+    "lossGoalCnt": 8,
+    "totalLegCnt": 4,
+    "group": "欧国联A-G2"
+   },
+   {
+    "name": "德国",
+    "ranking": 3,
+    "points": 5,
+    "winGoalMatchCnt": 1,
+    "drawMatchCnt": 2,
+    "lossGoalMatchCnt": 1,
+    "goalCnt": 3,
+    "lossGoalCnt": 2,
+    "totalLegCnt": 4,
+    "group": "欧国联A-G2"
+   },
+   {
+    "name": "荷兰",
+    "ranking": 1,
+    "points": 8,
+    "winGoalMatchCnt": 2,
+    "drawMatchCnt": 2,
+    "lossGoalMatchCnt": 0,
+    "goalCnt": 7,
+    "lossGoalCnt": 5,
+    "totalLegCnt": 4,
+    "group": "欧国联A-G2"
+   },
+   {
+    "name": "希腊",
+    "ranking": 2,
+    "points": 8,
+    "winGoalMatchCnt": 2,
+    "drawMatchCnt": 2,
+    "lossGoalMatchCnt": 0,
+    "goalCnt": 5,
+    "lossGoalCnt": 3,
+    "totalLegCnt": 4,
+    "group": "欧国联A-G2"
+   }
+  ],
+  "欧国联C-G2": [
+   {
+    "name": "亚美尼亚",
+    "ranking": 3,
+    "points": 5,
+    "winGoalMatchCnt": 1,
+    "drawMatchCnt": 2,
+    "lossGoalMatchCnt": 2,
+    "goalCnt": 5,
+    "lossGoalCnt": 6,
+    "totalLegCnt": 5,
+    "group": "欧国联C-G2",
+    "cn": "亚美尼"
+   },
+   {
+    "name": "拉脱维亚",
+    "ranking": 4,
+    "points": 1,
+    "winGoalMatchCnt": 0,
+    "drawMatchCnt": 1,
+    "lossGoalMatchCnt": 4,
+    "goalCnt": 3,
+    "lossGoalCnt": 8,
+    "totalLegCnt": 5,
+    "group": "欧国联C-G2",
+    "cn": "拉脱维"
+   },
+   {
+    "name": "黑山",
+    "ranking": 1,
+    "points": 13,
+    "winGoalMatchCnt": 4,
+    "drawMatchCnt": 1,
+    "lossGoalMatchCnt": 0,
+    "goalCnt": 9,
+    "lossGoalCnt": 5,
+    "totalLegCnt": 5,
+    "group": "欧国联C-G2"
+   },
+   {
+    "name": "塞浦路斯",
+    "ranking": 2,
+    "points": 8,
+    "winGoalMatchCnt": 2,
+    "drawMatchCnt": 2,
+    "lossGoalMatchCnt": 1,
+    "goalCnt": 6,
+    "lossGoalCnt": 4,
+    "totalLegCnt": 5,
+    "group": "欧国联C-G2",
+    "cn": "塞浦路"
+   }
+  ],
+  "欧国联C-G1": [
+   {
+    "name": "圣马力诺",
+    "ranking": 4,
+    "points": 0,
+    "winGoalMatchCnt": 0,
+    "drawMatchCnt": 0,
+    "lossGoalMatchCnt": 5,
+    "goalCnt": 1,
+    "lossGoalCnt": 18,
+    "totalLegCnt": 5,
+    "group": "欧国联C-G1",
+    "cn": "圣马力"
+   },
+   {
+    "name": "芬兰",
+    "ranking": 3,
+    "points": 7,
+    "winGoalMatchCnt": 2,
+    "drawMatchCnt": 1,
+    "lossGoalMatchCnt": 2,
+    "goalCnt": 9,
+    "lossGoalCnt": 4,
+    "totalLegCnt": 5,
+    "group": "欧国联C-G1"
+   }
+  ]
+ }
+}

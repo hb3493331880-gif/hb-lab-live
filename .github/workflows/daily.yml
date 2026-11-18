@@ -1,0 +1,58 @@
+name: daily
+
+# 每 30 分钟抓一次官方数据 → 重建单页 → 提交 → 直接部署到 Netlify（网址不变）
+# 也可以在 Actions 页面点 "Run workflow" 手动触发。
+on:
+  schedule:
+    - cron: '17,47 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: daily
+  cancel-in-progress: true
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 抓取 + 生成 + 后处理
+        run: python scripts/build.py
+
+      - name: 收进 public/
+        run: |
+          mkdir -p public
+          cp index.html public/index.html
+          ls -l index.html public/index.html
+
+      - name: 提交变更（有变化才提交）
+        run: |
+          git config user.name  "hb-lab-bot"
+          git config user.email "hb-lab-bot@users.noreply.github.com"
+          git add -A
+          if git diff --staged --quiet; then
+            echo "本轮无变化，跳过提交"
+          else
+            git commit -m "chore(auto): $(date -u '+%F %H:%M') UTC"
+            git push
+          fi
+
+      - name: 部署到 Netlify
+        env:
+          NF_TOKEN: ${{ vars.NF_TOKEN }}
+          NF_SITE_ID: ${{ vars.NF_SITE_ID }}
+        run: python scripts/deploy_netlify.py
+
+      - name: 回读线上首页
+        run: |
+          curl -sS -o /tmp/live.html -w "HTTP %{http_code}  %{size_download} B\n" "https://${{ vars.NF_HOSTNAME }}/"
+          grep -o '<title>[^<]*</title>' /tmp/live.html || true

@@ -1,0 +1,74 @@
+{
+ "2026-11-15": {
+  "date": "2026-11-15",
+  "name": "2串1",
+  "generated": "2026-11-16 11:19:59",
+  "odd": 2.61,
+  "pr": 0.2958,
+  "widened": false,
+  "legs": [
+   {
+    "no": "周日002",
+    "h": "鹿岛鹿角",
+    "a": "横滨水手",
+    "pick": "主胜",
+    "pick_i": 0,
+    "odd": 1.58,
+    "p": 55.6,
+    "conf": 42,
+    "actual": null,
+    "hit": null
+   },
+   {
+    "no": "周日004",
+    "h": "柏太阳神",
+    "a": "川崎前锋",
+    "pick": "主胜",
+    "pick_i": 0,
+    "odd": 1.65,
+    "p": 53.2,
+    "conf": 40,
+    "actual": null,
+    "hit": null
+   }
+  ],
+  "result": "pending",
+  "frozen": true
+ },
+ "2026-11-16": {
+  "date": "2026-11-16",
+  "name": "2串1",
+  "generated": "2026-11-16 11:21:17",
+  "odd": 2.68,
+  "pr": 0.2874,
+  "widened": false,
+  "legs": [
+   {
+    "no": "周一007",
+    "h": "北马其顿",
+    "a": "斯洛文尼",
+    "pick": "客胜",
+    "pick_i": 2,
+    "odd": 1.41,
+    "p": 62.2,
+    "conf": 47,
+    "actual": null,
+    "hit": null
+   },
+   {
+    "no": "周一003",
+    "h": "爱沙尼亚",
+    "a": "保加利亚",
+    "pick": "主胜",
+    "pick_i": 0,
+    "odd": 1.9,
+    "p": 46.2,
+    "conf": 35,
+    "actual": null,
+    "hit": null
+   }
+  ],
+  "result": "pending",
+  "frozen": true
+ }
+}

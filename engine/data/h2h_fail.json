@@ -1,0 +1,17 @@
+[
+ {
+  "cn": "曼彻斯特城",
+  "q": "Manchester City",
+  "why": "APIError: HTTP 403 for URL: https://api.sofascore.com/api/v1/search/Manchester%20City"
+ },
+ {
+  "cn": "阿森纳",
+  "q": "Arsenal",
+  "why": "APIError: HTTP 403 for URL: https://api.sofascore.com/api/v1/search/Arsenal"
+ },
+ {
+  "cn": "布莱顿",
+  "q": "Brighton",
+  "why": "APIError: HTTP 403 for URL: https://api.sofascore.com/api/v1/search/Brighton"
+ }
+]

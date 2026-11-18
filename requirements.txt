@@ -1,0 +1,2 @@
+# 本项目零第三方依赖，纯 Python 标准库（3.9+）
+# 保留此文件是为了让 setup-python 之后 pip install -r 不会报错

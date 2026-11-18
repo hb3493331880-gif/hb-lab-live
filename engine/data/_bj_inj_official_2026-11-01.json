@@ -1,0 +1,1543 @@
+{
+ "珀斯光荣|阿德莱德联": {
+  "num": "周日005",
+  "h_list": [
+   {
+    "appearanceCnt": 0,
+    "injuryFlag": 1,
+    "personId": 189813,
+    "personName": "B. 卡拉克",
+    "playerPositionCode": "Defender",
+    "playerPositionDesc": "后卫",
+    "startedMatchCnt": 0,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "45"
+   },
+   {
+    "appearanceCnt": 1,
+    "injuryFlag": 1,
+    "personId": 522771,
+    "personName": "H. Hore",
+    "playerPositionCode": "Midfielder",
+    "playerPositionDesc": "中场",
+    "startedMatchCnt": 1,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "13"
+   },
+   {
+    "appearanceCnt": 1,
+    "injuryFlag": 1,
+    "personId": 643674,
+    "personName": "C·尼乌恩霍夫",
+    "playerPositionCode": "Midfielder",
+    "playerPositionDesc": "中场",
+    "startedMatchCnt": 0,
+    "substituteMatchCnt": 1,
+    "suspensionFlag": 0,
+    "uniformNo": "28"
+   },
+   {
+    "appearanceCnt": 0,
+    "injuryFlag": 1,
+    "personId": 643803,
+    "personName": "C. Shamoon",
+    "playerPositionCode": "Defender",
+    "playerPositionDesc": "后卫",
+    "startedMatchCnt": 0,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "2"
+   },
+   {
+    "appearanceCnt": 0,
+    "injuryFlag": 1,
+    "personId": 695574,
+    "personName": "M. Dench",
+    "playerPositionCode": "Defender",
+    "playerPositionDesc": "后卫",
+    "startedMatchCnt": 0,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "12"
+   }
+  ],
+  "a_list": [
+   {
+    "appearanceCnt": 0,
+    "injuryFlag": 1,
+    "personId": 136110,
+    "personName": "范里恩德斯",
+    "playerPositionCode": "Defender",
+    "playerPositionDesc": "后卫",
+    "startedMatchCnt": 0,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "3"
+   },
+   {
+    "appearanceCnt": 0,
+    "injuryFlag": 1,
+    "personId": 474164,
+    "personName": "皮埃尔里亚斯",
+    "playerPositionCode": "Defender",
+    "playerPositionDesc": "后卫",
+    "startedMatchCnt": 0,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "20"
+   },
+   {
+    "appearanceCnt": 0,
+    "injuryFlag": 1,
+    "personId": 683430,
+    "personName": "J. Najdovski",
+    "playerPositionCode": "Attacker",
+    "playerPositionDesc": "前锋",
+    "startedMatchCnt": 0,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "18"
+   },
+   {
+    "appearanceCnt": 0,
+    "injuryFlag": 1,
+    "personId": 689665,
+    "personName": "J. Brazete",
+    "playerPositionCode": "Attacker",
+    "playerPositionDesc": "前锋",
+    "startedMatchCnt": 0,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "21"
+   },
+   {
+    "appearanceCnt": 0,
+    "injuryFlag": 1,
+    "personId": 865290,
+    "personName": "怀特",
+    "playerPositionCode": "Midfielder",
+    "playerPositionDesc": "中场",
+    "startedMatchCnt": 0,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "44"
+   },
+   {
+    "appearanceCnt": 0,
+    "injuryFlag": 1,
+    "personId": 930122,
+    "personName": "M. Smith",
+    "playerPositionCode": "Attacker",
+    "playerPositionDesc": "前锋",
+    "startedMatchCnt": 0,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "27"
+   }
+  ],
+  "h": "珀斯光荣",
+  "a": "阿德莱德联"
+ },
+ "兹沃勒|海牙": {
+  "num": "周日006",
+  "h_list": [
+   {
+    "appearanceCnt": 6,
+    "injuryFlag": 1,
+    "personId": 385271,
+    "personName": "弗洛伦斯",
+    "playerPositionCode": "Defender",
+    "playerPositionDesc": "后卫",
+    "startedMatchCnt": 6,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "2"
+   },
+   {
+    "appearanceCnt": 9,
+    "injuryFlag": 1,
+    "personId": 677038,
+    "personName": "I. Cissoko",
+    "playerPositionCode": "Forward",
+    "playerPositionDesc": "前锋",
+    "startedMatchCnt": 5,
+    "substituteMatchCnt": 4,
+    "suspensionFlag": 0,
+    "uniformNo": "22"
+   },
+   {
+    "appearanceCnt": 0,
+    "injuryFlag": 1,
+    "personId": 893994,
+    "personName": "G. Rahajaän",
+    "playerPositionCode": "Midfielder",
+    "playerPositionDesc": "中场",
+    "startedMatchCnt": 0,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "38"
+   }
+  ],
+  "a_list": [
+   {
+    "appearanceCnt": 3,
+    "injuryFlag": 1,
+    "personId": 420316,
+    "personName": "亚历汉德罗·波索",
+    "playerPositionCode": "Midfielder",
+    "playerPositionDesc": "中场",
+    "startedMatchCnt": 1,
+    "substituteMatchCnt": 2,
+    "suspensionFlag": 0,
+    "uniformNo": "24"
+   },
+   {
+    "appearanceCnt": 3,
+    "injuryFlag": 1,
+    "personId": 597391,
+    "personName": "D. Bárány",
+    "playerPositionCode": "Forward",
+    "playerPositionDesc": "前锋",
+    "startedMatchCnt": 0,
+    "substituteMatchCnt": 3,
+    "suspensionFlag": 0,
+    "uniformNo": "77"
+   },
+   {
+    "appearanceCnt": 10,
+    "injuryFlag": 1,
+    "personId": 630128,
+    "personName": "K. Nikièma",
+    "playerPositionCode": "Goalkeeper",
+    "playerPositionDesc": "守门员",
+    "startedMatchCnt": 10,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "1"
+   },
+   {
+    "appearanceCnt": 2,
+    "injuryFlag": 1,
+    "personId": 632430,
+    "personName": "L. Reischl",
+    "playerPositionCode": "Forward",
+    "playerPositionDesc": "前锋",
+    "startedMatchCnt": 0,
+    "substituteMatchCnt": 2,
+    "suspensionFlag": 0,
+    "uniformNo": "19"
+   },
+   {
+    "appearanceCnt": 1,
+    "injuryFlag": 1,
+    "personId": 640033,
+    "personName": "C.皮翁",
+    "playerPositionCode": "Forward",
+    "playerPositionDesc": "前锋",
+    "startedMatchCnt": 0,
+    "substituteMatchCnt": 1,
+    "suspensionFlag": 0,
+    "uniformNo": "21"
+   },
+   {
+    "appearanceCnt": 9,
+    "injuryFlag": 1,
+    "personId": 688352,
+    "personName": "M. Hokke",
+    "playerPositionCode": "Defender",
+    "playerPositionDesc": "后卫",
+    "startedMatchCnt": 8,
+    "substituteMatchCnt": 1,
+    "suspensionFlag": 0,
+    "uniformNo": "15"
+   }
+  ],
+  "h": "兹沃勒",
+  "a": "海牙"
+ },
+ "科莫|威尼斯": {
+  "num": "周日007",
+  "h_list": [
+   {
+    "appearanceCnt": 6,
+    "injuryFlag": 1,
+    "personId": 376695,
+    "personName": "T. Chalobah",
+    "playerPositionCode": "Defender",
+    "playerPositionDesc": "后卫",
+    "startedMatchCnt": 6,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "99"
+   },
+   {
+    "appearanceCnt": 4,
+    "injuryFlag": 1,
+    "personId": 429830,
+    "personName": "M. Kean",
+    "playerPositionCode": "Forward",
+    "playerPositionDesc": "前锋",
+    "startedMatchCnt": 1,
+    "substituteMatchCnt": 3,
+    "suspensionFlag": 0,
+    "uniformNo": "90"
+   },
+   {
+    "appearanceCnt": 3,
+    "injuryFlag": 1,
+    "personId": 687400,
+    "personName": "J. Addai",
+    "playerPositionCode": "Forward",
+    "playerPositionDesc": "前锋",
+    "startedMatchCnt": 0,
+    "substituteMatchCnt": 3,
+    "suspensionFlag": 0,
+    "uniformNo": "42"
+   },
+   {
+    "appearanceCnt": 8,
+    "injuryFlag": 1,
+    "personId": 687426,
+    "personName": "N. Paz",
+    "playerPositionCode": "Midfielder",
+    "playerPositionDesc": "中场",
+    "startedMatchCnt": 8,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "10"
+   },
+   {
+    "appearanceCnt": 6,
+    "injuryFlag": 1,
+    "personId": 769667,
+    "personName": "Assane Diao",
+    "playerPositionCode": "Forward",
+    "playerPositionDesc": "前锋",
+    "startedMatchCnt": 5,
+    "substituteMatchCnt": 1,
+    "suspensionFlag": 0,
+    "uniformNo": "11"
+   },
+   {
+    "appearanceCnt": 3,
+    "injuryFlag": 1,
+    "personId": 791683,
+    "personName": "M. Liberali",
+    "playerPositionCode": "Midfielder",
+    "playerPositionDesc": "中场",
+    "startedMatchCnt": 1,
+    "substituteMatchCnt": 2,
+    "suspensionFlag": 0,
+    "uniformNo": "30"
+   },
+   {
+    "appearanceCnt": 4,
+    "injuryFlag": 1,
+    "personId": 820182,
+    "personName": "Jesús Rodríguez",
+    "playerPositionCode": "Forward",
+    "playerPositionDesc": "前锋",
+    "startedMatchCnt": 1,
+    "substituteMatchCnt": 3,
+    "suspensionFlag": 0,
+    "uniformNo": "17"
+   }
+  ],
+  "a_list": [
+   {
+    "appearanceCnt": 3,
+    "injuryFlag": 1,
+    "personId": 327840,
+    "personName": "P. Mazzocchi",
+    "playerPositionCode": "Defender",
+    "playerPositionDesc": "后卫",
+    "startedMatchCnt": 1,
+    "substituteMatchCnt": 2,
+    "suspensionFlag": 0,
+    "uniformNo": "70"
+   },
+   {
+    "appearanceCnt": 0,
+    "injuryFlag": 1,
+    "personId": 392421,
+    "personName": "M. Sverko",
+    "playerPositionCode": "Defender",
+    "playerPositionDesc": "后卫",
+    "startedMatchCnt": 0,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "33"
+   },
+   {
+    "appearanceCnt": 5,
+    "injuryFlag": 1,
+    "personId": 440099,
+    "personName": "Thierry Correia",
+    "playerPositionCode": "Defender",
+    "playerPositionDesc": "后卫",
+    "startedMatchCnt": 3,
+    "substituteMatchCnt": 2,
+    "suspensionFlag": 0,
+    "uniformNo": "14"
+   },
+   {
+    "appearanceCnt": 2,
+    "injuryFlag": 1,
+    "personId": 482594,
+    "personName": "B. Franjić",
+    "playerPositionCode": "Defender",
+    "playerPositionDesc": "后卫",
+    "startedMatchCnt": 2,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "4"
+   },
+   {
+    "appearanceCnt": 5,
+    "injuryFlag": 1,
+    "personId": 482751,
+    "personName": "Þ.赫尔格森",
+    "playerPositionCode": "Midfielder",
+    "playerPositionDesc": "中场",
+    "startedMatchCnt": 2,
+    "substituteMatchCnt": 3,
+    "suspensionFlag": 0,
+    "uniformNo": "21"
+   },
+   {
+    "appearanceCnt": 0,
+    "injuryFlag": 1,
+    "personId": 509017,
+    "personName": "A. Adorante",
+    "playerPositionCode": "Attacker",
+    "playerPositionDesc": "前锋",
+    "startedMatchCnt": 0,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "9"
+   }
+  ],
+  "h": "科莫",
+  "a": "威尼斯"
+ },
+ "马尔默|哈马比": {
+  "num": "周日009",
+  "h_list": [
+   {
+    "appearanceCnt": 3,
+    "injuryFlag": 1,
+    "personId": 95613,
+    "personName": "扬松",
+    "playerPositionCode": "Defender",
+    "playerPositionDesc": "后卫",
+    "startedMatchCnt": 3,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "18"
+   }
+  ],
+  "a_list": [
+   {
+    "appearanceCnt": 7,
+    "injuryFlag": 1,
+    "personId": 694212,
+    "personName": "A. Boudri",
+    "playerPositionCode": "Midfielder",
+    "playerPositionDesc": "中场",
+    "startedMatchCnt": 5,
+    "substituteMatchCnt": 2,
+    "suspensionFlag": 0,
+    "uniformNo": "17"
+   }
+  ],
+  "h": "马尔默",
+  "a": "哈马比"
+ },
+ "SBV精英|特温特": {
+  "num": "周日010",
+  "h_list": [
+   {
+    "appearanceCnt": 10,
+    "injuryFlag": 1,
+    "personId": 767243,
+    "personName": "D. Garden",
+    "playerPositionCode": "Forward",
+    "playerPositionDesc": "前锋",
+    "startedMatchCnt": 9,
+    "substituteMatchCnt": 1,
+    "suspensionFlag": 0,
+    "uniformNo": "19"
+   }
+  ],
+  "a_list": [
+   {
+    "appearanceCnt": 9,
+    "injuryFlag": 0,
+    "personId": 693185,
+    "personName": "D. Weidmann",
+    "playerPositionCode": "Midfielder",
+    "playerPositionDesc": "中场",
+    "startedMatchCnt": 9,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 1,
+    "uniformNo": "8"
+   },
+   {
+    "appearanceCnt": 6,
+    "injuryFlag": 1,
+    "personId": 81320,
+    "personName": "苏锦克",
+    "playerPositionCode": "Goalkeeper",
+    "playerPositionDesc": "守门员",
+    "startedMatchCnt": 6,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "1"
+   },
+   {
+    "appearanceCnt": 10,
+    "injuryFlag": 1,
+    "personId": 255205,
+    "personName": "韦霍斯特",
+    "playerPositionCode": "Forward",
+    "playerPositionDesc": "前锋",
+    "startedMatchCnt": 10,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "9"
+   },
+   {
+    "appearanceCnt": 10,
+    "injuryFlag": 1,
+    "personId": 557859,
+    "personName": "B. van Rooij",
+    "playerPositionCode": "Defender",
+    "playerPositionDesc": "后卫",
+    "startedMatchCnt": 10,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "28"
+   },
+   {
+    "appearanceCnt": 6,
+    "injuryFlag": 1,
+    "personId": 628828,
+    "personName": "M. Bruns",
+    "playerPositionCode": "Defender",
+    "playerPositionDesc": "后卫",
+    "startedMatchCnt": 5,
+    "substituteMatchCnt": 1,
+    "suspensionFlag": 0,
+    "uniformNo": "38"
+   },
+   {
+    "appearanceCnt": 0,
+    "injuryFlag": 1,
+    "personId": 722530,
+    "personName": "S. Lemkin",
+    "playerPositionCode": "Defender",
+    "playerPositionDesc": "后卫",
+    "startedMatchCnt": 0,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "23"
+   },
+   {
+    "appearanceCnt": 6,
+    "injuryFlag": 1,
+    "personId": 745596,
+    "personName": "F. Thorvaldsen",
+    "playerPositionCode": "Forward",
+    "playerPositionDesc": "前锋",
+    "startedMatchCnt": 1,
+    "substituteMatchCnt": 5,
+    "suspensionFlag": 0,
+    "uniformNo": "17"
+   }
+  ],
+  "h": "SBV精英",
+  "a": "特温特"
+ },
+ "布兰|莫尔德": {
+  "num": "周日011",
+  "h_list": [
+   {
+    "appearanceCnt": 8,
+    "injuryFlag": 1,
+    "personId": 423033,
+    "personName": "S. Magnusson",
+    "playerPositionCode": "Forward",
+    "playerPositionDesc": "前锋",
+    "startedMatchCnt": 4,
+    "substituteMatchCnt": 4,
+    "suspensionFlag": 0,
+    "uniformNo": "22"
+   },
+   {
+    "appearanceCnt": 0,
+    "injuryFlag": 1,
+    "personId": 545476,
+    "personName": "S. Opsahl",
+    "playerPositionCode": "Midfielder",
+    "playerPositionDesc": "中场",
+    "startedMatchCnt": 0,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "5"
+   }
+  ],
+  "a_list": [],
+  "h": "布兰",
+  "a": "莫尔德"
+ },
+ "拉齐奥|卡利亚里": {
+  "num": "周日013",
+  "h_list": [
+   {
+    "appearanceCnt": 4,
+    "injuryFlag": 1,
+    "personId": 250530,
+    "personName": "A. Gudmundsson",
+    "playerPositionCode": "Forward",
+    "playerPositionDesc": "前锋",
+    "startedMatchCnt": 1,
+    "substituteMatchCnt": 3,
+    "suspensionFlag": 0,
+    "uniformNo": "80"
+   },
+   {
+    "appearanceCnt": 2,
+    "injuryFlag": 1,
+    "personId": 548615,
+    "personName": "N·罗维拉",
+    "playerPositionCode": "Midfielder",
+    "playerPositionDesc": "中场",
+    "startedMatchCnt": 2,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "6"
+   },
+   {
+    "appearanceCnt": 0,
+    "injuryFlag": 1,
+    "personId": 610285,
+    "personName": "A.Furlanetto",
+    "playerPositionCode": "Goalkeeper",
+    "playerPositionDesc": "守门员",
+    "startedMatchCnt": 0,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "55"
+   }
+  ],
+  "a_list": [
+   {
+    "appearanceCnt": 8,
+    "injuryFlag": 1,
+    "personId": 274470,
+    "personName": "H. Winks",
+    "playerPositionCode": "Midfielder",
+    "playerPositionDesc": "中场",
+    "startedMatchCnt": 8,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "6"
+   },
+   {
+    "appearanceCnt": 2,
+    "injuryFlag": 1,
+    "personId": 596182,
+    "personName": "M. Felici",
+    "playerPositionCode": "Forward",
+    "playerPositionDesc": "前锋",
+    "startedMatchCnt": 0,
+    "substituteMatchCnt": 2,
+    "suspensionFlag": 0,
+    "uniformNo": "17"
+   },
+   {
+    "appearanceCnt": 0,
+    "injuryFlag": 1,
+    "personId": 737628,
+    "personName": "R. Idrissi",
+    "playerPositionCode": "Defender",
+    "playerPositionDesc": "后卫",
+    "startedMatchCnt": 0,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "3"
+   }
+  ],
+  "h": "拉齐奥",
+  "a": "卡利亚里"
+ },
+ "柏林联合|科隆": {
+  "num": "周日014",
+  "h_list": [
+   {
+    "appearanceCnt": 6,
+    "injuryFlag": 0,
+    "personId": 359831,
+    "personName": "F. Uduokhai",
+    "playerPositionCode": "Defender",
+    "playerPositionDesc": "后卫",
+    "startedMatchCnt": 6,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 1,
+    "uniformNo": "2"
+   },
+   {
+    "appearanceCnt": 1,
+    "injuryFlag": 1,
+    "personId": 296804,
+    "personName": "斯科乌",
+    "playerPositionCode": "Midfielder",
+    "playerPositionDesc": "中场",
+    "startedMatchCnt": 0,
+    "substituteMatchCnt": 1,
+    "suspensionFlag": 0,
+    "uniformNo": "24"
+   },
+   {
+    "appearanceCnt": 6,
+    "injuryFlag": 1,
+    "personId": 359831,
+    "personName": "F. Uduokhai",
+    "playerPositionCode": "Defender",
+    "playerPositionDesc": "后卫",
+    "startedMatchCnt": 6,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "2"
+   },
+   {
+    "appearanceCnt": 0,
+    "injuryFlag": 1,
+    "personId": 419553,
+    "personName": "S. Nsoki",
+    "playerPositionCode": "Defender",
+    "playerPositionDesc": "后卫",
+    "startedMatchCnt": 0,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "34"
+   },
+   {
+    "appearanceCnt": 0,
+    "injuryFlag": 1,
+    "personId": 579566,
+    "personName": "A. Ilić",
+    "playerPositionCode": "Attacker",
+    "playerPositionDesc": "前锋",
+    "startedMatchCnt": 0,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "23"
+   },
+   {
+    "appearanceCnt": 0,
+    "injuryFlag": 1,
+    "personId": 785537,
+    "personName": "A. Markgraf",
+    "playerPositionCode": "Defender",
+    "playerPositionDesc": "后卫",
+    "startedMatchCnt": 0,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "3"
+   }
+  ],
+  "a_list": [
+   {
+    "appearanceCnt": 5,
+    "injuryFlag": 1,
+    "personId": 280199,
+    "personName": "斯科西里",
+    "playerPositionCode": "Midfielder",
+    "playerPositionDesc": "中场",
+    "startedMatchCnt": 3,
+    "substituteMatchCnt": 2,
+    "suspensionFlag": 0,
+    "uniformNo": "6"
+   },
+   {
+    "appearanceCnt": 4,
+    "injuryFlag": 1,
+    "personId": 452046,
+    "personName": "R. Ache",
+    "playerPositionCode": "Forward",
+    "playerPositionDesc": "前锋",
+    "startedMatchCnt": 2,
+    "substituteMatchCnt": 2,
+    "suspensionFlag": 0,
+    "uniformNo": "9"
+   },
+   {
+    "appearanceCnt": 2,
+    "injuryFlag": 1,
+    "personId": 469845,
+    "personName": "I.朗迪奇",
+    "playerPositionCode": "Forward",
+    "playerPositionDesc": "前锋",
+    "startedMatchCnt": 0,
+    "substituteMatchCnt": 2,
+    "suspensionFlag": 0,
+    "uniformNo": "15"
+   },
+   {
+    "appearanceCnt": 3,
+    "injuryFlag": 1,
+    "personId": 512732,
+    "personName": "T. Dallinga",
+    "playerPositionCode": "Forward",
+    "playerPositionDesc": "前锋",
+    "startedMatchCnt": 2,
+    "substituteMatchCnt": 1,
+    "suspensionFlag": 0,
+    "uniformNo": "27"
+   },
+   {
+    "appearanceCnt": 0,
+    "injuryFlag": 1,
+    "personId": 665800,
+    "personName": "R. van den Berg",
+    "playerPositionCode": "Defender",
+    "playerPositionDesc": "后卫",
+    "startedMatchCnt": 0,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "33"
+   },
+   {
+    "appearanceCnt": 0,
+    "injuryFlag": 1,
+    "personId": 804743,
+    "personName": "M. El Mala",
+    "playerPositionCode": "Forward",
+    "playerPositionDesc": "前锋",
+    "startedMatchCnt": 0,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "19"
+   }
+  ],
+  "h": "柏林联合",
+  "a": "科隆"
+ },
+ "格罗宁根|鹿特丹斯巴达": {
+  "num": "周日015",
+  "h_list": [
+   {
+    "appearanceCnt": 0,
+    "injuryFlag": 1,
+    "personId": 632550,
+    "personName": "R.詹斯",
+    "playerPositionCode": "Goalkeeper",
+    "playerPositionDesc": "守门员",
+    "startedMatchCnt": 0,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "31"
+   },
+   {
+    "appearanceCnt": 6,
+    "injuryFlag": 1,
+    "personId": 695510,
+    "personName": "T. Hearnes",
+    "playerPositionCode": "Midfielder",
+    "playerPositionDesc": "中场",
+    "startedMatchCnt": 0,
+    "substituteMatchCnt": 6,
+    "suspensionFlag": 0,
+    "uniformNo": "7"
+   },
+   {
+    "appearanceCnt": 6,
+    "injuryFlag": 1,
+    "personId": 695510,
+    "personName": "T. Hearnes",
+    "playerPositionCode": "Midfielder",
+    "playerPositionDesc": "中场",
+    "startedMatchCnt": 0,
+    "substituteMatchCnt": 6,
+    "suspensionFlag": 0,
+    "uniformNo": "7"
+   },
+   {
+    "appearanceCnt": 10,
+    "injuryFlag": 1,
+    "personId": 697116,
+    "personName": "T. van Bergen",
+    "playerPositionCode": "Forward",
+    "playerPositionDesc": "前锋",
+    "startedMatchCnt": 10,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "26"
+   },
+   {
+    "appearanceCnt": 3,
+    "injuryFlag": 1,
+    "personId": 724256,
+    "personName": "M. Brandis",
+    "playerPositionCode": "Defender",
+    "playerPositionDesc": "后卫",
+    "startedMatchCnt": 0,
+    "substituteMatchCnt": 3,
+    "suspensionFlag": 0,
+    "uniformNo": "12"
+   },
+   {
+    "appearanceCnt": 0,
+    "injuryFlag": 1,
+    "personId": 786475,
+    "personName": "M. Jeng",
+    "playerPositionCode": "Defender",
+    "playerPositionDesc": "后卫",
+    "startedMatchCnt": 0,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "21"
+   },
+   {
+    "appearanceCnt": 1,
+    "injuryFlag": 1,
+    "personId": 830666,
+    "personName": "T. Mercera",
+    "playerPositionCode": "Defender",
+    "playerPositionDesc": "后卫",
+    "startedMatchCnt": 0,
+    "substituteMatchCnt": 1,
+    "suspensionFlag": 0,
+    "uniformNo": "29"
+   },
+   {
+    "appearanceCnt": 4,
+    "injuryFlag": 1,
+    "personId": 882490,
+    "personName": "E. van der Laan",
+    "playerPositionCode": "Defender",
+    "playerPositionDesc": "后卫",
+    "startedMatchCnt": 1,
+    "substituteMatchCnt": 3,
+    "suspensionFlag": 0,
+    "uniformNo": "15"
+   }
+  ],
+  "a_list": [
+   {
+    "appearanceCnt": 5,
+    "injuryFlag": 1,
+    "personId": 640252,
+    "personName": "S.水户",
+    "playerPositionCode": "Forward",
+    "playerPositionDesc": "前锋",
+    "startedMatchCnt": 5,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "0"
+   }
+  ],
+  "h": "格罗宁根",
+  "a": "鹿特丹斯巴达"
+ },
+ "利物浦|阿森纳": {
+  "num": "周日016",
+  "h_list": [
+   {
+    "appearanceCnt": 5,
+    "injuryFlag": 1,
+    "personId": 453104,
+    "personName": "弗林蓬",
+    "playerPositionCode": "Defender",
+    "playerPositionDesc": "后卫",
+    "startedMatchCnt": 2,
+    "substituteMatchCnt": 3,
+    "suspensionFlag": 0,
+    "uniformNo": "30"
+   },
+   {
+    "appearanceCnt": 8,
+    "injuryFlag": 1,
+    "personId": 459276,
+    "personName": "R. Araújo",
+    "playerPositionCode": "Defender",
+    "playerPositionDesc": "后卫",
+    "startedMatchCnt": 6,
+    "substituteMatchCnt": 2,
+    "suspensionFlag": 0,
+    "uniformNo": "33"
+   },
+   {
+    "appearanceCnt": 6,
+    "injuryFlag": 1,
+    "personId": 463719,
+    "personName": "索博斯洛伊",
+    "playerPositionCode": "Midfielder",
+    "playerPositionDesc": "中场",
+    "startedMatchCnt": 6,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "8"
+   },
+   {
+    "appearanceCnt": 0,
+    "injuryFlag": 1,
+    "personId": 499173,
+    "personName": "亚罗什",
+    "playerPositionCode": "Goalkeeper",
+    "playerPositionDesc": "守门员",
+    "startedMatchCnt": 0,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "56"
+   },
+   {
+    "appearanceCnt": 0,
+    "injuryFlag": 1,
+    "personId": 624582,
+    "personName": "H. Ekitike",
+    "playerPositionCode": "Attacker",
+    "playerPositionDesc": "前锋",
+    "startedMatchCnt": 0,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "22"
+   },
+   {
+    "appearanceCnt": 0,
+    "injuryFlag": 1,
+    "personId": 632251,
+    "personName": "C.布拉德利",
+    "playerPositionCode": "Defender",
+    "playerPositionDesc": "后卫",
+    "startedMatchCnt": 0,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "12"
+   },
+   {
+    "appearanceCnt": 7,
+    "injuryFlag": 1,
+    "personId": 756259,
+    "personName": "Víctor Muñoz",
+    "playerPositionCode": "Forward",
+    "playerPositionDesc": "前锋",
+    "startedMatchCnt": 5,
+    "substituteMatchCnt": 2,
+    "suspensionFlag": 0,
+    "uniformNo": "23"
+   },
+   {
+    "appearanceCnt": 0,
+    "injuryFlag": 1,
+    "personId": 780973,
+    "personName": "G. Leoni",
+    "playerPositionCode": "Defender",
+    "playerPositionDesc": "后卫",
+    "startedMatchCnt": 0,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "15"
+   }
+  ],
+  "a_list": [
+   {
+    "appearanceCnt": 2,
+    "injuryFlag": 0,
+    "personId": 818770,
+    "personName": "M. Dowman",
+    "playerPositionCode": "Forward",
+    "playerPositionDesc": "前锋",
+    "startedMatchCnt": 0,
+    "substituteMatchCnt": 2,
+    "suspensionFlag": 1,
+    "uniformNo": "56"
+   },
+   {
+    "appearanceCnt": 8,
+    "injuryFlag": 1,
+    "personId": 362649,
+    "personName": "梅里诺",
+    "playerPositionCode": "Midfielder",
+    "playerPositionDesc": "中场",
+    "startedMatchCnt": 1,
+    "substituteMatchCnt": 7,
+    "suspensionFlag": 0,
+    "uniformNo": "23"
+   },
+   {
+    "appearanceCnt": 8,
+    "injuryFlag": 1,
+    "personId": 408158,
+    "personName": "赖斯",
+    "playerPositionCode": "Midfielder",
+    "playerPositionDesc": "中场",
+    "startedMatchCnt": 8,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "41"
+   },
+   {
+    "appearanceCnt": 5,
+    "injuryFlag": 1,
+    "personId": 509344,
+    "personName": "C. Madueke",
+    "playerPositionCode": "Forward",
+    "playerPositionDesc": "前锋",
+    "startedMatchCnt": 2,
+    "substituteMatchCnt": 3,
+    "suspensionFlag": 0,
+    "uniformNo": "20"
+   },
+   {
+    "appearanceCnt": 8,
+    "injuryFlag": 1,
+    "personId": 572184,
+    "personName": "卡拉菲奥里",
+    "playerPositionCode": "Defender",
+    "playerPositionDesc": "后卫",
+    "startedMatchCnt": 7,
+    "substituteMatchCnt": 1,
+    "suspensionFlag": 0,
+    "uniformNo": "33"
+   },
+   {
+    "appearanceCnt": 5,
+    "injuryFlag": 1,
+    "personId": 574629,
+    "personName": "C. Tzolis",
+    "playerPositionCode": "Forward",
+    "playerPositionDesc": "前锋",
+    "startedMatchCnt": 5,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "17"
+   }
+  ],
+  "h": "利物浦",
+  "a": "阿森纳"
+ },
+ "法兰克福|汉堡": {
+  "num": "周日017",
+  "h_list": [
+   {
+    "appearanceCnt": 6,
+    "injuryFlag": 1,
+    "personId": 481786,
+    "personName": "L. Brassier",
+    "playerPositionCode": "Defender",
+    "playerPositionDesc": "后卫",
+    "startedMatchCnt": 6,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "3"
+   },
+   {
+    "appearanceCnt": 0,
+    "injuryFlag": 1,
+    "personId": 482259,
+    "personName": "J·恩甘坎",
+    "playerPositionCode": "Attacker",
+    "playerPositionDesc": "前锋",
+    "startedMatchCnt": 0,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "44"
+   },
+   {
+    "appearanceCnt": 2,
+    "injuryFlag": 1,
+    "personId": 906821,
+    "personName": "平蓬",
+    "playerPositionCode": "Forward",
+    "playerPositionDesc": "前锋",
+    "startedMatchCnt": 0,
+    "substituteMatchCnt": 2,
+    "suspensionFlag": 0,
+    "uniformNo": "35"
+   }
+  ],
+  "a_list": [
+   {
+    "appearanceCnt": 6,
+    "injuryFlag": 1,
+    "personId": 155071,
+    "personName": "尤拉里",
+    "playerPositionCode": "Forward",
+    "playerPositionDesc": "前锋",
+    "startedMatchCnt": 4,
+    "substituteMatchCnt": 2,
+    "suspensionFlag": 0,
+    "uniformNo": "15"
+   },
+   {
+    "appearanceCnt": 4,
+    "injuryFlag": 1,
+    "personId": 309268,
+    "personName": "托鲁纳里加",
+    "playerPositionCode": "Defender",
+    "playerPositionDesc": "后卫",
+    "startedMatchCnt": 4,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "23"
+   },
+   {
+    "appearanceCnt": 4,
+    "injuryFlag": 1,
+    "personId": 405920,
+    "personName": "P·达卡",
+    "playerPositionCode": "Forward",
+    "playerPositionDesc": "前锋",
+    "startedMatchCnt": 2,
+    "substituteMatchCnt": 2,
+    "suspensionFlag": 0,
+    "uniformNo": "27"
+   },
+   {
+    "appearanceCnt": 6,
+    "injuryFlag": 1,
+    "personId": 509320,
+    "personName": "Fabio Vieira",
+    "playerPositionCode": "Midfielder",
+    "playerPositionDesc": "中场",
+    "startedMatchCnt": 4,
+    "substituteMatchCnt": 2,
+    "suspensionFlag": 0,
+    "uniformNo": "20"
+   },
+   {
+    "appearanceCnt": 5,
+    "injuryFlag": 1,
+    "personId": 562631,
+    "personName": "N.伦伯格",
+    "playerPositionCode": "Midfielder",
+    "playerPositionDesc": "中场",
+    "startedMatchCnt": 5,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "21"
+   },
+   {
+    "appearanceCnt": 6,
+    "injuryFlag": 1,
+    "personId": 592360,
+    "personName": "N. Capaldo",
+    "playerPositionCode": "Midfielder",
+    "playerPositionDesc": "中场",
+    "startedMatchCnt": 6,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "24"
+   },
+   {
+    "appearanceCnt": 4,
+    "injuryFlag": 1,
+    "personId": 677483,
+    "personName": "B. Nadir",
+    "playerPositionCode": "Midfielder",
+    "playerPositionDesc": "中场",
+    "startedMatchCnt": 3,
+    "substituteMatchCnt": 1,
+    "suspensionFlag": 0,
+    "uniformNo": "4"
+   }
+  ],
+  "h": "法兰克福",
+  "a": "汉堡"
+ },
+ "莱切|热那亚": {
+  "num": "周日018",
+  "h_list": [
+   {
+    "appearanceCnt": 6,
+    "injuryFlag": 0,
+    "personId": 666826,
+    "personName": "Kialonda Gaspar",
+    "playerPositionCode": "Defender",
+    "playerPositionDesc": "后卫",
+    "startedMatchCnt": 6,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 1,
+    "uniformNo": "4"
+   },
+   {
+    "appearanceCnt": 7,
+    "injuryFlag": 1,
+    "personId": 394335,
+    "personName": "拉萨纳·库里巴利",
+    "playerPositionCode": "Midfielder",
+    "playerPositionDesc": "中场",
+    "startedMatchCnt": 7,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "29"
+   },
+   {
+    "appearanceCnt": 5,
+    "injuryFlag": 1,
+    "personId": 467539,
+    "personName": "伊利奇",
+    "playerPositionCode": "Midfielder",
+    "playerPositionDesc": "中场",
+    "startedMatchCnt": 4,
+    "substituteMatchCnt": 1,
+    "suspensionFlag": 0,
+    "uniformNo": "20"
+   },
+   {
+    "appearanceCnt": 5,
+    "injuryFlag": 1,
+    "personId": 477859,
+    "personName": "热贝尔",
+    "playerPositionCode": "Forward",
+    "playerPositionDesc": "前锋",
+    "startedMatchCnt": 4,
+    "substituteMatchCnt": 1,
+    "suspensionFlag": 0,
+    "uniformNo": "69"
+   },
+   {
+    "appearanceCnt": 9,
+    "injuryFlag": 1,
+    "personId": 596383,
+    "personName": "K. Jocelyn",
+    "playerPositionCode": "Forward",
+    "playerPositionDesc": "前锋",
+    "startedMatchCnt": 4,
+    "substituteMatchCnt": 5,
+    "suspensionFlag": 0,
+    "uniformNo": "11"
+   },
+   {
+    "appearanceCnt": 7,
+    "injuryFlag": 1,
+    "personId": 606508,
+    "personName": "S. Pierotti",
+    "playerPositionCode": "Forward",
+    "playerPositionDesc": "前锋",
+    "startedMatchCnt": 5,
+    "substituteMatchCnt": 2,
+    "suspensionFlag": 0,
+    "uniformNo": "50"
+   },
+   {
+    "appearanceCnt": 1,
+    "injuryFlag": 1,
+    "personId": 694096,
+    "personName": "贝里沙",
+    "playerPositionCode": "Midfielder",
+    "playerPositionDesc": "中场",
+    "startedMatchCnt": 0,
+    "substituteMatchCnt": 1,
+    "suspensionFlag": 0,
+    "uniformNo": "10"
+   }
+  ],
+  "a_list": [
+   {
+    "appearanceCnt": 9,
+    "injuryFlag": 1,
+    "personId": 546873,
+    "personName": "M. Ellertsson",
+    "playerPositionCode": "Midfielder",
+    "playerPositionDesc": "中场",
+    "startedMatchCnt": 9,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "77"
+   },
+   {
+    "appearanceCnt": 0,
+    "injuryFlag": 1,
+    "personId": 629318,
+    "personName": "E. Havel",
+    "playerPositionCode": "Forward",
+    "playerPositionDesc": "前锋",
+    "startedMatchCnt": 0,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "17"
+   },
+   {
+    "appearanceCnt": 4,
+    "injuryFlag": 1,
+    "personId": 715725,
+    "personName": "S. Otoa",
+    "playerPositionCode": "Defender",
+    "playerPositionDesc": "后卫",
+    "startedMatchCnt": 3,
+    "substituteMatchCnt": 1,
+    "suspensionFlag": 0,
+    "uniformNo": "34"
+   },
+   {
+    "appearanceCnt": 0,
+    "injuryFlag": 1,
+    "personId": 832474,
+    "personName": "J. Nuredini",
+    "playerPositionCode": "Attacker",
+    "playerPositionDesc": "前锋",
+    "startedMatchCnt": 0,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "19"
+   },
+   {
+    "appearanceCnt": 0,
+    "injuryFlag": 1,
+    "personId": 836516,
+    "personName": "L. Venturino",
+    "playerPositionCode": "Attacker",
+    "playerPositionDesc": "前锋",
+    "startedMatchCnt": 0,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "76"
+   },
+   {
+    "appearanceCnt": 5,
+    "injuryFlag": 1,
+    "personId": 861609,
+    "personName": "E. Meichtry",
+    "playerPositionCode": "Midfielder",
+    "playerPositionDesc": "中场",
+    "startedMatchCnt": 0,
+    "substituteMatchCnt": 5,
+    "suspensionFlag": 0,
+    "uniformNo": "11"
+   }
+  ],
+  "h": "莱切",
+  "a": "热那亚"
+ },
+ "马赛|图卢兹": {
+  "num": "周日022",
+  "h_list": [
+   {
+    "appearanceCnt": 3,
+    "injuryFlag": 1,
+    "personId": 289024,
+    "personName": "科尼利厄斯",
+    "playerPositionCode": "Defender",
+    "playerPositionDesc": "后卫",
+    "startedMatchCnt": 0,
+    "substituteMatchCnt": 3,
+    "suspensionFlag": 0,
+    "uniformNo": "13"
+   }
+  ],
+  "a_list": [
+   {
+    "appearanceCnt": 8,
+    "injuryFlag": 1,
+    "personId": 727832,
+    "personName": "R. Messali",
+    "playerPositionCode": "Midfielder",
+    "playerPositionDesc": "中场",
+    "startedMatchCnt": 6,
+    "substituteMatchCnt": 2,
+    "suspensionFlag": 0,
+    "uniformNo": "22"
+   }
+  ],
+  "h": "马赛",
+  "a": "图卢兹"
+ },
+ "毕尔巴鄂|皇家社会": {
+  "num": "周日023",
+  "h_list": [
+   {
+    "appearanceCnt": 9,
+    "injuryFlag": 1,
+    "personId": 200890,
+    "personName": "Ruiz de Galarreta",
+    "playerPositionCode": "Midfielder",
+    "playerPositionDesc": "中场",
+    "startedMatchCnt": 8,
+    "substituteMatchCnt": 1,
+    "suspensionFlag": 0,
+    "uniformNo": "16"
+   },
+   {
+    "appearanceCnt": 0,
+    "injuryFlag": 1,
+    "personId": 694437,
+    "personName": "Á. Padilla",
+    "playerPositionCode": "Goalkeeper",
+    "playerPositionDesc": "守门员",
+    "startedMatchCnt": 0,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "13"
+   },
+   {
+    "appearanceCnt": 0,
+    "injuryFlag": 1,
+    "personId": 754172,
+    "personName": "Unai Eguíluz",
+    "playerPositionCode": "Defender",
+    "playerPositionDesc": "后卫",
+    "startedMatchCnt": 0,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": ""
+   },
+   {
+    "appearanceCnt": 8,
+    "injuryFlag": 1,
+    "personId": 811821,
+    "personName": "Peio Canales",
+    "playerPositionCode": "Midfielder",
+    "playerPositionDesc": "中场",
+    "startedMatchCnt": 5,
+    "substituteMatchCnt": 3,
+    "suspensionFlag": 0,
+    "uniformNo": "28"
+   }
+  ],
+  "a_list": [
+   {
+    "appearanceCnt": 0,
+    "injuryFlag": 1,
+    "personId": 311705,
+    "personName": "Álvaro Odriozola",
+    "playerPositionCode": "Defender",
+    "playerPositionDesc": "后卫",
+    "startedMatchCnt": 0,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "20"
+   },
+   {
+    "appearanceCnt": 9,
+    "injuryFlag": 1,
+    "personId": 404347,
+    "personName": "Carlos Soler",
+    "playerPositionCode": "Midfielder",
+    "playerPositionDesc": "中场",
+    "startedMatchCnt": 7,
+    "substituteMatchCnt": 2,
+    "suspensionFlag": 0,
+    "uniformNo": "18"
+   },
+   {
+    "appearanceCnt": 3,
+    "injuryFlag": 1,
+    "personId": 879061,
+    "personName": "Luken Beitia",
+    "playerPositionCode": "Defender",
+    "playerPositionDesc": "后卫",
+    "startedMatchCnt": 3,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "34"
+   }
+  ],
+  "h": "毕尔巴鄂竞技",
+  "a": "皇家社会"
+ }
+}
