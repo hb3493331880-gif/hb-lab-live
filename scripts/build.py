@@ -39,6 +39,8 @@ def main():
     step('4/6 抓取大乐透开奖 + 选号', [os.path.join('scripts', 'fetch_dlt.py')], required=False)
     step('5/6 生成单页', ['make_live.py'], cwd=os.path.join(BASE, 'engine'))
     step('6/6 后处理（文案/布局修正）', [os.path.join('scripts', 'postfix.py')])
+    # 7/7：模板里「今日竞彩 / 今日北单 / 2串1」是写死的旧快照，必须用当天抓到的真实数据覆盖
+    step('7/7 今日数据覆盖（竞彩/北单/2串1）', [os.path.join('scripts', 'fix_today.py')])
 
     p = os.path.join(BASE, 'index.html')
     if not os.path.exists(p):
