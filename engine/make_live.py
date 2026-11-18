@@ -389,6 +389,95 @@ if os.path.exists(bjdc_path):
         _m['conf'] = _m.get('main_p') or (_m['mp'][_mi] if (_mi is not None and len(_m['mp']) == 3) else 0)
         _c = _m['conf'] or 0
         _m['star'] = 5 if _c >= 70 else (4 if _c >= 60 else (3 if _c >= 50 else 2))
+
+    # ★ 北单补算：SP 有值但 fus/final 缺失 → mp 被填成 [0,0,0]，卡片显示 0%、方向空、无分析。
+    #   这里用去水概率补齐 mp/conf/star/main，并写一段可核查的分析（只用本页 SP + 归档真实赛果）。
+    import os as _os
+    _arc_path = _os.path.join(BASE, 'data', '_archive_done.json')
+    _bst = {'tot': 0, 'draw': 0, 'flip': 0, 'fl': {}, 'lg': {}, 'band': {}}
+    try:
+        _arc = json.load(open(_arc_path, encoding='utf-8'))
+        for _x in _arc:
+            if not _x.get('actual'):
+                continue
+            _bst['tot'] += 1
+            if _x['actual'] == '平局':
+                _bst['draw'] += 1
+            if _x.get('main') and _x['actual'] != _x.get('main'):
+                _bst['flip'] += 1
+                _bst['fl'][_x['actual']] = _bst['fl'].get(_x['actual'], 0) + 1
+            _g = _x.get('lg') or ''
+            if _g:
+                _d = _bst['lg'].setdefault(_g, [0, 0])
+                _d[1] += 1
+                if _x['actual'] == '平局':
+                    _d[0] += 1
+            if _x.get('main_p') and _x.get('actual'):
+                _b0 = int(float(_x['main_p']) // 5) * 5
+                _s0 = _bst['band'].setdefault(_b0, [0, 0])
+                _s0[1] += 1
+                if _x['actual'] == _x.get('main'):
+                    _s0[0] += 1
+    except Exception:
+        pass
+    _nFix = 0
+    for _m in bjdc.get('matches', []):
+        if _m.get('ana'):
+            continue
+        _sp = _m.get('sp') or []
+        _ok = len(_sp) == 3 and all(isinstance(v, (int, float)) and v > 1.001 for v in _sp)
+        _lb = _m.get('lbl') or ['主胜', '平局', '客胜']
+        if not _ok:
+            _m['ana'] = ('【分析】本场 SP 未获取（官方未开售或无盘口），按铁律不推方向、不编概率，只列赛程；'
+                         '开售后自动补。')
+            continue
+        if not any(_m.get('mp') or []):
+            _inv = [1.0 / x for x in _sp]
+            _sum = sum(_inv)
+            _p3 = [x / _sum * 100 for x in _inv]
+            _m['mp'] = [int(round(x)) for x in _p3]
+            _mi0 = max(range(3), key=lambda i: _p3[i])
+            _m['main'] = _lb[_mi0]
+            _m['rec'] = _mi0
+            _m['conf'] = _m['mp'][_mi0]
+            _c0 = _m['conf']
+            _m['star'] = 5 if _c0 >= 70 else (4 if _c0 >= 60 else (3 if _c0 >= 50 else 2))
+            _nFix += 1
+        _mp = _m.get('mp') or [0, 0, 0]
+        _mi = _m.get('rec')
+        _top = _mp[_mi] if isinstance(_mi, int) and len(_mp) == 3 else max(_mp)
+        _parts = ['【定价】SP %.2f/%.2f/%.2f 去水后 %.1f/%.1f/%.1f，主推 %s。'
+                  % (_sp[0], _sp[1], _sp[2], _mp[0], _mp[1], _mp[2], _lb[_mi] if isinstance(_mi, int) else _lb[0])]
+        _b = int(_top // 5) * 5
+        _s2 = _bst['band'].get(_b)
+        if _s2 and _s2[1] >= 8:
+            _hit = _s2[0] / _s2[1] * 100
+            _parts.append('【同档校准】%d-%d%% 档归档 %d 场命中 %.1f%%（差 %+.1f）。'
+                          % (_b, _b + 5, _s2[1], _hit, _hit - _top))
+        else:
+            _parts.append('【同档校准】%d-%d%% 档归档不足 8 场，样本不足不评。' % (_b, _b + 5))
+        if _bst['tot']:
+            _parts.append('【翻车形态】归档 %d 场主推未中 %d 场（%.1f%%），其中平局 %d、客胜 %d、主胜 %d；'
+                          '全样本平局率 %.1f%%。'
+                          % (_bst['tot'], _bst['flip'], _bst['flip'] / _bst['tot'] * 100,
+                             _bst['fl'].get('平局', 0), _bst['fl'].get('客胜', 0), _bst['fl'].get('主胜', 0),
+                             _bst['draw'] / _bst['tot'] * 100))
+        _lgm = _m.get('lg') or ''
+        _lsm = _bst['lg'].get(_lgm)
+        if _lsm and _lsm[1] >= 8:
+            _parts.append('【联赛平局特性】%s 归档 %d 场平局 %d 场（%.1f%%）。'
+                          % (_lgm, _lsm[1], _lsm[0], _lsm[0] / _lsm[1] * 100))
+        else:
+            _parts.append('【联赛平局特性】%s 归档样本不足 8 场，不给基准。' % (_lgm or '本场联赛'))
+        _parts.append('【情报缺口】本场没跑 500 数据页，近况/阵容/交锋留空不编；要看就说一声，我按竞彩那条链路补抓。')
+        _parts.append('【结论】%s %.1f%%%s。北单返奖率约 65%%，同样一笔钱长期亏得比竞彩多，注量要压住。'
+                      % (_lb[_mi] if isinstance(_mi, int) else _lb[0], _top,
+                         '，平局偏热方向不稳，可考虑整场放弃' if _mp[1] >= 27 else '，按单场口径执行，不做长串'))
+        _m['ana'] = '\n'.join(_parts)
+        _m['ana_ver'] = 'bj-inline'
+    if _nFix:
+        print('  北单补算概率：%d 场（SP 有值但 fus 缺失）' % _nFix)
+
     inline += '<script>window.__BJDC__=%s;</script>\n' % jd(
         bjdc, ensure_ascii=False, separators=(',', ':'))
 
