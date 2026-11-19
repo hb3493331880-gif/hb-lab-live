@@ -1,0 +1,31 @@
+run at 2026-11-19 11:50:00 UTC
+=== A: 无 Referer ===
+A code=200 bytes=66890 拜仁=0 赔率节点=0
+=== B: 带 Referer（脚本现在的写法）===
+B code=200 bytes=66890 拜仁=0
+=== C: 带 Referer + Accept-Language ===
+C code=200 bytes=66890 拜仁=0
+=== 内容抽样（A 文件里的队名/赔率行）===
+--- 前 300 字节 ---
+
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="GBK">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="robots" content="all" />
+<meta name="copyright" content="�Ŀ���" />
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-sc
+=== 情报页 form.php ===
+form code=405 bytes=2657
+=== 新浪历史赛果 2026-11-15 ===
+sina code=200 bytes=84276 鹿岛=0 横滨=0
+--- sina 里的数据接口地址 ---
+http://match.sports.sina.com.cn/livecast/match/jump_to_live.php?type=serie_a
+http://match.sports.sina.com.cn/livecast/match/jump_to_live.php?type=premier_league
+http://match.sports.sina.com.cn/livecast/match/jump_to_live.php?type=primera_division
+http://match.sports.sina.com.cn/livecast/match/jump_to_live.php?type=bundesliga
+http://match.sports.sina.com.cn/livecast/match/jump_to_live.php?type=ligue_1
+http://match.sports.sina.com.cn/livecast/match/jump_to_live.php?type=champions_league
+http://match.sports.sina.com.cn/livecast/match/jump_to_live.php?type=UEFA
+http://match.sports.sina.com.cn/football/team.php?id=1&f=1
