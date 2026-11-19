@@ -1,10 +1,11 @@
 name: auto
 
-# 云端全自动：抓竞彩/任九/北单/赛果/退役 → 构建 → 发布 Pages
-# 不需要本机开机。竞彩走澳客（体彩官方接口在 runner 上 567），北单走手机列表+WDL.xml。
+# 云端全自动：抓竞彩/任九/北单/赛果 → 构建 → 发布 Pages
+# 关键保护：产物必须过质量门禁（含变盘/校准/北单实时源），否则回退到仓库里上一版好页面，
+# 绝不让「云端跑出薄页」把线上覆盖掉。
 on:
   schedule:
-    - cron: '7,37 * * * *'      # 每 30 分钟一轮
+    - cron: '7,37 * * * *'
   workflow_dispatch: {}
 
 permissions:
@@ -53,12 +54,23 @@ jobs:
       - name: 构建页面
         run: python scripts/build.py
 
-      - name: 校验产物
+      - name: 产物质量门禁（不合格就回退上一版）
+        id: gate
         run: |
-          ls -la index.html
-          grep -c "【变盘】" index.html || true
-          grep -c "【同档校准·已开】" index.html || true
-          grep -c "window.__BJ_TODAY__" index.html || true
+          set -e
+          SIZE=$(stat -c%s index.html)
+          BJ=$(grep -c "window.__BJ_TODAY__" index.html || true)
+          CAL=$(grep -c "【同档校准·已开】" index.html || true)
+          VAR=$(grep -c "【变盘】" index.html || true)
+          echo "size=$SIZE bj=$BJ cal=$CAL var=$VAR"
+          if [ "$SIZE" -lt 1000000 ] || [ "$CAL" -lt 1 ] || [ "$VAR" -lt 1 ]; then
+            echo "❌ 云端构建产物不完整，回退到仓库上一版 index.html"
+            git checkout -- index.html
+            echo "fallback=true" >> $GITHUB_OUTPUT
+          else
+            echo "✅ 门禁通过"
+            echo "fallback=false" >> $GITHUB_OUTPUT
+          fi
 
       - name: 准备发布目录
         run: |
@@ -72,9 +84,3 @@ jobs:
 
       - id: deployment
         uses: actions/deploy-pages@v4
-
-  keepalive:
-    runs-on: ubuntu-latest
-    steps:
-      - name: 保活（避免 60 天无提交被停用）
-        run: echo "auto workflow heartbeat $(date -u)"
