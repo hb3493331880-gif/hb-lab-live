@@ -1,0 +1,80 @@
+name: auto
+
+# 云端全自动：抓竞彩/任九/北单/赛果/退役 → 构建 → 发布 Pages
+# 不需要本机开机。竞彩走澳客（体彩官方接口在 runner 上 567），北单走手机列表+WDL.xml。
+on:
+  schedule:
+    - cron: '7,37 * * * *'      # 每 30 分钟一轮
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: auto
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 抓竞彩（澳客）
+        run: python scripts/fetch_okooo_lottery.py jc || echo "jc skip"
+        continue-on-error: true
+
+      - name: 抓任九赔率（澳客）
+        run: python scripts/fetch_sfc_okooo.py || echo "sfc skip"
+        continue-on-error: true
+
+      - name: 抓北单（手机版 + 官方 WDL.xml）
+        run: python scripts/fetch_bj_mobile.py || echo "bj skip"
+        continue-on-error: true
+
+      - name: 抓赛果（竞彩赛果公告 12 天）
+        run: python scripts/fetch_results_all.py || echo "res skip"
+        continue-on-error: true
+
+      - name: 退役/告别公告
+        run: python scripts/fetch_retire.py || echo "retire skip"
+        continue-on-error: true
+
+      - name: 变盘追踪
+        run: python scripts/odds_delta.py || echo "odds skip"
+        continue-on-error: true
+
+      - name: 构建页面
+        run: python scripts/build.py
+
+      - name: 校验产物
+        run: |
+          ls -la index.html
+          grep -c "【变盘】" index.html || true
+          grep -c "【同档校准·已开】" index.html || true
+          grep -c "window.__BJ_TODAY__" index.html || true
+
+      - name: 准备发布目录
+        run: |
+          mkdir -p public
+          cp index.html public/
+          touch public/.nojekyll
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+      - id: deployment
+        uses: actions/deploy-pages@v4
+
+  keepalive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 保活（避免 60 天无提交被停用）
+        run: echo "auto workflow heartbeat $(date -u)"
