@@ -1,6 +1,6 @@
 name: daily
 
-# 每 30 分钟抓一次官方数据 → 重建单页 → 提交 → 直接部署到 Netlify（网址不变）
+# 每 30 分钟抓一次官方数据 → 重建单页 → 提交 → 发布到 GitHub Pages（免费，无额度限制，不会因额度暂停）
 # 也可以在 Actions 页面点 "Run workflow" 手动触发。
 on:
   schedule:
@@ -9,6 +9,8 @@ on:
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
 
 concurrency:
   group: daily
@@ -32,6 +34,7 @@ jobs:
         run: |
           mkdir -p public
           cp index.html public/index.html
+          printf '' > public/.nojekyll
           ls -l index.html public/index.html
 
       - name: 提交变更（有变化才提交）
@@ -43,18 +46,35 @@ jobs:
             echo "本轮无变化，跳过提交"
           else
             git commit -m "chore(auto): $(date -u '+%F %H:%M') UTC"
-            # 上一轮/本地可能刚推过，先 rebase 再推，避免 non-fast-forward 直接失败
             git pull --rebase --autostash origin "${GITHUB_REF_NAME:-main}" || true
             git push || (git pull --rebase --autostash origin "${GITHUB_REF_NAME:-main}" && git push)
           fi
 
-      - name: 部署到 Netlify
+      # 打包静态页，交给 Pages 发布（不再依赖 Netlify 额度）
+      - name: 打包 Pages 产物
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+      # Netlify 作为备份镜像：额度用完时这里会失败，但不影响 Pages 发布
+      - name: 部署到 Netlify（备份镜像，可失败）
+        continue-on-error: true
         env:
           NF_TOKEN: ${{ vars.NF_TOKEN }}
           NF_SITE_ID: ${{ vars.NF_SITE_ID }}
         run: python scripts/deploy_netlify.py
 
+  deploy:
+    needs: update
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: 发布到 GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
       - name: 回读线上首页
         run: |
-          curl -sS -o /tmp/live.html -w "HTTP %{http_code}  %{size_download} B\n" "https://${{ vars.NF_HOSTNAME }}/"
+          curl -sS -o /tmp/live.html -w "HTTP %{http_code}  %{size_download} B\n" "${{ steps.deployment.outputs.page_url }}" || true
           grep -o '<title>[^<]*</title>' /tmp/live.html || true
