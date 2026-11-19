@@ -137,8 +137,21 @@ def merge(pick, rows):
         t['o'] = r['o']
         t['odds'] = r['o']
         t['p'] = r['p']
-        t['rec'] = r['rec']
+        # 页面读的是 fus/main/main_p（不是 p/rec），只写 p/rec 会导致
+        # 卡片上「把握 undefined%」、推荐空 —— 这里把两套字段名都补齐
+        t['fus'] = r['p']
+        t['main'] = r['rec']
+        t['main_p'] = max(r['p'])
         t['draw_p'] = r['draw_p']
+        _i = r['p'].index(max(r['p']))
+        _lb = ['主胜', '平局', '客胜']
+        t['rec'] = _lb[_i]
+        _alt = max([j for j in range(3) if j != _i], key=lambda j: r['p'][j])
+        t['alt'] = _lb[_alt]
+        t['alt_p'] = r['p'][_alt]
+        t['gap'] = round(r['p'][_i] - r['p'][_alt], 1)
+        t['two'] = False
+        t['draw_cand'] = r['p'][1] >= 25.0
         t['no_odds'] = False
         t['src'] = 'okooo-m'
         hit += 1

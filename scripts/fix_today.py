@@ -125,8 +125,75 @@ def _bj_ana(m, sp, p, best, lg):
                      % (lg, ls[1], ls[0], ls[0] / ls[1] * 100, p[1]))
     else:
         parts.append('【联赛平局特性】%s 归档样本不足 8 场，不给基准。' % (lg or '本场联赛'))
-    parts.append('【情报缺口】北单这 22 场没跑 500 数据页（竞彩 8 场已接），近况/阵容/反转都不编；'
-                 '要看这些场次的情报，说一声我按同一条链路补抓。')
+    # ⑧ 澳客三维情报：近况/交锋 + 伤停阵容 + 技术统计 + 积分战意
+    #   数据来自 fetch_intel_okooo.py（/match/form.php、/match/game.php），零人工验证
+    oi = (load('intel_okooo.json') or {}).get('bj:%s' % (m.get('no') or '')) or {}
+    hv, av = oi.get('home') or {}, oi.get('away') or {}
+    if hv or av:
+        line = '【近况·澳客】'
+        if hv:
+            line += '%s 近10场 %d胜%d平%d负' % (m.get('h'), hv.get('w', 0), hv.get('d', 0), hv.get('l', 0))
+            if hv.get('venue'):
+                v = hv['venue']
+                line += '（主场 %d胜%d平%d负）' % (v.get('w', 0), v.get('d', 0), v.get('l', 0))
+            line += '；' if av else '。'
+        if av:
+            line += '%s 近10场 %d胜%d平%d负' % (m.get('a'), av.get('w', 0), av.get('d', 0), av.get('l', 0))
+            if av.get('venue'):
+                v = av['venue']
+                line += '（客场 %d胜%d平%d负）' % (v.get('w', 0), v.get('d', 0), v.get('l', 0))
+            line += '。'
+        parts.append(line)
+    if oi.get('h2h'):
+        h2 = oi['h2h']
+        sub = '【交锋】往绩主队 %d胜%d平%d负' % (h2.get('w', 0), h2.get('d', 0), h2.get('l', 0))
+        sub += '（澳客统计，仅参考，不进模型）。'
+        parts.append(sub)
+    inj, val, body = oi.get('inj'), oi.get('value') or [], oi.get('body') or []
+    if inj or val or body:
+        t = '【伤停·阵容】伤停：%s。' % (inj or '未采集')
+        if val:
+            t += '身价 %s vs %s。' % (val[0], val[1] if len(val) > 1 else '—')
+        if body:
+            t += '平均身高/年龄 %s vs %s。' % (body[0], body[1] if len(body) > 1 else '—')
+        parts.append(t)
+    tek = oi.get('tech') or {}
+    if tek:
+        g_h, g_a = (tek.get('goal') or {}).get('home') or {}, (tek.get('goal') or {}).get('away') or {}
+        l_h, l_a = (tek.get('loss') or {}).get('home') or {}, (tek.get('loss') or {}).get('away') or {}
+        s_h, s_a = (tek.get('shot') or {}).get('home') or {}, (tek.get('shot') or {}).get('away') or {}
+        p_h, p_a = (tek.get('poss') or {}).get('home') or {}, (tek.get('poss') or {}).get('away') or {}
+        parts.append('【技术统计·澳客近20场】场均进球 %s / %s（主场 %s / 客场 %s），场均失球 %s / %s，'
+                     '场均射门 %s / %s，控球 %s%% / %s%%。'
+                     % (g_h.get('all'), g_a.get('all'), g_h.get('venue'), g_a.get('venue'),
+                        l_h.get('all'), l_a.get('all'), s_h.get('all'), s_a.get('all'),
+                        p_h.get('all'), p_a.get('all')))
+    if hv.get('rank') and av.get('rank'):
+        diff = abs(int(hv['rank']) - int(av['rank']))
+        mood = ('两队位次接近，战意按常规主客场权重处理' if diff < 8
+                else '位次差 %d 位，积分诉求不对等，弱侧抢分动机更强' % diff)
+        parts.append('【积分·战意】积分榜第 %s 名（%s 分） vs 第 %s 名（%s 分）；%s。'
+                     % (hv['rank'], hv.get('pts'), av['rank'], av.get('pts'), mood))
+    if oi:
+        parts.append('【情报缺口】500 数据页被 EdgeOne 拦（且需人工验证），已改用澳客同源页面，'
+                     '伤停/阵容/技术/积分均已采集；名单未公布时页面写「无缺阵」，不补人名。')
+    else:
+        parts.append('【情报缺口】本场澳客未给到数据页（可能未开盘/已完赛），近况与阵容留空不编。')
+    _rmap = load('retire_map.json') or {}
+    _rn = []
+    for _tn in (m.get('h'), m.get('a')):
+        for _x in (_rmap.get(_tn) or [])[:2]:
+            if _x not in _rn:
+                _rn.append(_x)
+    if _rn:
+        parts.append('【退役·告别公告】%s（公开新闻，仅作背景）。' % '；'.join(_rn))
+    # 爆冷指数（同竞彩口径）：赔率集中度/平局热/名次逆风
+    _gap_p = mp - max([p[x] for x in range(3) if x != best])
+    _cold = (30 if _gap_p < 12 else 0) + (25 if p[1] >= 27 else 0)
+    _tag = '高' if _cold >= 60 else ('中' if _cold >= 35 else '低')
+    parts.append('【爆冷提示】冷门指数 %d/100（%s）：与次选仅差 %.1f 个百分点；%s。'
+                 % (_cold, _tag, _gap_p,
+                    '北单返奖率低于竞彩，这种风险位别当胆' if _cold >= 60 else '按常规单选处理'))
     if p[1] >= 27:
         parts.append('【结论】和联赛常态比平局偏热，方向不稳；北单返奖率低，建议降低注量或整场放弃。')
     else:
@@ -224,6 +291,127 @@ def replace_var(html, name, value):
     return html[:start] + lit + html[i:], True
 
 
+def _ft_index():
+    """赛果索引：(主,客) -> 比分 或 胜平负结论。
+
+    三个当场数据文件（竞彩/北单/任九）之外，再加归档 _archive_done.json——
+    历史注单（比如上周的 2串1）只在归档里有赛果，不把它接上，复盘永远是空的。
+    """
+    idx = {}
+    for name in ('full.json', '_bj_latest_full.json', 'sfc_pick.json'):
+        d = load(name) or {}
+        ms = d.get('matches') if isinstance(d, dict) else d
+        for m in (ms or []):
+            ft = m.get('ft')
+            if ft and m.get('h') and m.get('a'):
+                idx[(m['h'], m['a'])] = ft
+    # 逐日北单/任九历史文件（bj_2026MMDD.json、_sfc_result_*.json）里带真实比分，
+    # 不并进来，隔天就只剩 null —— 这就是「2串1 永远不复盘」的直接原因。
+    import glob as _g
+    def _walk(o, out):
+        if isinstance(o, list):
+            for x in o:
+                _walk(x, out)
+        elif isinstance(o, dict):
+            if o.get('h') and o.get('a'):
+                out.append(o)
+            for v in o.values():
+                if isinstance(v, (list, dict)):
+                    _walk(v, out)
+    ri = load('results_index.json') or {}
+    for r in (ri.get('rows') or []):
+        if r.get('h') and r.get('a') and r.get('ft'):
+            idx.setdefault((r['h'], r['a']), r['ft'])
+    for f in sorted(_g.glob(os.path.join(DATA, 'bj_2026*.json')) +
+                    _g.glob(os.path.join(DATA, '_sfc_result_*.json')) +
+                    _g.glob(os.path.join(DATA, 'history', '*.json'))):
+        try:
+            ms = []
+            _walk(json.load(io.open(f, encoding='utf-8')), ms)
+        except Exception:
+            continue
+        for m in ms:
+            ft = m.get('ft') or m.get('score') or m.get('real')
+            if ft:
+                idx.setdefault((m['h'], m['a']), ft)
+    for x in (load('_archive_done.json') or []):
+        if not (x.get('h') and x.get('a')):
+            continue
+        if x.get('ft') and str(x['ft']).count(':') + str(x['ft']).count('-') >= 1:
+            idx.setdefault((x['h'], x['a']), x['ft'])
+        elif x.get('actual'):
+            idx.setdefault((x['h'], x['a']), 'RES:' + x['actual'])
+    return idx
+
+
+def _score_res(ft):
+    try:
+        h, a = [int(x) for x in str(ft).replace('-', ':').split(':')[:2]]
+    except Exception:
+        return None
+    return '主胜' if h > a else ('客胜' if h < a else '平局')
+
+
+def backfill_combo(hist):
+    """2串1 复盘回填：每一腿按真实赛果判命中，整注命中/派奖/盈亏一起算回来。
+
+    口径：赛果只认抓回来的真实比分（full/北单/任九三处同一场比赛互相回填），
+    取不到就保持 null，不拿「差不多」去凑。
+    """
+    idx = _ft_index()
+    filled = 0
+    for d, rec in (hist or {}).items():
+        hit_all, odd_all, missing = True, 1.0, False
+        for leg in (rec.get('legs') or []):
+            ft = idx.get((leg.get('h'), leg.get('a')))
+            if not ft:
+                for (h, a), v in idx.items():
+                    if (leg.get('h') or '') and (leg['h'] in h or h in leg['h']):
+                        if (leg.get('a') or '') and (leg['a'] in a or a in leg['a']):
+                            ft = v
+                            break
+            if not ft:
+                missing = True
+                continue
+            if isinstance(ft, str) and ft.startswith('RES:'):
+                res = ft[4:]
+            else:
+                res = _score_res(ft)
+            leg['ft'] = ft
+            leg['actual'] = res
+            leg['hit'] = bool(res == leg.get('pick'))
+            if leg.get('odd'):
+                odd_all *= float(leg['odd'])
+            if not leg['hit']:
+                hit_all = False
+            filled += 1
+        if not missing and rec.get('legs'):
+            rec['hit'] = bool(hit_all)
+            rec['odd_all'] = round(odd_all, 2)
+            rec['payout'] = round(odd_all * 2, 2) if hit_all else 0.0      # 按 2 元一注算
+            rec['profit'] = round((odd_all - 1) * 2, 2) if hit_all else -2.0
+    return filled
+
+
+def review_stat():
+    """复盘统计：从归档真实赛果重算竞彩/北单方向命中率，替换页面写死的老快照。"""
+    arch = load('_archive_done.json') or []
+    def calc(rows):
+        n = len([x for x in rows if x.get('actual')])
+        dh = len([x for x in rows if x.get('actual') and x.get('main') and x['actual'] == x['main']])
+        dt = len([x for x in rows if x.get('actual') and x.get('main')])
+        return {'n': n, 'dirHit': dh, 'dirTotal': dt,
+                'dirPct': round(dh / dt * 100, 1) if dt else 0.0}
+    jc = [x for x in arch if str(x.get('kind') or '') in ('', 'jc', '竞彩')]
+    bj = [x for x in arch if str(x.get('kind') or '') in ('bj', '北单')]
+    out = {}
+    if jc:
+        out['jc'] = calc(jc)
+    if bj:
+        out['bj'] = calc(bj)
+    return out
+
+
 def main():
     if not os.path.isfile(PAGE):
         print('[fix_today] 缺 index.html，跳过')
@@ -266,9 +454,29 @@ def main():
             print('[fix_today] 生成 2串1：%s × %s · 理论赔率 %.2f · 命中概率 %.1f%%'
                   % (combo['legs'][0]['no'], combo['legs'][1]['no'],
                      combo['odd'], combo['pr'] * 100))
+    # ★ 2串1 复盘回填：原来这里只「冻结不重算」，赛果永远不写回，
+    #   页面上的旧串关就一直挂着 actual=null —— 现在每轮都按真实比分回填
+    _bf = backfill_combo(hist)
+    if _bf:
+        with io.open(os.path.join(DATA, 'combo_history.json'), 'w', encoding='utf-8') as f:
+            json.dump(hist, f, ensure_ascii=False, indent=1)
+        print('[fix_today] 2串1 复盘回填 %d 腿（含历史注单）' % _bf)
     html, ok3 = replace_var(html, '__COMBO_HISTORY__', hist)
     if not ok3:
         print('[fix_today] 未找到 __COMBO_HISTORY__')
+
+    # 任九页头：模板里 <span id="sfcIssueTxt"> 写死的是旧期（2026-09-20 · 第 26131 期），
+    # 页面 JS 虽然会用 SFC._期次 覆盖，但用户先看到的就是这行旧文案 —— 直接按当期改写。
+    sp = load('sfc_pick.json') or []
+    if sp:
+        iss = sp[0].get('issue') or ''
+        dts = sorted({x.get('date') for x in sp if x.get('date')})
+        rng = ('%s-%s' % (dts[0][5:], dts[-1][5:])) if dts else ''
+        head = ('%s · 第 %s 期 · 胜负彩 14 场选 9 场' % (rng or dts[0] if dts else '', iss))
+        m2 = re.search(r'(<span id="sfcIssueTxt">)([^<]*)(</span>)', html)
+        if m2 and iss:
+            html = html[:m2.start(2)] + head + html[m2.end(2):]
+            print('[fix_today] 任九页头改写为 第 %s 期' % iss)
 
     tmp = PAGE + '.tmp'
     with io.open(tmp, 'w', encoding='utf-8', newline='\n') as f:

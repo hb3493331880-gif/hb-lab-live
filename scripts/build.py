@@ -40,11 +40,20 @@ def main():
     step('3/6 抓取北单在售', [os.path.join('scripts', 'fetch_bjdc.py')], required=False)
     # 3b：北单逐场近况/交锋（澳客比赛页；500 全站被 EdgeOne 拦，云端只能走澳客）
     step('3b/6 北单情报（澳客近况/交锋）', [os.path.join('scripts', 'fetch_bj_okooo.py')], required=False)
+    # 3c：澳客三维情报（伤停阵容/技术统计/积分战意）——替代被封的 500 数据页，零人工验证
+    step('3c/6 三维情报（澳客）', [os.path.join('scripts', 'fetch_intel_okooo.py')], required=False)
+    # 3d：澳客赛果（复盘回填用）+ 当日快照（保住历史比分，否则隔天复盘永远查不到）
+    step('3d/6 赛果与历史快照', [os.path.join('scripts', 'fetch_results_okooo.py')], required=False)
+    step('3e/6 当日快照', [os.path.join('scripts', 'snapshot_history.py')], required=False)
+    # 3f：退役/告别公告（直播吧足球新闻，关键词过滤后按队名挂到对应场次）
+    step('3f/6 退役公告', [os.path.join('scripts', 'fetch_retire.py')], required=False)
     step('4/6 抓取大乐透开奖 + 选号', [os.path.join('scripts', 'fetch_dlt.py')], required=False)
     # 5/8：把浏览器抓下来的 500 数据页文本解析成 intel500.json（本地没有抓取目录就跳过）
     step('5/8 解析 500 情报', [os.path.join('scripts', 'parse_intel500.py')], required=False)
     # 5b：按归档真实赛果把每场分析从一句扩成多段（排名/校准/翻车/联赛平局/近况/交锋/伤停/结论）
     step('5/8 分析增强（归档实算）', [os.path.join('scripts', 'enrich_ana.py')], required=False)
+    # 5a：任九 14 场逐场分析（原本只有竞彩 8 场有分析，任九是 0/14）
+    step('5a/8 任九逐场分析', [os.path.join('scripts', 'enrich_sfc.py')], required=False)
     step('5/6 生成单页', ['make_live.py'], cwd=os.path.join(BASE, 'engine'))
     step('6/6 后处理（文案/布局修正）', [os.path.join('scripts', 'postfix.py')])
     # 7/7：模板里「今日竞彩 / 今日北单 / 2串1」是写死的旧快照，必须用当天抓到的真实数据覆盖

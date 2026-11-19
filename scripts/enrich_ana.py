@@ -26,6 +26,18 @@ ARCH = os.path.join(DATA, '_archive_done.json')
 INTEL = os.path.join(DATA, 'intel500.json')
 LB = ['主胜', '平局', '客胜']
 
+
+def _load_json(p):
+    try:
+        return json.load(io.open(p, encoding='utf-8'))
+    except Exception:
+        return {}
+
+
+# 澳客三维情报（伤停阵容 / 技术统计 / 积分战意），由 scripts/fetch_intel_okooo.py 抓
+OKO = _load_json(os.path.join(DATA, 'intel_okooo.json')) or {}
+RMAP = _load_json(os.path.join(DATA, 'retire_map.json')) or {}
+
 VERDICT_DRAW = ('胜平负：平局率28.4%偏高、方向不稳，建议降低单注信心或整场放弃'
                 '（注：双选虽能提高命中率，但成本翻倍，实测EV更差，不建议）')
 
@@ -69,8 +81,8 @@ def main():
     lg_stat = {}
     for x in arch:
         lg = x.get('lg') or ''
-        if not lg:
-            continue
+        if not lg or not x.get('actual'):
+            continue      # 没有赛果的场次不能进分母，否则平局率会被稀释成 0.x%
         d = lg_stat.setdefault(lg, [0, 0])
         d[1] += 1
         if x.get('actual') == '平局':
@@ -224,19 +236,122 @@ def main():
         # ⑨ 综合评估（脑图第十二条：置信度 / 风险等级 / 最终口径）
         gap = m.get('gap')
         star = '★★☆☆☆' if mp < 55 else ('★★★☆☆' if mp < 65 else ('★★★★☆' if mp < 75 else '★★★★★'))
+        # ★ 名次真正参与胜负判断：主推方向与联赛名次差明显逆向时降一档信心，
+        #   同向时维持。名次差按「每 6 位算一档」粗分，只在文字层做修正，
+        #   不改 p（赔率本身已含市场对名次的定价），这样既不编概率也用上了排名。
+        rank_note = ''
+        if hr and ar:
+            d_rank = int(hr) - int(ar)              # 正数=主队位次更好
+            side_ok = (main == '主胜' and d_rank > 0) or (main == '客胜' and d_rank < 0)
+            side_bad = (main == '主胜' and d_rank <= -6) or (main == '客胜' and d_rank >= 6)
+            if side_bad:
+                star = {'★★★★★': '★★★★☆', '★★★★☆': '★★★☆☆',
+                        '★★★☆☆': '★★☆☆☆', '★★☆☆☆': '★★☆☆☆'}.get(star, star)
+                rank_note = '；名次逆风（主队%d位/客队%d位），信心下调一档' % (int(hr), int(ar))
+            elif side_ok:
+                rank_note = '；名次同向（主队%d位/客队%d位），信心维持' % (int(hr), int(ar))
+            else:
+                rank_note = '；名次与方向不一致（主队%d位/客队%d位），按中性处理' % (int(hr), int(ar))
         risk = '高' if (gap is not None and float(gap) < 12) or p[1] >= 27 else (
             '中' if mp < 60 else '低')
-        parts.append('【综合评估】主推 %s %.1f%%（%s），与次选差 %s 个百分点；风险等级 %s。'
-                     '本页概率只由赔率去水得出，8 维因子只解释文字不参与计算，'
-                     '所以别把它当成比市场更准的独立预测。'
-                     % (main, mp, star, ('%.1f' % float(gap)) if gap is not None else '—', risk))
+        parts.append('【综合评估】主推 %s %.1f%%（%s），与次选差 %s 个百分点；风险等级 %s%s。'
+                     '本页概率只由赔率去水得出，名次/状态只用于信心与风险，不重算概率。'
+                     % (main, mp, star, ('%.1f' % float(gap)) if gap is not None else '—', risk, rank_note))
 
-        # ⑦ 结论
+        # ⑥b 退役/告别公告（只挂标题里明确出现该队的公开新闻）
+        _rn = []
+        for _tn in (m.get('h'), m.get('a')):
+            for _x in (RMAP.get(_tn) or [])[:2]:
+                if _x not in _rn:
+                    _rn.append(_x)
+        if _rn:
+            parts.append('【退役·告别公告】%s（公开新闻，仅作背景，不代表本场是告别战）。'
+                         % '；'.join(_rn))
+
+        # ⑦ 爆冷指数 + 换代观察（都在【结论】之前，结论要用到 _cold）
+        _others = [p[j] for j in range(3) if j != p.index(max(p))]
+        _gap_p = mp - max(_others)
+        _cold = 0
+        if _gap_p < 12:
+            _cold += 30
+        if p[1] >= 27:
+            _cold += 25
+        if hr and ar and abs(int(hr) - int(ar)) >= 6 and (
+                (main == '主胜' and int(hr) - int(ar) <= -6) or
+                (main == '客胜' and int(hr) - int(ar) >= 6)):
+            _cold += 25
+        if float(m.get('draw_p') or 0) >= 26:
+            _cold += 10
+        _tag = '高' if _cold >= 60 else ('中' if _cold >= 35 else '低')
+        if _cold >= 60:
+            add = '不适合当胆，串关避开或降注'
+        elif _cold >= 35:
+            add = '可作次选位，不建议单独重注'
+        else:
+            add = '可当常规单选'
+        parts.append('【爆冷提示】冷门指数 %d/100（%s）：与次选仅差 %.1f 个百分点%s；%s。'
+                     % (_cold, _tag, _gap_p, '，平局热度超 27%' if p[1] >= 27 else '', add))
+        _oi0 = OKO.get('jc:%s' % (m.get('no') or '')) or {}
+        _b0 = _oi0.get('body') or []
+        _ages = [int(x) for x in [re.search(r'(\d{2})岁', str(b)).group(1)
+                                 for b in _b0 if re.search(r'(\d{2})岁', str(b))]]
+        if _ages:
+            _old = max(_ages)
+            parts.append('【换代·告别观察】两队平均年龄 %s / %s，%s。公开渠道没有本场球员或教练的退役声明，'
+                         '所以不点名、不预测谁在哪场退役；要写「告别战」必须有官方或本人声明做依据。'
+                         % (_b0[0], _b0[1] if len(_b0) > 1 else '—',
+                            '平均年龄偏高（%d 岁），赛季末存在主力换代/离队可能，阵容稳定性打折扣' % _old
+                            if _old >= 29 else '年龄结构正常，换代因素可忽略（最高均龄 %d 岁）' % _old))
+        # 结论
         if p[1] >= 27:
             parts.append('【结论】' + VERDICT_DRAW)
         else:
-            parts.append('【结论】主推 %s 概率 %.1f%%，模型与该档历史命中率基本一致，'
-                         '按单选口径执行；不建议加双选（归档回测双选 EV 全面更差）。' % (main, mp))
+            parts.append('【结论】主推 %s 概率 %.1f%%，%s；不建议加双选（归档回测双选 EV 全面更差）。'
+                         % (main, mp,
+                            '冷门指数偏高，只作次选或降注' if _cold >= 60
+                            else ('按单选口径执行，可作串关胆' if _cold < 35
+                                  else '按单选口径执行，串关里别当胆')))
+
+        # ⑧ 澳客三维情报（伤停阵容 / 场均技术 / 积分战意）
+        #   500 数据页被 EdgeOne 拦，改走澳客 /match/form.php 与 /match/game.php，
+        #   这两个页面无需任何验证，云主机也能直连 —— 不再需要人工过验证。
+        _oi = OKO.get('jc:%s' % (m.get('no') or '')) or {}
+        _inj = _oi.get('inj')
+        _val = _oi.get('value') or []
+        _body = _oi.get('body') or []
+        if _inj or _val or _body:
+            _t = '【伤停·阵容】伤停：%s。' % (_inj or '未采集')
+            if _val:
+                _t += '身价 %s vs %s。' % (_val[0], _val[1] if len(_val) > 1 else '—')
+            if _body:
+                _t += '平均身高/年龄 %s vs %s。' % (_body[0], _body[1] if len(_body) > 1 else '—')
+            parts.append(_t)
+        _tek = _oi.get('tech') or {}
+        if _tek:
+            def _f(k, side):
+                v = (_tek.get(k) or {}).get(side) or {}
+                return v.get('all'), v.get('venue')
+            _hg, _hgv = _f('goal', 'home')
+            _ag, _agv = _f('goal', 'away')
+            _hl, _hlv = _f('loss', 'home')
+            _al, _alv = _f('loss', 'away')
+            _hs, _hsx = _f('shot', 'home')
+            _as_, _asx = _f('shot', 'away')
+            _hp, _hpx = _f('poss', 'home')
+            _ap, _apx = _f('poss', 'away')
+            parts.append('【技术统计·澳客近20场】场均进球 %s / %s（主场 %s / 客场 %s），'
+                         '场均失球 %s / %s，场均射门 %s / %s，控球 %s%% / %s%%。'
+                         % (_hg, _ag, _hgv, _agv, _hl, _al, _hs, _as_, _hp, _ap))
+        _hh = (_oi.get('home') or {}).get('rank')
+        _aa = (_oi.get('away') or {}).get('rank')
+        if _hh and _aa:
+            _hp2 = (_oi.get('home') or {}).get('pts')
+            _ap2 = (_oi.get('away') or {}).get('pts')
+            _mood = '两队位次接近，战意按常规主客场权重处理'
+            if abs(_hh - _aa) >= 8:
+                _mood = '位次差 %d 位，积分诉求不对等，弱侧抢分动机更强' % abs(_hh - _aa)
+            parts.append('【积分·战意】积分榜第 %d 名（%s 分） vs 第 %d 名（%s 分）；%s。'
+                         % (_hh, _hp2, _aa, _ap2, _mood))
 
         m['ana'] = ((base.rstrip('。') + '。') if base else '') + '\n'.join(parts)
         m['ana_ver'] = 'enrich-2'
