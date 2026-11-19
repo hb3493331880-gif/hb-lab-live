@@ -1,0 +1,18 @@
+run at 2026-11-19 11:54:00 UTC
+=== 任九脚本在 runner 上是否解析成功 ===
+[okooo] 期 26166（页面标注 26166，停售 11-20 22:00）解析到 14 场有欧赔
+       落盘 /home/runner/work/hb-lab-live/hb-lab-live/engine/data/sfc_okooo.json
+exit=0
+=== 竞彩/北单 候选源 ===
+200 189798 https://www.okooo.com/jingcai/
+403 0 https://m.okooo.com/jingcai/
+404 1072 https://m.okooo.com/beidan/
+404 10160 https://www.okooo.com/beidan/
+200 69210 https://live.500.com/
+000 69210 https://odds.500.com/fenxi/
+200 3832 https://www.leisu.com/odds
+000 3832 https://data.leisu.com/
+404 150 https://www.titan007.com/odds/
+200 46533 https://m.okooo.com/live/?date=2026-11-15
+=== 桌面 UA 访问澳客竞彩 ===
+200 189798 desktop-okooo-jingcai
