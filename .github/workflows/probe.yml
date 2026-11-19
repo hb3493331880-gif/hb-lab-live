@@ -1,0 +1,42 @@
+name: probe
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 探测各站可达性
+        run: |
+          UA_PC="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36"
+          UA_M="Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1"
+          probe () { code=$(curl -s -o /tmp/o -w "%{http_code}" -m 20 -A "$2" "$1" 2>/dev/null); sz=$(wc -c < /tmp/o 2>/dev/null); printf "%-6s %8s  %s\n" "$code" "$sz" "$1"; }
+          echo "=== 体彩/竞彩官方 ==="
+          probe "https://webapi.sporttery.cn/gateway/jc/football/getMatchCalculatorV1.qry?poolCode=hhad&channel=c" "$UA_PC"
+          probe "https://www.sporttery.cn/" "$UA_PC"
+          echo "=== 澳客 ==="
+          probe "https://m.okooo.com/zucai/?LotteryNo=26166" "$UA_M"
+          probe "https://www.okooo.com/" "$UA_PC"
+          echo "=== 500 ==="
+          probe "https://odds.500.com/" "$UA_PC"
+          probe "https://live.500.com/" "$UA_PC"
+          echo "=== 雷速 ==="
+          probe "https://www.leisu.com/" "$UA_PC"
+          probe "https://api.leisu.com/api/v1/match/list" "$UA_PC"
+          echo "=== 球探 ==="
+          probe "https://www.titan007.com/" "$UA_PC"
+          probe "https://vip.titan007.com/AsianOdds_n.aspx?id=1" "$UA_PC"
+          echo "=== 捷报 ==="
+          probe "https://www.nowscore.com/" "$UA_PC"
+          probe "https://live.nowscore.com/" "$UA_PC"
+          echo "=== 懂球帝 ==="
+          probe "https://www.dongqiudi.com/" "$UA_PC"
+          probe "https://www.dongqiudi.com/api/app/tabs/web/1.json" "$UA_PC"
+          echo "=== 直播吧 ==="
+          probe "https://news.zhibo8.com/zuqiu/" "$UA_PC"
+          echo "=== 网易/新浪 ==="
+          probe "https://match.sports.sina.com.cn/" "$UA_PC"
+          probe "https://sports.163.com/" "$UA_PC"
+          echo "=== 免费代理/中转 ==="
+          probe "https://r.jina.ai/https://m.okooo.com/zucai/?LotteryNo=26166" "$UA_PC"
