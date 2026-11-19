@@ -100,8 +100,9 @@
     "odd": 2.23,
     "p": 39.4,
     "conf": 25,
-    "actual": null,
-    "hit": null
+    "actual": "平局",
+    "hit": false,
+    "ft": "0:0"
    }
   ],
   "result": "pending",
@@ -136,8 +137,9 @@
     "odd": 2.23,
     "p": 39.4,
     "conf": 25,
-    "actual": null,
-    "hit": null
+    "actual": "平局",
+    "hit": false,
+    "ft": "0:0"
    }
   ],
   "result": "pending",
