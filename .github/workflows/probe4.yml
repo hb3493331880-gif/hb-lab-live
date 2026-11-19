@@ -1,0 +1,39 @@
+name: probe4
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  probe4:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: 在 runner 上跑澳客竞彩/北单解析
+        run: |
+          set +e
+          out=probe_log4.txt
+          : > $out
+          echo "run at $(date -u '+%F %T') UTC" >> $out
+          echo "=== 竞彩 ===" >> $out
+          python scripts/fetch_okooo_lottery.py jc >> $out 2>&1
+          echo "=== 北单 ===" >> $out
+          python scripts/fetch_okooo_lottery.py bj >> $out 2>&1
+          echo "=== 竞彩前 5 场 ===" >> $out
+          python - <<'PY' >> $out 2>&1
+          import json, io
+          d = json.load(io.open('engine/data/jc_okooo_page.json', encoding='utf-8'))
+          for m in d['matches'][:5]:
+              print(m['order'], m['lg'], m['h'], 'vs', m['a'], 'SP', m['sp'], 'rq', m['hcap'], 'sph', m['sph'])
+          print('总场次', d['count'])
+          PY
+          echo done
+      - name: 提交结果
+        run: |
+          git config user.name  "probe-bot"
+          git config user.email "probe-bot@users.noreply.github.com"
+          git add probe_log4.txt
+          git commit -m "test(probe4): runner 上解析澳客竞彩/北单" || true
+          git push || true
