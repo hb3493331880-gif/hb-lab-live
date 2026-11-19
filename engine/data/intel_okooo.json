@@ -1,0 +1,638 @@
+{
+ "jc:周四002": {
+  "home": {
+   "rank": 10,
+   "played": 34,
+   "w": 12,
+   "d": 8,
+   "l": 14,
+   "gf": 39,
+   "ga": 39,
+   "pts": 44,
+   "team": "圣保罗"
+  },
+  "away": {
+   "rank": 4,
+   "played": 34,
+   "w": 16,
+   "d": 9,
+   "l": 9,
+   "gf": 55,
+   "ga": 42,
+   "pts": 57,
+   "team": "弗鲁米嫩塞"
+  },
+  "h2h": {
+   "w": 3,
+   "d": 1,
+   "l": 6
+  },
+  "src": "okooo-/match/form.php",
+  "inj": "无缺阵",
+  "value": [
+   "7950万",
+   "7585万"
+  ],
+  "body": [
+   "180cm/29岁",
+   "180cm/33岁"
+  ],
+  "tech": {
+   "shot": {
+    "home": {
+     "all": 9.4,
+     "venue": 9.9
+    },
+    "away": {
+     "all": 7.4,
+     "venue": 8.8
+    }
+   },
+   "goal": {
+    "home": {
+     "all": 1.8,
+     "venue": 2.0
+    },
+    "away": {
+     "all": 1.5,
+     "venue": 1.7
+    }
+   },
+   "loss": {
+    "home": {
+     "all": 1.7,
+     "venue": 1.1
+    },
+    "away": {
+     "all": 1.8,
+     "venue": 1.3
+    }
+   },
+   "poss": {
+    "home": {
+     "all": 52.0,
+     "venue": 52.5
+    },
+    "away": {
+     "all": 54.53,
+     "venue": 58.85
+    }
+   }
+  },
+  "match_id": "1317041",
+  "fetched_at": "2026-11-19 14:26"
+ },
+ "jc:周四003": {
+  "home": {
+   "w": 3,
+   "d": 3,
+   "l": 4,
+   "venue": {
+    "w": 3,
+    "d": 1,
+    "l": 0
+   }
+  },
+  "away": {
+   "w": 4,
+   "d": 2,
+   "l": 4
+  },
+  "h2h": {
+   "w": 2,
+   "d": 3,
+   "l": 5
+  },
+  "src": "okooo-/match/form.php",
+  "inj": "未采集",
+  "value": [
+   "4883万",
+   "5885万"
+  ],
+  "body": [
+   "179cm/28岁",
+   "179cm/28岁"
+  ],
+  "tech": {
+   "shot": {
+    "home": {
+     "all": 8.4,
+     "venue": 7.9
+    },
+    "away": {
+     "all": 7.6,
+     "venue": 10.7
+    }
+   },
+   "goal": {
+    "home": {
+     "all": 2.3,
+     "venue": 2.7
+    },
+    "away": {
+     "all": 2.3,
+     "venue": 3.0
+    }
+   },
+   "loss": {
+    "home": {
+     "all": 2.2,
+     "venue": 1.6
+    },
+    "away": {
+     "all": 3.4,
+     "venue": 2.9
+    }
+   },
+   "poss": {
+    "home": {
+     "all": 52.25,
+     "venue": 45.89
+    },
+    "away": {
+     "all": 47.11,
+     "venue": 53.05
+    }
+   }
+  },
+  "match_id": "1350991",
+  "fetched_at": "2026-11-19 14:26"
+ },
+ "jc:周四004": {
+  "home": {
+   "w": 5,
+   "d": 2,
+   "l": 3,
+   "venue": {
+    "w": 4,
+    "d": 1,
+    "l": 1
+   }
+  },
+  "away": {
+   "w": 5,
+   "d": 1,
+   "l": 4
+  },
+  "h2h": {
+   "w": 3,
+   "d": 2,
+   "l": 5
+  },
+  "src": "okooo-/match/form.php",
+  "inj": "未采集",
+  "value": [
+   "4433万",
+   "5025万"
+  ],
+  "body": [
+   "181cm/29岁",
+   "181cm/27岁"
+  ],
+  "tech": {
+   "shot": {
+    "home": {
+     "all": 7.9,
+     "venue": 9.6
+    },
+    "away": {
+     "all": 7.5,
+     "venue": 8.4
+    }
+   },
+   "goal": {
+    "home": {
+     "all": 2.1,
+     "venue": 2.1
+    },
+    "away": {
+     "all": 1.4,
+     "venue": 2.2
+    }
+   },
+   "loss": {
+    "home": {
+     "all": 2.0,
+     "venue": 1.7
+    },
+    "away": {
+     "all": 2.3,
+     "venue": 1.9
+    }
+   },
+   "poss": {
+    "home": {
+     "all": 49.9,
+     "venue": 54.68
+    },
+    "away": {
+     "all": 46.95,
+     "venue": 48.74
+    }
+   }
+  },
+  "match_id": "1350992",
+  "fetched_at": "2026-11-19 14:26"
+ },
+ "bj:25": {
+  "home": {
+   "rank": 16,
+   "played": 34,
+   "w": 10,
+   "d": 8,
+   "l": 16,
+   "gf": 35,
+   "ga": 51,
+   "pts": 38,
+   "team": "维多利亚"
+  },
+  "away": {
+   "rank": 9,
+   "played": 34,
+   "w": 13,
+   "d": 8,
+   "l": 13,
+   "gf": 44,
+   "ga": 39,
+   "pts": 47,
+   "team": "布拉干蒂诺"
+  },
+  "h2h": {
+   "w": 4,
+   "d": 0,
+   "l": 6
+  },
+  "src": "okooo-/match/form.php",
+  "inj": "无缺阵",
+  "value": [
+   "875万",
+   "9455万"
+  ],
+  "body": [
+   "179cm/28岁",
+   "179cm/26岁"
+  ],
+  "tech": {
+   "shot": {
+    "home": {
+     "all": 8.3,
+     "venue": 8.5
+    },
+    "away": {
+     "all": 10.6,
+     "venue": 12.3
+    }
+   },
+   "goal": {
+    "home": {
+     "all": 2.4,
+     "venue": 2.1
+    },
+    "away": {
+     "all": 2.1,
+     "venue": 3.1
+    }
+   },
+   "loss": {
+    "home": {
+     "all": 1.7,
+     "venue": 1.1
+    },
+    "away": {
+     "all": 1.5,
+     "venue": 1.1
+    }
+   },
+   "poss": {
+    "home": {
+     "all": 47.0,
+     "venue": 45.42
+    },
+    "away": {
+     "all": 47.33,
+     "venue": 49.35
+    }
+   }
+  },
+  "match_id": "1317047",
+  "fetched_at": "2026-11-19 14:26"
+ },
+ "bj:26": {
+  "home": {
+   "rank": 11,
+   "played": 34,
+   "w": 12,
+   "d": 8,
+   "l": 14,
+   "gf": 45,
+   "ga": 50,
+   "pts": 44,
+   "team": "瓦斯科达伽马"
+  },
+  "away": {
+   "rank": 17,
+   "played": 34,
+   "w": 9,
+   "d": 11,
+   "l": 14,
+   "gf": 38,
+   "ga": 42,
+   "pts": 38,
+   "team": "巴西国际"
+  },
+  "h2h": {
+   "w": 3,
+   "d": 1,
+   "l": 6
+  },
+  "src": "okooo-/match/form.php",
+  "inj": "无缺阵",
+  "value": [
+   "1.07亿",
+   "7785万"
+  ],
+  "body": [
+   "179cm/27岁",
+   "179cm/28岁"
+  ],
+  "tech": {
+   "shot": {
+    "home": {
+     "all": 10.4,
+     "venue": 10.6
+    },
+    "away": {
+     "all": 8.6,
+     "venue": 8.7
+    }
+   },
+   "goal": {
+    "home": {
+     "all": 2.2,
+     "venue": 1.9
+    },
+    "away": {
+     "all": 1.3,
+     "venue": 2.6
+    }
+   },
+   "loss": {
+    "home": {
+     "all": 1.2,
+     "venue": 1.5
+    },
+    "away": {
+     "all": 2.4,
+     "venue": 2.1
+    }
+   },
+   "poss": {
+    "home": {
+     "all": 51.85,
+     "venue": 57.33
+    },
+    "away": {
+     "all": 45.0,
+     "venue": 42.15
+    }
+   }
+  },
+  "match_id": "1317040",
+  "fetched_at": "2026-11-19 14:26"
+ },
+ "bj:27": {
+  "home": {
+   "rank": 10,
+   "played": 34,
+   "w": 12,
+   "d": 8,
+   "l": 14,
+   "gf": 39,
+   "ga": 39,
+   "pts": 44,
+   "team": "圣保罗"
+  },
+  "away": {
+   "rank": 3,
+   "played": 35,
+   "w": 19,
+   "d": 6,
+   "l": 10,
+   "gf": 57,
+   "ga": 49,
+   "pts": 63,
+   "team": "克鲁塞罗"
+  },
+  "h2h": {
+   "w": 3,
+   "d": 1,
+   "l": 6
+  },
+  "src": "okooo-/match/form.php",
+  "inj": "无缺阵",
+  "value": [
+   "7950万",
+   "7585万"
+  ],
+  "body": [
+   "180cm/29岁",
+   "180cm/33岁"
+  ],
+  "tech": {
+   "shot": {
+    "home": {
+     "all": 9.4,
+     "venue": 9.9
+    },
+    "away": {
+     "all": 7.4,
+     "venue": 8.8
+    }
+   },
+   "goal": {
+    "home": {
+     "all": 1.8,
+     "venue": 2.0
+    },
+    "away": {
+     "all": 1.5,
+     "venue": 1.7
+    }
+   },
+   "loss": {
+    "home": {
+     "all": 1.7,
+     "venue": 1.1
+    },
+    "away": {
+     "all": 1.8,
+     "venue": 1.3
+    }
+   },
+   "poss": {
+    "home": {
+     "all": 52.0,
+     "venue": 52.5
+    },
+    "away": {
+     "all": 54.53,
+     "venue": 58.85
+    }
+   }
+  },
+  "match_id": "1317041",
+  "fetched_at": "2026-11-19 14:26"
+ },
+ "bj:28": {
+  "home": {
+   "w": 3,
+   "d": 3,
+   "l": 4,
+   "venue": {
+    "w": 3,
+    "d": 1,
+    "l": 0
+   }
+  },
+  "away": {
+   "w": 4,
+   "d": 2,
+   "l": 4
+  },
+  "h2h": {
+   "w": 2,
+   "d": 3,
+   "l": 5
+  },
+  "src": "okooo-/match/form.php",
+  "inj": "未采集",
+  "value": [
+   "4883万",
+   "5885万"
+  ],
+  "body": [
+   "179cm/28岁",
+   "179cm/28岁"
+  ],
+  "tech": {
+   "shot": {
+    "home": {
+     "all": 8.4,
+     "venue": 7.9
+    },
+    "away": {
+     "all": 7.6,
+     "venue": 10.7
+    }
+   },
+   "goal": {
+    "home": {
+     "all": 2.3,
+     "venue": 2.7
+    },
+    "away": {
+     "all": 2.3,
+     "venue": 3.0
+    }
+   },
+   "loss": {
+    "home": {
+     "all": 2.2,
+     "venue": 1.6
+    },
+    "away": {
+     "all": 3.4,
+     "venue": 2.9
+    }
+   },
+   "poss": {
+    "home": {
+     "all": 52.25,
+     "venue": 45.89
+    },
+    "away": {
+     "all": 47.11,
+     "venue": 53.05
+    }
+   }
+  },
+  "match_id": "1350991",
+  "fetched_at": "2026-11-19 14:26"
+ },
+ "bj:29": {
+  "home": {
+   "w": 5,
+   "d": 2,
+   "l": 3,
+   "venue": {
+    "w": 4,
+    "d": 1,
+    "l": 1
+   }
+  },
+  "away": {
+   "w": 5,
+   "d": 1,
+   "l": 4
+  },
+  "h2h": {
+   "w": 3,
+   "d": 2,
+   "l": 5
+  },
+  "src": "okooo-/match/form.php",
+  "inj": "未采集",
+  "value": [
+   "4433万",
+   "5025万"
+  ],
+  "body": [
+   "181cm/29岁",
+   "181cm/27岁"
+  ],
+  "tech": {
+   "shot": {
+    "home": {
+     "all": 7.9,
+     "venue": 9.6
+    },
+    "away": {
+     "all": 7.5,
+     "venue": 8.4
+    }
+   },
+   "goal": {
+    "home": {
+     "all": 2.1,
+     "venue": 2.1
+    },
+    "away": {
+     "all": 1.4,
+     "venue": 2.2
+    }
+   },
+   "loss": {
+    "home": {
+     "all": 2.0,
+     "venue": 1.7
+    },
+    "away": {
+     "all": 2.3,
+     "venue": 1.9
+    }
+   },
+   "poss": {
+    "home": {
+     "all": 49.9,
+     "venue": 54.68
+    },
+    "away": {
+     "all": 46.95,
+     "venue": 48.74
+    }
+   }
+  },
+  "match_id": "1350992",
+  "fetched_at": "2026-11-19 14:26"
+ }
+}

@@ -17,7 +17,8 @@
     "p": 55.6,
     "conf": 42,
     "actual": null,
-    "hit": null
+    "hit": null,
+    "note": "该日评分档案未入库"
    },
    {
     "no": "周日004",
@@ -29,7 +30,8 @@
     "p": 53.2,
     "conf": 40,
     "actual": null,
-    "hit": null
+    "hit": null,
+    "note": "该日评分档案未入库"
    }
   ],
   "result": "pending",
@@ -53,7 +55,8 @@
     "p": 62.2,
     "conf": 47,
     "actual": null,
-    "hit": null
+    "hit": null,
+    "note": "该日评分档案未入库"
    },
    {
     "no": "周一003",
@@ -65,7 +68,8 @@
     "p": 46.2,
     "conf": 35,
     "actual": null,
-    "hit": null
+    "hit": null,
+    "note": "该日评分档案未入库"
    }
   ],
   "result": "pending",
@@ -111,35 +115,35 @@
  "2026-11-19": {
   "date": "2026-11-19",
   "name": "2串1",
-  "generated": "2026-11-19 00:12:12",
-  "odd": 2.45,
-  "pr": 0.3144,
+  "generated": "2026-11-19 14:02:09",
+  "odd": 3.79,
+  "pr": 0.2031,
   "widened": false,
   "legs": [
    {
-    "no": "周三002",
-    "h": "弗拉门戈",
-    "a": "巴竞技",
-    "pick": "主胜",
-    "pick_i": 0,
-    "odd": 1.1,
-    "p": 79.8,
-    "conf": 66,
+    "no": "周四001",
+    "h": "维多利亚",
+    "a": "布拉干RB",
+    "pick": "客胜",
+    "pick_i": 2,
+    "odd": 2.18,
+    "p": 40.3,
+    "conf": 26,
     "actual": null,
     "hit": null
    },
    {
-    "no": "周三004",
-    "h": "格雷米奥",
-    "a": "巴伊亚",
+    "no": "周四004",
+    "h": "西雅图",
+    "a": "盐湖城",
     "pick": "主胜",
     "pick_i": 0,
-    "odd": 2.23,
-    "p": 39.4,
-    "conf": 25,
-    "actual": "平局",
-    "hit": false,
-    "ft": "0:0"
+    "odd": 1.74,
+    "p": 50.4,
+    "conf": 36,
+    "actual": "主胜",
+    "hit": true,
+    "ft": "2-0"
    }
   ],
   "result": "pending",

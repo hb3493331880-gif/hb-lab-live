@@ -1,0 +1,37 @@
+{
+ "伤停": {
+  "base": 200,
+  "target": 200,
+  "len": 963,
+  "ok": true,
+  "head": "{\"dataFrom\":\"\",\"emptyFlag\":false,\"errorCode\":\"0\",\"errorMessage\":\"处理成功\",\"success\":true,\"value\":{\"away\":{\"injuriesAndSuspensionsList\":[{\"appearanceCnt\":0,\"injuryFlag\":1,\"personId\":482259,\"personName\":\"J·恩甘坎\",\"playerPositionCode\":\"Attacker\",\"playerPositionDesc\":\"前锋\",\"startedMatchCnt\":0,\"substituteMatchCnt\":0,\"suspensionFlag\":0,\"uniformNo\":\"44\"}],\"sportteryTeamId\":170,\"teamId\":979,\"teamShortName\":\"法兰克"
+ },
+ "近况": {
+  "base": 200,
+  "target": 200,
+  "len": 1476,
+  "ok": true,
+  "head": "{\"dataFrom\":\"\",\"emptyFlag\":false,\"errorCode\":\"0\",\"errorMessage\":\"处理成功\",\"success\":true,\"value\":{\"awayTeamId\":0,\"awayTeamShortName\":\"法兰克福\",\"eachHomeAway\":{\"awayDrawMatchCnt\":2,\"awayLossGoalMatchCnt\":4,\"awayScoreRatio\":\"47\",\"awayWinGoalMatchCnt\":4,\"homeDrawMatchCnt\":0,\"homeLossGoalMatchCnt\":4,\"homeScoreRatio\":\"60\",\"homeWinGoalMatchCnt\":6,\"totalLegCnt\":10},\"eachSameHomeAway\":{\"awayDrawMatchCnt\":2,\"awa"
+ },
+ "积分榜": {
+  "base": 200,
+  "target": 200,
+  "len": 291,
+  "ok": true,
+  "head": "{\"dataFrom\":\"\",\"emptyFlag\":false,\"errorCode\":\"0\",\"errorMessage\":\"处理成功\",\"success\":true,\"value\":{\"awayTables\":{},\"gmLeagueId\":36,\"homeTables\":{},\"leagueShortName\":\"德国杯\",\"phaseId\":48687,\"seasonId\":15382,\"seasonName\":\"2026/2027\",\"tournamentId\":733,\"uniformLeagueId\":87,\"uniformMatchId\":2515169}}"
+ },
+ "交锋": {
+  "base": 200,
+  "target": 200,
+  "len": 6207,
+  "ok": true,
+  "head": "{\"dataFrom\":\"\",\"emptyFlag\":false,\"errorCode\":\"0\",\"errorMessage\":\"处理成功\",\"success\":true,\"value\":{\"matchList\":[{\"awayTeamFullCourtGoalCnt\":\"2\",\"awayTeamId\":967,\"awayTeamShortName\":\"汉堡\",\"fullCourtGoal\":\"1:2\",\"gmLeagueId\":37,\"halfTimeGoal\":\"0:0\",\"homeMatchResult\":\"home\",\"homeTeamFullCourtGoalCnt\":\"1\",\"homeTeamId\":979,\"homeTeamShortName\":\"法兰克福\",\"matchDate\":\"2026-05-02\",\"matchId\":2355706,\"seasonId\":13419"
+ },
+ "交锋2": {
+  "base": 200,
+  "target": 200,
+  "len": 6207,
+  "ok": true,
+  "head": "{\"dataFrom\":\"\",\"emptyFlag\":false,\"errorCode\":\"0\",\"errorMessage\":\"处理成功\",\"success\":true,\"value\":{\"matchList\":[{\"awayTeamFullCourtGoalCnt\":\"2\",\"awayTeamId\":967,\"awayTeamShortName\":\"汉堡\",\"fullCourtGoal\":\"1:2\",\"gmLeagueId\":37,\"halfTimeGoal\":\"0:0\",\"homeMatchResult\":\"home\",\"homeTeamFullCourtGoalCnt\":\"1\",\"homeTeamId\":979,\"homeTeamShortName\":\"法兰克福\",\"matchDate\":\"2026-05-02\",\"matchId\":2355706,\"seasonId\":13419"
+ }
+}

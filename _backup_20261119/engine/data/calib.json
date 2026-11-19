@@ -1,0 +1,46 @@
+{
+ "updated": "2026-09-24 12:38",
+ "K_SHRINK": 10.0,
+ "clip": {
+  "goal": [
+   0.85,
+   1.35
+  ],
+  "draw": [
+   0.8,
+   1.6
+  ]
+ },
+ "jc": {
+  "goal_k": 1.067,
+  "n": 4
+ },
+ "bj": {
+  "goal_k": 1.0449,
+  "n": 14,
+  "draw_k": 1.0768,
+  "draw_raw": 1.132,
+  "real_draw_n": 3,
+  "pred_draw_n": 2.65
+ },
+ "history": {
+  "jc": [
+   {
+    "n": 4,
+    "pred_goal": 3.038,
+    "real_goal": 3.75,
+    "date": "2026-09-23"
+   }
+  ],
+  "bj": [
+   {
+    "n": 14,
+    "pred_goal": 3.051,
+    "real_goal": 3.286,
+    "date": "2026-09-23",
+    "real_draw": 3,
+    "pred_draw": 2.651
+   }
+  ]
+ }
+}

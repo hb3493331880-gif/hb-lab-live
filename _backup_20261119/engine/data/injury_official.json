@@ -1,0 +1,260 @@
+{
+ "meta": {
+  "src": "竞彩网官方接口(主) + 二手源(回落)",
+  "api": "https://webapi.sporttery.cn/gateway/uniform/football/jcInfo/getAllTodayInjurySuspensionV1.qry",
+  "pub": "2026-11-15",
+  "note": "官方只给当天，已存原始档可回溯；空值＝整场缺席，非确认健康"
+ },
+ "items": {
+  "周日001": {
+   "no": "周日001",
+   "h_name": "町田泽维亚",
+   "a_name": "神户胜利船",
+   "h_abb": "町田泽维",
+   "a_abb": "神户胜利",
+   "h_list": [
+    {
+     "name": "K. Ogawa",
+     "pos": "前锋",
+     "kind": "伤缺",
+     "no": "9",
+     "starter": 1,
+     "appear": 1,
+     "goal": 0,
+     "assist": 0
+    }
+   ],
+   "a_list": [],
+   "src": "竞彩网官方接口",
+   "date": "2026-11-15",
+   "lg": "日联赛杯",
+   "h_txt": "K. Ogawa(前锋,伤缺)",
+   "a_txt": "",
+   "h_n": 1,
+   "a_n": 0,
+   "h_doubt": 0,
+   "a_doubt": 0,
+   "official": true
+  },
+  "周日003": {
+   "no": "周日003",
+   "h_name": "大阪樱花",
+   "a_name": "浦和红钻",
+   "h_abb": "大阪樱花",
+   "a_abb": "浦和红钻",
+   "h_list": [],
+   "a_list": [
+    {
+     "name": "M. Yamane",
+     "pos": "后卫",
+     "kind": "伤缺",
+     "no": "6",
+     "starter": 1,
+     "appear": 1,
+     "goal": 0,
+     "assist": 0
+    }
+   ],
+   "src": "竞彩网官方接口",
+   "date": "2026-11-15",
+   "lg": "日联赛杯",
+   "h_txt": "",
+   "a_txt": "M. Yamane(后卫,伤缺)",
+   "h_n": 0,
+   "a_n": 1,
+   "h_doubt": 0,
+   "a_doubt": 0,
+   "official": true
+  },
+  "周日004": {
+   "no": "周日004",
+   "h_name": "柏太阳神",
+   "a_name": "川崎前锋",
+   "h_abb": "柏太阳神",
+   "a_abb": "川崎前锋",
+   "h_list": [],
+   "a_list": [
+    {
+     "name": "Derik Lacerda",
+     "pos": "前锋",
+     "kind": "伤缺",
+     "no": "97",
+     "starter": 1,
+     "appear": 1,
+     "goal": 0,
+     "assist": 0
+    }
+   ],
+   "src": "竞彩网官方接口",
+   "date": "2026-11-15",
+   "lg": "日联赛杯",
+   "h_txt": "",
+   "a_txt": "Derik Lacerda(前锋,伤缺)",
+   "h_n": 0,
+   "a_n": 1,
+   "h_doubt": 0,
+   "a_doubt": 0,
+   "official": true
+  },
+  "周日009": {
+   "no": "周日009",
+   "h_name": "克罗地亚",
+   "a_name": "捷克",
+   "h_abb": "克罗地亚",
+   "a_abb": "捷克",
+   "h_list": [
+    {
+     "name": "K. Jakić",
+     "pos": "中场",
+     "kind": "伤缺",
+     "no": "0",
+     "starter": 1,
+     "appear": 2,
+     "goal": 0,
+     "assist": 0
+    },
+    {
+     "name": "蓬格拉契奇",
+     "pos": "后卫",
+     "kind": "伤缺",
+     "no": "0",
+     "starter": 1,
+     "appear": 1,
+     "goal": 0,
+     "assist": 0
+    },
+    {
+     "name": "苏契奇",
+     "pos": "中场",
+     "kind": "伤缺",
+     "no": "0",
+     "starter": 1,
+     "appear": 1,
+     "goal": 0,
+     "assist": 0
+    }
+   ],
+   "a_list": [],
+   "src": "竞彩网官方接口",
+   "date": "2026-11-16",
+   "lg": "欧国联",
+   "h_txt": "K. Jakić(中场,伤缺)、蓬格拉契奇(后卫,伤缺)、苏契奇(中场,伤缺)",
+   "a_txt": "",
+   "h_n": 3,
+   "a_n": 0,
+   "h_doubt": 0,
+   "a_doubt": 0,
+   "official": true
+  },
+  "周日010": {
+   "no": "周日010",
+   "h_name": "西班牙",
+   "a_name": "英格兰",
+   "h_abb": "西班牙",
+   "a_abb": "英格兰",
+   "h_list": [
+    {
+     "name": "梅里诺",
+     "pos": "中场",
+     "kind": "伤缺",
+     "no": "0",
+     "starter": 0,
+     "appear": 5,
+     "goal": 3,
+     "assist": 1
+    },
+    {
+     "name": "Mikel Oyarzabal",
+     "pos": "前锋",
+     "kind": "伤缺",
+     "no": "0",
+     "starter": 2,
+     "appear": 3,
+     "goal": 1,
+     "assist": 0
+    },
+    {
+     "name": "亚马尔",
+     "pos": "前锋",
+     "kind": "伤缺",
+     "no": "0",
+     "starter": 4,
+     "appear": 4,
+     "goal": 4,
+     "assist": 1
+    }
+   ],
+   "a_list": [],
+   "src": "竞彩网官方接口",
+   "date": "2026-11-16",
+   "lg": "欧国联",
+   "h_txt": "梅里诺(中场,伤缺)、Mikel Oyarzabal(前锋,伤缺)、亚马尔(前锋,伤缺)",
+   "a_txt": "",
+   "h_n": 3,
+   "a_n": 0,
+   "h_doubt": 0,
+   "a_doubt": 0,
+   "official": true
+  },
+  "周日011": {
+   "no": "周日011",
+   "h_name": "比利时",
+   "a_name": "意大利",
+   "h_abb": "比利时",
+   "a_abb": "意大利",
+   "h_list": [
+    {
+     "name": "卢卡库",
+     "pos": "前锋",
+     "kind": "伤缺",
+     "no": "0",
+     "starter": 1,
+     "appear": 3,
+     "goal": 1,
+     "assist": 0
+    },
+    {
+     "name": "特罗萨德",
+     "pos": "前锋",
+     "kind": "伤缺",
+     "no": "0",
+     "starter": 0,
+     "appear": 3,
+     "goal": 0,
+     "assist": 0
+    }
+   ],
+   "a_list": [
+    {
+     "name": "D. Frattesi",
+     "pos": "中场",
+     "kind": "伤缺",
+     "no": "0",
+     "starter": 3,
+     "appear": 5,
+     "goal": 2,
+     "assist": 0
+    }
+   ],
+   "src": "竞彩网官方接口",
+   "date": "2026-11-16",
+   "lg": "欧国联",
+   "h_txt": "卢卡库(前锋,伤缺)、特罗萨德(前锋,伤缺)",
+   "a_txt": "D. Frattesi(中场,伤缺)",
+   "h_n": 2,
+   "a_n": 1,
+   "h_doubt": 0,
+   "a_doubt": 0,
+   "official": true
+  }
+ },
+ "stat": {
+  "official": 6,
+  "fallback": 0,
+  "both_empty": 0,
+  "stale_dropped": 12,
+  "raw_file": "/data/workspace/hb-football-lab/data/inj_official/2026-11-15.json",
+  "official_matches": 6,
+  "official_players": 12
+ }
+}

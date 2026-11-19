@@ -1,0 +1,22 @@
+# HB FOOTBALL LAB · Netlify 配置
+# 只发布 public/（里面只有 index.html），绝不 publish="."：
+# 仓库根还有 scripts/ engine/ 等源码，用 "." 会把源码一起发到公网。
+[build]
+  publish = "public"
+  command = ""
+
+[build.environment]
+  TZ = "Asia/Shanghai"
+
+[context.production]
+  command = ""
+
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"

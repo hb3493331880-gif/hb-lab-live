@@ -261,6 +261,29 @@ def make_combo():
             'result': 'pending', 'frozen': True}
 
 
+def _batch_tag(c):
+    """销售日批次标识：取第一条腿的比赛编号里的星期字（周日/周一…）。"""
+    legs = c.get('legs') or []
+    if not legs:
+        return ''
+    no = legs[0].get('no') or ''
+    return no[1:2] if no[:1] == '周' else ''
+
+
+def combo_should_replace(cur, new):
+    """旧注单该不该被今天的新注单替换。
+
+    只冻结「同一批销售日」的注单：批次一变（周日→周一）就必须出新票，
+    否则页面永远停在上一批（用户看到"今日不推、只回显 11-16 定稿"）。
+    """
+    if not cur:
+        return True
+    if _batch_tag(cur) != _batch_tag(new):
+        return True
+    legs = cur.get('legs') or []
+    return bool(legs) and all(l.get('actual') for l in legs)
+
+
 def replace_var(html, name, value):
     """把 window.__NAME__ = <json>; 整体替换（模板里这两个是常量字面量）。"""
     pat = re.compile(r'window\.' + name + r'\s*=\s*(\[|\{).*?(\]|\})\s*;', re.S)
@@ -390,6 +413,14 @@ def backfill_combo(hist):
             rec['odd_all'] = round(odd_all, 2)
             rec['payout'] = round(odd_all * 2, 2) if hit_all else 0.0      # 按 2 元一注算
             rec['profit'] = round((odd_all - 1) * 2, 2) if hit_all else -2.0
+        # 超过 3 天的老注单仍然取不到比分：明确标注"档案缺比分"，不要一直挂「待回填」
+        try:
+            if missing and (datetime.date.today() - datetime.date.fromisoformat(d)).days >= 3:
+                for leg in (rec.get('legs') or []):
+                    if leg.get('actual') is None:
+                        leg['note'] = '该日评分档案未入库'
+        except Exception:
+            pass
     return filled
 
 
@@ -445,14 +476,15 @@ def main():
     combo = make_combo()
     hist = load('combo_history.json', {}) or {}
     if combo:
-        if combo['date'] in hist:
-            print('[fix_today] 今天已有 2串1 记录，按冻结口径不重算')
+        cur = hist.get(combo['date'])
+        if cur and not combo_should_replace(cur, combo):
+            print('[fix_today] 同批次已有 2串1 定稿，按冻结口径不重算（%s）' % _batch_tag(cur))
         else:
             hist[combo['date']] = combo
             with io.open(os.path.join(DATA, 'combo_history.json'), 'w', encoding='utf-8') as f:
                 json.dump(hist, f, ensure_ascii=False, indent=1)
-            print('[fix_today] 生成 2串1：%s × %s · 理论赔率 %.2f · 命中概率 %.1f%%'
-                  % (combo['legs'][0]['no'], combo['legs'][1]['no'],
+            print('[fix_today] 生成%s 2串1：%s × %s · 理论赔率 %.2f · 命中概率 %.1f%%'
+                  % ('新批次' if cur else '', combo['legs'][0]['no'], combo['legs'][1]['no'],
                      combo['odd'], combo['pr'] * 100))
     # ★ 2串1 复盘回填：原来这里只「冻结不重算」，赛果永远不写回，
     #   页面上的旧串关就一直挂着 actual=null —— 现在每轮都按真实比分回填
@@ -471,12 +503,49 @@ def main():
     if sp:
         iss = sp[0].get('issue') or ''
         dts = sorted({x.get('date') for x in sp if x.get('date')})
-        rng = ('%s-%s' % (dts[0][5:], dts[-1][5:])) if dts else ''
-        head = ('%s · 第 %s 期 · 胜负彩 14 场选 9 场' % (rng or dts[0] if dts else '', iss))
+        day = dts[0] if dts else ''
+        head = ('%s · 第 %s 期 · 胜负彩 14 场选 9 场' % (day, iss))
         m2 = re.search(r'(<span id="sfcIssueTxt">)([^<]*)(</span>)', html)
         if m2 and iss:
             html = html[:m2.start(2)] + head + html[m2.end(2):]
-            print('[fix_today] 任九页头改写为 第 %s 期' % iss)
+        okz = load('sfc_okooo.json') or {}
+        dl = okz.get('deadline') or ''
+        if dl:
+            m3 = re.search(r'(<b id="sfcDeadline">)([^<]*)(</b>)', html)
+            if m3:
+                html = html[:m3.start(2)] + ('停售 %s' % dl) + html[m3.end(2):]
+        print('[fix_today] 任九页头改写为 第 %s 期 · %s · 停售 %s' % (iss, day, dl or '—'))
+
+    # 退役/告别/卸任公告：只搬运公开标题（直播吧），不挂靠当期球队、不预测
+    rn = load('retire_news.json') or {}
+    items = (rn.get('items') or [])[:12]
+    if items and '</body>' in html:
+        lis = []
+        for it in items:
+            t = (it.get('title') or '').replace('&', '&amp;').replace('<', '&lt;')
+            u = it.get('url') or '#'
+            d = it.get('date') or ''
+            lis.append('<li style="margin:5px 0;line-height:1.7"><span style="color:#8a8a8a">%s</span> '
+                       '<a href="%s" target="_blank" rel="noopener noreferrer" style="color:#fff;text-decoration:none">%s</a></li>'
+                       % (d, u, t))
+        blk = ('<div id="retireNewsCard" style="margin:12px 12px 16px;padding:12px 14px;border-radius:10px;'
+               'background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12)">'
+               '<div style="font-weight:800;font-size:14px;margin-bottom:4px">📰 退役 / 告别 / 卸任公告</div>'
+               '<div style="font-size:11px;color:#9a9a9a;margin-bottom:6px">公开新闻源：直播吧足球频道。只搬标题不预测，点标题看原文。</div>'
+               '<ul style="font-size:12px;padding-left:16px;margin:0">%s</ul></div>') % ''.join(lis)
+        html = html.replace('</body>', blk + '\n</body>', 1)
+        print('[fix_today] 退役公告区块注入 %d 条' % len(items))
+
+    # 战意文案：国际赛没有俱乐部联赛积分榜，原来那句"项目内无该组小组积分快照"又长又像缺数据，改成明确口径
+    html = html.replace(
+        '【战意】本场为欧国联小组赛，但项目内无该组小组积分快照：',
+        '【战意】本场为欧国联小组赛（国际赛无俱乐部联赛积分榜，不按联赛排名论战意）：')
+    html = html.replace(
+        '【战意】本场为欧国联小组赛，但项目内无该组小组积分榜：',
+        '【战意】本场为欧国联小组赛（国际赛无俱乐部联赛积分榜，不按联赛排名论战意）：')
+
+    # 复盘标题：模板写死 9/20，改成累计口径（内容由 review_stat 重算写入）
+    html = html.replace('📋 9/20 全场复盘', '📋 全场复盘（累计存档）')
 
     tmp = PAGE + '.tmp'
     with io.open(tmp, 'w', encoding='utf-8', newline='\n') as f:

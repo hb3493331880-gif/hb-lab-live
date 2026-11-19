@@ -1,0 +1,62 @@
+{
+ "神户胜利船|町田泽维亚": {
+  "num": "周三002",
+  "h_list": [],
+  "a_list": [
+   {
+    "appearanceCnt": 1,
+    "injuryFlag": 1,
+    "personId": 435835,
+    "personName": "K. Ogawa",
+    "playerPositionCode": "Forward",
+    "playerPositionDesc": "前锋",
+    "startedMatchCnt": 1,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "9"
+   }
+  ],
+  "h": "神户胜利船",
+  "a": "町田泽维亚"
+ },
+ "川崎前锋|柏太阳神": {
+  "num": "周三003",
+  "h_list": [
+   {
+    "appearanceCnt": 1,
+    "injuryFlag": 1,
+    "personId": 629507,
+    "personName": "Derik Lacerda",
+    "playerPositionCode": "Forward",
+    "playerPositionDesc": "前锋",
+    "startedMatchCnt": 1,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "97"
+   }
+  ],
+  "a_list": [],
+  "h": "川崎前锋",
+  "a": "柏太阳神"
+ },
+ "浦和红钻|大阪樱花": {
+  "num": "周三004",
+  "h_list": [
+   {
+    "appearanceCnt": 1,
+    "injuryFlag": 1,
+    "personId": 435872,
+    "personName": "M. Yamane",
+    "playerPositionCode": "Defender",
+    "playerPositionDesc": "后卫",
+    "startedMatchCnt": 1,
+    "substituteMatchCnt": 0,
+    "suspensionFlag": 0,
+    "uniformNo": "6"
+   }
+  ],
+  "a_list": [],
+  "h": "浦和红钻",
+  "a": "大阪樱花"
+ }
+}

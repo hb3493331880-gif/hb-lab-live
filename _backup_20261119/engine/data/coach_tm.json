@@ -1,0 +1,8 @@
+{
+ "_src": "transfermarkt.com/<slug>/mitarbeiter/verein/<id>  (web_fetch 抓取，2026-10-26)",
+ "_note": "仅收录已实测验证队名正确的条目；id 不可猜，猜错即404（实测8次仅4中）",
+ "Barcelona": {"club":"FC Barcelona","id":131,"coach":"Hansi Flick","since":"2024-07-01","until":"2027-06-30"},
+ "Bayern Munich": {"club":"FC Bayern Munich","id":27,"coach":"Vincent Kompany","since":"2024-07-01","until":"2029-06-30"},
+ "Borussia Dortmund": {"club":"Borussia Dortmund","id":16,"coach":"Niko Kovac","since":"2025-02-02","until":"2027-06-30"},
+ "Roma": {"club":"AS Roma","id":12,"coach":"Simone Ricchio","since":"2025-07-01","until":"-"}
+}

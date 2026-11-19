@@ -1,0 +1,27 @@
+{
+ "/api/data/search/suggest?term=Bayern": {
+  "status": 403,
+  "len": 327,
+  "head": "{\"title\":\"Request denied\",\"status\":403,\"detail\":\"No policy rule matched the request\",\"request_id\":\"30e15d14-8c4d-4c92-8f3c-66ec41546a02\",\"reason\":\"policy_default_denied\",\"source\":{"
+ },
+ "/api/data/matches?date=20261027": {
+  "status": 403,
+  "len": 320,
+  "head": "{\"title\":\"Request denied\",\"status\":403,\"detail\":\"No policy rule matched the request\",\"request_id\":\"6ac6efbf-7ec3-451b-a302-452bb8cfc2a2\",\"reason\":\"policy_default_denied\",\"source\":{"
+ },
+ "/api/data/teams?id=9825": {
+  "status": 403,
+  "len": 318,
+  "head": "{\"title\":\"Request denied\",\"status\":403,\"detail\":\"No policy rule matched the request\",\"request_id\":\"32015d52-e4ad-42d4-a65d-153df0b8a5dc\",\"reason\":\"policy_default_denied\",\"source\":{"
+ },
+ "/api/data/matchDetails?matchId=4211666": {
+  "status": 403,
+  "len": 325,
+  "head": "{\"title\":\"Request denied\",\"status\":403,\"detail\":\"No policy rule matched the request\",\"request_id\":\"465f112d-2f64-46dc-9857-bbee1ae0023b\",\"reason\":\"policy_default_denied\",\"source\":{"
+ },
+ "/api/data/leagues?id=47": {
+  "status": 403,
+  "len": 320,
+  "head": "{\"title\":\"Request denied\",\"status\":403,\"detail\":\"No policy rule matched the request\",\"request_id\":\"04825fff-a2bf-4aa6-a921-86aad86eb627\",\"reason\":\"policy_default_denied\",\"source\":{"
+ }
+}

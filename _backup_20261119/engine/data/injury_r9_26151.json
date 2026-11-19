@@ -1,0 +1,196 @@
+{
+ "meta": {
+  "src": "德转 Transfermarkt 德国杯第2轮 + 意甲第9轮 + 瑞典超 AIK vs Elfsborg「预计缺阵」名单",
+  "url": "https://www.transfermarkt.us/wettbewerb/spieltag/pokalwettbewerb/DFB/saison_id/2026/spieltag/2/gruppe/2R",
+  "pub": "2026-10-26 抓取"
+ },
+ "items": {
+  "05": {
+   "h": "波鸿",
+   "a": "美因茨",
+   "h_n": 5,
+   "a_n": 4,
+   "h_list": [
+    "Jean Manuel Mbom",
+    "Oliver Olsen",
+    "Babis Drakas",
+    "Enis Cokaj",
+    "Philipp Strompf"
+   ],
+   "a_list": [
+    "Dominik Kohr",
+    "Robin Zentner",
+    "Silas Silas",
+    "Otto Ruoppi"
+   ],
+   "raw": "波鸿 Jean Manuel Mbom、Oliver Olsen、Babis Drakas、Enis Cokaj、Philipp Strompf 等5人预计缺阵；美因茨 Dominik Kohr、Robin Zentner、Silas Silas、Otto Ruoppi 等4人预计缺阵"
+  },
+  "06": {
+   "h": "汉堡",
+   "a": "法兰克",
+   "h_n": 2,
+   "a_n": 1,
+   "h_list": [
+    "Mario Vuskovic",
+    "Nicolai Remberg"
+   ],
+   "a_list": [
+    "Jessic Ngankam"
+   ],
+   "raw": "汉堡 Mario Vuskovic、Nicolai Remberg 等2人预计缺阵；法兰克 Jessic Ngankam 等1人预计缺阵"
+  },
+  "07": {
+   "h": "科隆",
+   "a": "柏林联",
+   "h_n": 5,
+   "a_n": 4,
+   "h_list": [
+    "Timo Hübers",
+    "Ellyes Skhiri",
+    "Ragnar Ache",
+    "Imad Rondic",
+    "Thijs Dallinga"
+   ],
+   "a_list": [
+    "Josip Juranovic",
+    "Stanley Nsoki",
+    "Andrej Ilic",
+    "Andrik Markgraf"
+   ],
+   "raw": "科隆 Timo Hübers、Ellyes Skhiri、Ragnar Ache、Imad Rondic、Thijs Dallinga 等5人预计缺阵；柏林联 Josip Juranovic、Stanley Nsoki、Andrej Ilic、Andrik Markgraf 等4人预计缺阵"
+  },
+  "08": {
+   "h": "多特",
+   "a": "不来梅",
+   "h_n": 7,
+   "a_n": 8,
+   "h_list": [
+    "Ramy Bensebaini",
+    "Emre Can Emre Can",
+    "Giannis Konstantelias",
+    "Konstantinos Karetsas",
+    "Mussa Kaba",
+    "Justin Lerma"
+   ],
+   "a_list": [
+    "Niklas Stark",
+    "Jens Stage",
+    "Felix Agu Felix Agu",
+    "Justin Njinmah",
+    "Moussa Ndiaye",
+    "Keke Topp Keke Topp"
+   ],
+   "raw": "多特 Ramy Bensebaini、Emre Can Emre Can、Giannis Konstantelias、Konstantinos Karetsas、Mussa Kaba、Justin Lerma、Kauã Prates 等7人预计缺阵；不来梅 Niklas Stark、Jens Stage、Felix Agu Felix Agu、Justin Njinmah、Moussa Ndiaye、Keke Topp Keke Topp、Skelly Alvero、Salim Musah 等8人预计缺阵"
+  },
+  "09": {
+   "h": "埃沃斯",
+   "a": "达姆施",
+   "h_n": 6,
+   "a_n": 3,
+   "h_list": [
+    "Lukas Pinckert",
+    "Tom Zimmerschied",
+    "Luis Seifert",
+    "Cole Campbell",
+    "Noah Darvich",
+    "Francis Onyeka"
+   ],
+   "a_list": [
+    "Luca Marseiler",
+    "Fabian Nürnberger",
+    "Merveille Papela"
+   ],
+   "raw": "埃沃斯 Lukas Pinckert、Tom Zimmerschied、Luis Seifert、Cole Campbell、Noah Darvich、Francis Onyeka 等6人预计缺阵；达姆施 Luca Marseiler、Fabian Nürnberger、Merveille Papela 等3人预计缺阵"
+  },
+  "10": {
+   "h": "门兴",
+   "a": "卡尔斯",
+   "h_n": 8,
+   "a_n": 1,
+   "h_list": [
+    "Tim Kleindienst",
+    "Franck Honorat",
+    "Isac Lidberg",
+    "Nicolas Kühn",
+    "Ko Itakura",
+    "Enzo Leopold"
+   ],
+   "a_list": [
+    "Moritz Broschinski"
+   ],
+   "raw": "门兴 Tim Kleindienst、Franck Honorat、Isac Lidberg、Nicolas Kühn、Ko Itakura、Enzo Leopold、Jens Castrop、Fritz Fleck 等8人预计缺阵；卡尔斯 Moritz Broschinski 等1人预计缺阵"
+  },
+  "11": {
+   "h": "萨索洛",
+   "a": "拉齐奥",
+   "h_n": 3,
+   "a_n": 4,
+   "h_list": [
+    "丹尼尔·博洛卡(关节镜)",
+    "伊斯梅尔·科内(胫骨腓骨骨折)",
+    "费德·莱森(十字韧带撕裂)"
+   ],
+   "a_list": [
+    "亚当·马鲁西奇(腿筋)",
+    "阿尔伯特·古德蒙德松(肩伤)",
+    "尼科洛·罗韦拉(小腿)",
+    "阿莱西奥·富尔拉内托(十字韧带手术)"
+   ],
+   "raw": "萨索洛 丹尼尔·博洛卡(关节镜)、伊斯梅尔·科内(胫骨腓骨骨折)、费德·莱森(十字韧带撕裂) 等3人预计缺阵；拉齐奥 亚当·马鲁西奇(腿筋)、阿尔伯特·古德蒙德松(肩伤)、尼科洛·罗韦拉(小腿)、阿莱西奥·富尔拉内托(十字韧带手术) 等4人预计缺阵"
+  },
+  "12": {
+   "h": "都灵",
+   "a": "科莫",
+   "h_n": 4,
+   "a_n": 4,
+   "h_list": [
+    "尼科洛·福尔蒂尼(内收肌痛)",
+    "埃米尔汉·伊尔汗(内收肌撕裂)",
+    "里卡多·罗德里格斯(肌腱断裂)",
+    "佛朗哥·伊斯雷尔(肩伤)"
+   ],
+   "a_list": [
+    "莫伊塞·基恩(胫骨瘀伤)",
+    "特雷沃·查洛巴(肌肉损伤)",
+    "阿萨内·迪奥(腿筋拉伤)",
+    "赫苏斯·罗德里格斯(肌肉损伤)"
+   ],
+   "raw": "都灵 尼科洛·福尔蒂尼(内收肌痛)、埃米尔汉·伊尔汗(内收肌撕裂)、里卡多·罗德里格斯(肌腱断裂)、佛朗哥·伊斯雷尔(肩伤) 等4人预计缺阵；科莫 莫伊塞·基恩(胫骨瘀伤)、特雷沃·查洛巴(肌肉损伤)、阿萨内·迪奥(腿筋拉伤)、赫苏斯·罗德里格斯(肌肉损伤) 等4人预计缺阵"
+  },
+  "13": {
+   "h": "罗马",
+   "a": "卡利亚",
+   "h_n": 4,
+   "a_n": 3,
+   "h_list": [
+    "保罗·迪巴拉(小腿)",
+    "洛伦佐·佩莱格里尼(肌肉损伤)",
+    "米莱·斯维拉尔(手指骨折)",
+    "马努·科内(腿筋)"
+   ],
+   "a_list": [
+    "亚埃尔·特雷皮(伤情未明)",
+    "里亚德·伊德里西(十字韧带撕裂)",
+    "马蒂亚·费利奇(十字韧带撕裂)"
+   ],
+   "raw": "罗马 保罗·迪巴拉(小腿)、洛伦佐·佩莱格里尼(肌肉损伤)、米莱·斯维拉尔(手指骨折)、马努·科内(腿筋) 等4人预计缺阵；卡利亚 亚埃尔·特雷皮(伤情未明)、里亚德·伊德里西(十字韧带撕裂)、马蒂亚·费利奇(十字韧带撕裂) 等3人预计缺阵"
+  },
+  "14": {
+   "h": "索尔纳",
+   "a": "埃尔夫",
+   "h_n": 4,
+   "a_n": 2,
+   "h_list": [
+    "帕帕吉安诺普洛斯(膝关节)",
+    "马丁·艾林森(伤情未明)",
+    "易卜拉欣·西塞(踝关节)",
+    "凯文·菲林(膝关节)"
+   ],
+   "a_list": [
+    "马库斯·罗登(肌肉损伤)",
+    "迪翁·克拉斯尼奇(伤情未明)"
+   ],
+   "raw": "索尔纳 帕帕吉安诺普洛斯(膝关节)、马丁·艾林森(伤情未明)、易卜拉欣·西塞(踝关节)、凯文·菲林(膝关节) 等4人预计缺阵；埃尔夫 马库斯·罗登(肌肉损伤)、迪翁·克拉斯尼奇(伤情未明) 等2人预计缺阵"
+  }
+ }
+}
