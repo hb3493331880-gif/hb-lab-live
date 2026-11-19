@@ -180,6 +180,16 @@ def _bj_ana(m, sp, p, best, lg):
     else:
         parts.append('【情报缺口】本场澳客未给到数据页（可能未开盘/已完赛），近况与阵容留空不编。')
     _rmap = load('retire_map.json') or {}
+    _cmap = load('coach_map.json') or {}
+    _cm = []
+    for _tn in (m.get('h'), m.get('a')):
+        for _x in (_cmap.get(_tn) or [])[:2]:
+            _line = '%s：%s' % (_tn, _x)
+            if _line not in _cm:
+                _cm.append(_line)
+    if _cm:
+        parts.append('【帅位变动】%s。换帅/下课传闻期球员更搏命但战术连续性差，'
+                     '按战意不确定处理，不因低水加胆。' % '；'.join(_cm))
     _rn = []
     for _tn in (m.get('h'), m.get('a')):
         for _x in (_rmap.get(_tn) or [])[:2]:
@@ -282,6 +292,959 @@ def combo_should_replace(cur, new):
         return True
     legs = cur.get('legs') or []
     return bool(legs) and all(l.get('actual') for l in legs)
+
+
+def _diverge_rows(html):
+    m = re.search(r'window\.__R9_DIV__\s*=\s*(\{.*?\})\s*;\s*</script>', html, re.S)
+    if not m:
+        return []
+    try:
+        return (json.loads(m.group(1)) or {}).get('rows') or []
+    except Exception:
+        return []
+
+
+def _norm_team(s):
+    if not s:
+        return ''
+    return re.sub(r'[^\u4e00-\u9fa5A-Za-z]', '', str(s))
+
+
+def _same_team(a, b):
+    a, b = _norm_team(a), _norm_team(b)
+    if not a or not b:
+        return False
+    if a == b:
+        return True
+    short, long = (a, b) if len(a) <= len(b) else (b, a)
+    return len(short) >= 2 and (short in long or long in short)
+
+
+def _backfill_div_results(html, current_issue=''):
+    """用「竞彩赛果公告」把背离表/历史整理的赛果自动回填（每期都跑）。
+
+    只填 real 为空的旧期；当期未开赛的不动。回填后重算各档命中率与总量。
+    """
+    res = load('results_all.json') or []
+    if not res:
+        return html
+    d, s, e = _json_var(html, '__R9_DIV__')
+    if not isinstance(d, dict):
+        return html
+    rows = d.get('rows') or []
+    filled = 0
+    for r in rows:
+        if r.get('real') or str(r.get('issue')) == str(current_issue):
+            continue
+        for x in res:
+            if _same_team(r.get('h'), x.get('h')) and _same_team(r.get('a'), x.get('a')):
+                r['ft'] = x.get('ft')
+                r['real'] = x.get('dir')
+                r['hit'] = (r.get('main') == r.get('real')) if r.get('main') else None
+                filled += 1
+                break
+    if not filled:
+        return html
+    bands = {}
+    n_done = hit = 0
+    for r in rows:
+        if not r.get('real'):
+            continue
+        n_done += 1
+        if r.get('hit'):
+            hit += 1
+        b = r.get('band') or '未分档'
+        t = bands.setdefault(b, {'n': 0, '主胜': 0, '平局': 0, '客胜': 0, 'hit': 0})
+        t['n'] += 1
+        if r['real'] in ('主胜', '平局', '客胜'):
+            t[r['real']] += 1
+        if r.get('hit'):
+            t['hit'] += 1
+    d['bands'] = {k: v for k, v in bands.items() if k in ('一致', '差1-2位', '差3-5位', '差6-9位', '差10位以上')}
+    d['n'] = len(rows)
+    d['n_done'] = n_done
+    d['hit'] = hit
+    out = json.dumps(d, ensure_ascii=False, separators=(',', ':'))
+    html = html[:s] + out + html[e:]
+    print('[fix_today] 赛果回填 %d 场（累计已开赛 %d / 主推命中 %d）' % (filled, n_done, hit))
+    # 同步 results_index.json（卡片/复盘读取的赛果索引）
+    try:
+        idx = load('results_index.json') or {}
+        have = {(x.get('h'), x.get('a'), x.get('ft')) for x in (idx.get('rows') or [])}
+        add = 0
+        for x in res:
+            k = (x.get('h'), x.get('a'), x.get('ft'))
+            if k not in have and x.get('ft'):
+                have.add(k)
+                add += 1
+        merged = (idx.get('rows') or []) + [{'date': x.get('date'), 'h': x.get('h'), 'a': x.get('a'), 'ft': x.get('ft')}
+                                            for x in res if (x.get('h'), x.get('a'), x.get('ft')) not in
+                                            {(y.get('h'), y.get('a'), y.get('ft')) for y in (idx.get('rows') or [])}]
+        if add:
+            idx['rows'] = merged
+            idx['updated'] = __import__('datetime').datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            with io.open(os.path.join(DATA, 'results_index.json'), 'w', encoding='utf-8') as f:
+                json.dump(idx, f, ensure_ascii=False, indent=1)
+            print('[fix_today] results_index 补充 %d 条赛果' % add)
+    except Exception as ex:
+        print('[fix_today] results_index 同步失败：%s' % ex)
+    return html
+
+
+def _merge_bj_mobile(html):
+    """北单：用手机版列表 + 官方 WDL.xml 的最新报价，覆盖页面 __BJDC__ 的对应场次。
+
+    官方是按场次陆续开价的，所以「未开价」不是抓取失败；这里只覆盖有价的场次，
+    没价的保留原值（页面会显示「SP 未获取」并说明未开售）。
+    """
+    mob = load('bj_mobile.json')
+    if isinstance(mob, dict):
+        mob = mob.get('matches') or mob.get('rows') or []
+    if not mob:
+        return html
+    d, s, e = _json_var(html, '__BJDC__')
+    if not isinstance(d, dict):
+        return html
+    matches = d.get('matches') or []
+    if not matches:
+        return html
+    fixed = 0
+    for m in matches:
+        no = str(m.get('no') or '').lstrip('0')
+        for x in mob:
+            if str(x.get('no') or '').lstrip('0') != no:
+                continue
+            if x.get('sp'):
+                old_sp = m.get('sp') or []
+                m['sp'] = [float(v) for v in x['sp']]
+                m['o'] = list(m['sp'])
+                # 定价文案同步刷新，避免「SP 已是新价、分析还写旧价」
+                ana = str(m.get('ana') or '')
+                if '【定价】SP ' in ana and old_sp:
+                    new = '/'.join('%.2f' % v for v in m['sp'])
+                    ana = re.sub(r'【定价】SP [\d.]+/[\d.]+/[\d.]+', '【定价】SP ' + new, ana, count=1)
+                    m['ana'] = ana
+                fixed += 1
+            if x.get('rq') not in (None, ''):
+                try:
+                    m['hcap'] = int(x['rq'])
+                except (TypeError, ValueError):
+                    pass
+            if x.get('h'):
+                m.setdefault('hName', x['h'])
+                m.setdefault('aName', x['a'])
+            break
+    if not fixed:
+        return html
+    out = json.dumps(d, ensure_ascii=False, separators=(',', ':'))
+    print('[fix_today] 北单 SP 刷新 %d 场（手机版+WDL 报价）' % fixed)
+    return html[:s] + out + html[e:]
+
+
+def _apply_odds_delta(html):
+    """竞彩：把「初盘→现盘」的变盘解读写进每场分析开头。
+
+    盘口只做解读与风险提示，不改方向的权重（与校准口径一致：方向翻转必须有硬条件）。
+    """
+    dd = load('odds_delta.json') or {}
+    ms = dd.get('matches') or []
+    if not ms:
+        return html
+    d, s, e = _json_var(html, '__LIVE__')
+    if not isinstance(d, dict):
+        return html
+    by_no = {x.get('no'): x for x in ms}
+    added = 0
+    for m in d.get('matches') or []:
+        x = by_no.get(m.get('no'))
+        if not x:
+            clean = str(m.get('no') or '').strip()
+            x = by_no.get(clean.lstrip('周一二三四五六日'))
+        if not x:
+            for y in ms:
+                if _same_team(m.get('h'), y.get('h')) and _same_team(m.get('a'), y.get('a')):
+                    x = y
+                    break
+        if not x:
+            continue
+        first, last, p = x.get('first'), x.get('last'), x.get('pct') or [0, 0, 0]
+        # 首轮：历史还没积累时，用页面里的「o」（开盘价）当初盘，别把现盘当基准糊弄人
+        o = m.get('o') or []
+        try:
+            o = [float(v) for v in o]
+        except (TypeError, ValueError):
+            o = []
+        if x.get('moves', 0) == 0 and len(o) == 3 and all(v > 1.01 for v in o) and o != list(last or []):
+            first = o
+            p = [round((b - a) / a * 100.0, 1) if a else 0.0 for a, b in zip(first, last)]
+        tag = x.get('tag') or ''
+        if x.get('moves', 0) == 0 and first == o and o:
+            mx = max(abs(v) for v in p)
+            if mx < 1.5:
+                tag = '盘口稳定'
+            elif p[0] <= -1.5 and p[2] >= 1.5:
+                tag = '资金压主'
+            elif p[2] <= -1.5 and p[0] >= 1.5:
+                tag = '资金压客'
+            elif p[1] <= -1.5 and abs(p[0]) < 1.5 and abs(p[2]) < 1.5:
+                tag = '资金博平'
+            else:
+                tag = '分歧调整'
+        main = m.get('main') or ''
+        txt = '【变盘】初盘 %s → 现盘 %s（主 %+.1f%% / 平 %+.1f%% / 客 %+.1f%%），%d 次调整｜%s' % (
+            '/'.join('%.2f' % v for v in first), '/'.join('%.2f' % v for v in last),
+            p[0], p[1], p[2], x.get('moves', 0), tag)
+        if tag == '资金压主':
+            txt += '；' + ('与主推「主胜」同向，盘口给支撑' if main == '主胜'
+                           else '与主推「%s」反向，盘口在压主，留意' % main)
+        elif tag == '资金压客':
+            txt += '；' + ('与主推「客胜」同向，盘口给支撑' if main == '客胜'
+                           else '与主推「%s」反向，盘口在压客，留意' % main)
+        elif tag == '资金博平':
+            txt += '；主客两端没动、平局在降，市场在博平，主推「%s」风险来自闷平' % main
+        elif tag == '盘口稳定':
+            txt += '；盘口基本没动，维持原判断'
+        else:
+            txt += '；两端同时调整，方向未定，按原判断更稳'
+        ana = str(m.get('ana') or '')
+        ana = ana.replace('\n【变盘】', '\n') if '【变盘】' in ana else ana
+        # ★ 变盘进决策（用户已确认开启）：与主推反向且幅度 ≥5% → 把握度 −2pp 并标存疑
+        adj = 0
+        main_idx = {'主胜': 0, '平局': 1, '客胜': 2}.get(main)
+        if main_idx is not None and len(p) == 3:
+            mp = p[main_idx]
+            if mp >= 5.0:
+                adj = -2.0
+            elif mp <= -5.0:
+                adj = +1.0
+        if adj:
+            base = m.get('main_p')
+            try:
+                base = float(base)
+            except (TypeError, ValueError):
+                base = None
+            if base is not None:
+                m['main_p'] = round(max(1.0, base + adj), 1)
+                m['conf'] = m['main_p']
+                txt += '｜变盘计入：把握度 %.1f%% → %.1f%%（%s，与主推反向 %+.1f%%）' % (
+                    base, m['main_p'], '变盘反向扣减' if adj < 0 else '变盘同向加成', mp)
+            else:
+                txt += '｜变盘与主推%s %+.1f%%，方向存疑' % ('反向' if adj < 0 else '同向', mp)
+        m['ana'] = txt + '\n' + ana
+        added += 1
+    if added:
+        out = json.dumps(d, ensure_ascii=False, separators=(',', ':'))
+        print('[fix_today] 竞彩变盘解读 %d 场' % added)
+        return html[:s] + out + html[e:]
+    return html
+
+
+def _archive_picks(html):
+    """把当期三彩种的推荐意见存档，供后续「复盘回填」用。
+
+    只存推什么、概率多少；有赛果之后由 _backfill_review 判命中并写复盘结论。
+    """
+    his = load('picks_history.json') or {'rows': []}
+    rows = his.get('rows') or []
+    key = {(str(r.get('date')), str(r.get('no')), str(r.get('h'))) for r in rows}
+    added = 0
+    for var, kind in (('__LIVE__', '竞彩'), ('__BJDC__', '北单')):
+        d, s, e = _json_var(html, var)
+        if not isinstance(d, dict):
+            continue
+        for m in d.get('matches') or []:
+            p = m.get('p') or m.get('fund') or []
+            rec_no = str(m.get('no'))
+            dt = str(m.get('date') or m.get('sd') or '')[:10]
+            k = (dt, rec_no, str(m.get('h')))
+            if k in key or not m.get('main'):
+                continue
+            key.add(k)
+            rows.append({'date': dt, 'no': rec_no, 'kind': kind, 'lg': m.get('lg'),
+                         'h': m.get('h'), 'a': m.get('a'), 'main': m.get('main'),
+                         'main_p': m.get('main_p') or m.get('conf'), 'p': p})
+            added += 1
+    if added:
+        his['rows'] = rows
+        his['updated'] = __import__('datetime').datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        with io.open(os.path.join(DATA, 'picks_history.json'), 'w', encoding='utf-8') as f:
+            json.dump(his, f, ensure_ascii=False, separators=(',', ':'))
+        print('[fix_today] 推荐存档 %d 场（累计 %d）' % (added, len(rows)))
+    return html
+
+
+def _backfill_review(html):
+    """复盘回填：推荐存档 × 本次抓到的赛果 → 判命中、写原因，并注入复盘表。"""
+    his = load('picks_history.json') or {}
+    res = load('results_all.json') or []
+    rows = his.get('rows') or []
+    if not rows or not res:
+        return html
+    rev = load('review_auto.json') or {'rows': []}
+    done = {(str(r.get('h')), str(r.get('a')), str(r.get('date'))) for r in rev.get('rows') or []}
+    new = []
+    for r in rows:
+        if (str(r.get('h')), str(r.get('a')), str(r.get('date'))) in done:
+            continue
+        for x in res:
+            if not (x.get('ft') and x.get('dir')):
+                continue
+            if _same_team(r.get('h'), x.get('h')) and _same_team(r.get('a'), x.get('a')):
+                hit = (r.get('main') == x['dir'])
+                p = r.get('p') or []
+                idx = {'主胜': 0, '平局': 1, '客胜': 2}.get(x['dir'])
+                act_p = p[idx] if (len(p) == 3 and idx is not None) else None
+                if hit:
+                    note = '命中：推「%s」%s%%，概率最高，赛果 %s' % (
+                        r['main'], r.get('main_p'), x['ft'])
+                else:
+                    note = '未命中：推「%s」%s%%，实际「%s」（%s）' % (
+                        r['main'], r.get('main_p'), x['dir'], x['ft'])
+                    if act_p is not None:
+                        note += '；模型给「%s」仅 %s%%，差 %.1f 个百分点' % (x['dir'], act_p,
+                                                                 (r.get('main_p') or 0) - act_p)
+                new.append({'date': str(r.get('date')), 'no': r.get('no'), 'lg': r.get('lg'),
+                            'h': r.get('h'), 'a': r.get('a'), 'main': r.get('main'),
+                            'main_p': r.get('main_p'), 'ft': x['ft'], 'result': x['dir'],
+                            'dirHit': hit, 'note': note, 'kind': r.get('kind'),
+                            'src': '赛果公告自动回填'})
+                break
+    if not new:
+        return html
+    rev['rows'] = (rev.get('rows') or []) + new
+    rev['updated'] = __import__('datetime').datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    with io.open(os.path.join(DATA, 'review_auto.json'), 'w', encoding='utf-8') as f:
+        json.dump(rev, f, ensure_ascii=False, separators=(',', ':'))
+    # 注入页面复盘表
+    d, s, e = _json_var(html, '__BJ_REVIEW__')
+    if isinstance(d, dict):
+        rs = d.get('rows') or []
+        seen = {(str(x.get('h')), str(x.get('a')), str(x.get('date'))) for x in rs}
+        add = []
+        for r in new:
+            k = (str(r.get('h')), str(r.get('a')), str(r.get('date')))
+            if k not in seen:
+                seen.add(k)
+                add.append(r)
+        if add:
+            d['rows'] = add + rs
+            d['updated'] = rev['updated']
+            hit_n = sum(1 for x in d['rows'] if x.get('dirHit'))
+            d.setdefault('stat', {})
+            d['stat']['rows'] = len(d['rows'])
+            d['stat']['hit'] = hit_n
+            html = html[:s] + json.dumps(d, ensure_ascii=False, separators=(',', ':')) + html[e:]
+    print('[fix_today] 复盘回填 %d 场（累计 %d）' % (len(new), len(rev['rows'])))
+    return html
+
+
+def _inject_bj_today(html):
+    """给北单 tab 注入 window.__BJ_TODAY__（手机版列表 + 官方 WDL 最新报价）。
+
+    页面北单表原来读模板里写死的旧批次（396-402），这里换成当期实时数据。
+    """
+    d, s, e = _json_var(html, '__BJDC__')
+    if not isinstance(d, dict) or not (d.get('matches')):
+        return html
+    idx = {'主胜': 0, '平局': 1, '客胜': 2}
+    out = []
+    for m in d.get('matches') or []:
+        sp = m.get('sp') or []
+        if len(sp) != 3 or any((not v) or v <= 1.01 for v in sp):
+            sp = []
+        fund = m.get('fund') or m.get('mp') or []
+        if len(fund) != 3:
+            fund = []
+        out.append({'no': m.get('no'), 'm': '%s vs %s' % (m.get('h'), m.get('a')),
+                    'sp': ['%.2f' % v for v in sp] if sp else [],
+                    'h': int(fund[0]) if fund else 0,
+                    'd': int(fund[1]) if fund else 0,
+                    'a': int(fund[2]) if fund else 0})
+    if not out:
+        return html
+    blob = '<script>window.__BJ_TODAY__=%s;</script>\n' % json.dumps(out, ensure_ascii=False)
+    anchor = '<script>window.__BJDC__='
+    i = html.find(anchor)
+    if i < 0:
+        return html
+    print('[fix_today] 北单表格切源：注入 %d 场实时数据' % len(out))
+    return html[:i] + blob + html[i:]
+
+
+def _band_hit_table():
+    """从背离表算「概率分档真实命中率」，供竞彩/北单同档校准用。"""
+    d = load('_r9_diverge.json') or {}
+    rows = d.get('rows') or []
+    t = {}
+    for r in rows:
+        if not r.get('real') or r.get('main_p') is None or r.get('hit') is None:
+            continue
+        try:
+            mp = float(r.get('main_p'))
+        except (TypeError, ValueError):
+            continue
+        lo = int(mp // 10 * 10)
+        b = t.setdefault(lo, {'n': 0, 'hit': 0})
+        b['n'] += 1
+        b['hit'] += 1 if r.get('hit') else 0
+    return {k: {'n': v['n'], 'p': v['hit'] / v['n'] * 100.0} for k, v in t.items()}
+
+
+def _apply_calibration_multi(html):
+    """把「同档历史命中」校准从任九扩到竞彩 11 场 + 北单在售场次。
+
+    口径与任九一致：0.7×赔率去水 + 0.3×同档历史真实命中；同档样本 <10 不参与。
+    """
+    tab = _band_hit_table()
+    if not tab:
+        return html
+    total = 0
+    for var, pkey, pmode in (('__LIVE__', 'p', 'pct'), ('__BJDC__', 'fund', 'pct')):
+        d, s, e = _json_var(html, var)
+        if not isinstance(d, dict):
+            continue
+        hit = 0
+        for m in d.get('matches') or []:
+            p = m.get(pkey) or []
+            main = m.get('main')
+            idx = {'主胜': 0, '平局': 1, '客胜': 2}.get(main)
+            if idx is None or len(p) != 3:
+                continue
+            try:
+                raw = float(p[idx])
+            except (TypeError, ValueError):
+                continue
+            b = tab.get(int(raw // 10 * 10))
+            if not b or b['n'] < 10:
+                continue
+            cal = round(0.7 * raw + 0.3 * b['p'], 1)
+            old = m.get('main_p') or m.get('conf')
+            m['main_p'] = cal
+            m['conf'] = cal
+            m['calib'] = {'raw': round(raw, 1), 'n': b['n'], 'band_p': round(b['p'], 1)}
+            ana = str(m.get('ana') or '')
+            if '【同档校准·已开】' not in ana:
+                m['ana'] = ('【同档校准·已开】赔率去水 %.1f%% → 校准 %.1f%%'
+                            '（0.7×赔率 + 0.3×同档历史；同档 %d 场命中 %.1f%%）\n' % (
+                                raw, cal, b['n'], b['p'])) + ana
+            hit += 1
+        if hit:
+            total += hit
+            html = html[:s] + json.dumps(d, ensure_ascii=False, separators=(',', ':')) + html[e:]
+    if total:
+        print('[fix_today] 竞彩/北单同档校准 %d 场（任九 14 场另算）' % total)
+    return html
+
+
+def _merge_jc_okooo(html):
+    """竞彩：用云端抓到的澳客 SP（jc_okooo_page.json）覆盖页面赔率。
+
+    云端 Actions 上体彩官方接口 567，只有澳客能抓；这里按队名对齐覆盖，
+    保证「关机也更新」时竞彩赔率不是死的。
+    """
+    src = load('jc_okooo_page.json') or {}
+    ms = src.get('matches') or []
+    d, s, e = _json_var(html, '__LIVE__')
+    if not isinstance(d, dict) or not ms:
+        return html
+    up = 0
+    for m in d.get('matches') or []:
+        for x in ms:
+            sp = x.get('sp') or []
+            if len(sp) != 3 or any((not v) or v <= 1.01 for v in sp):
+                continue
+            if not (_same_team(m.get('h'), x.get('h')) and _same_team(m.get('a'), x.get('a'))):
+                continue
+            new = [round(float(v), 2) for v in sp]
+            if [round(float(v), 2) for v in (m.get('sp') or m.get('odds') or [])] != new:
+                m['sp'] = new
+                m['odds'] = list(new)
+                m['src'] = '澳客（云端抓取）'
+                up += 1
+            break
+    if up:
+        html = html[:s] + json.dumps(d, ensure_ascii=False, separators=(',', ':')) + html[e:]
+        print('[fix_today] 竞彩赔率云端覆盖 %d 场' % up)
+    return html
+
+
+def _backfill_combo_all(html):
+    """2串1 全量回填：每条腿按赛果判命中 → 整注 win/lose + 派奖；不再只回填有票的几天。"""
+    res = load('results_all.json') or []
+    if not res:
+        return html
+    d, s, e = _json_var(html, '__COMBO_HISTORY__')
+    if not isinstance(d, dict):
+        return html
+    legs_fixed = 0
+    for dt, batch in d.items():
+        legs = batch.get('legs') or []
+        for lg in legs:
+            if lg.get('actual'):
+                continue
+            for x in res:
+                if not (x.get('ft') and x.get('dir')):
+                    continue
+                if _same_team(lg.get('h'), x.get('h')) and _same_team(lg.get('a'), x.get('a')):
+                    lg['actual'] = x['dir']
+                    lg['ft'] = x['ft']
+                    lg['hit'] = (lg.get('pick') == x['dir'])
+                    legs_fixed += 1
+                    break
+        if all(l.get('actual') for l in legs) and legs:
+            win = all(bool(l.get('hit')) for l in legs)
+            batch['result'] = 'win' if win else 'lose'
+            try:
+                batch['payout'] = round(float(batch.get('odd') or 0) * 2, 2) if win else 0
+            except (TypeError, ValueError):
+                pass
+    if legs_fixed:
+        html = html[:s] + json.dumps(d, ensure_ascii=False, separators=(',', ':')) + html[e:]
+        wins = sum(1 for b in d.values() if b.get('result') == 'win')
+        print('[fix_today] 2串1 回填 %d 条腿（%d 批已定论，盈利 %d 批）' % (legs_fixed, len(d), wins))
+    return html
+
+
+def _apply_intel_factors(html):
+    """8 因子里「近况 / 交锋 / 进失球」进数值（竞彩有 intel500 数据时）。
+
+    口径：只做有界修正（合计 ±3），任九那边仍按原 3 因子 ±5 的口径，不重复扣。
+    """
+    intel = load('intel500.json') or {}
+    if not isinstance(intel, dict) or not intel:
+        return html
+    d, s, e = _json_var(html, '__LIVE__')
+    if not isinstance(d, dict):
+        return html
+    hits = 0
+    for m in d.get('matches') or []:
+        x = intel.get(m.get('no'))
+        if not isinstance(x, dict):
+            for k, v in intel.items():
+                if _same_team(m.get('h'), v.get('pair500', '').split(' vs ')[0]) and \
+                        _same_team(m.get('a'), v.get('pair500', ' vs ')[-1]):
+                    x = v
+                    break
+        if not isinstance(x, dict):
+            continue
+        hw = (x.get('home') or {}).get('win_pct')
+        aw = (x.get('away') or {}).get('win_pct')
+        if hw is None or aw is None:
+            continue
+        main = m.get('main')
+        adj = 0.0
+        why = []
+        dw = float(hw) - float(aw)
+        # 近况（胜率差 ≥20pp）
+        if abs(dw) >= 20:
+            step = 1.0 if (main == '主胜' and dw > 0) or (main == '客胜' and dw < 0) else -1.0
+            adj += step
+            why.append('近况胜率 主%.0f%%/客%.0f%%（差 %+.0fpp）%+.1f' % (hw, aw, dw, step))
+        # 进失球差
+        hg = ((x.get('home_avg') or {}).get('gf') or [0])[0]
+        ha = ((x.get('home_avg') or {}).get('ga') or [0])[0]
+        ag = ((x.get('away_avg') or {}).get('gf') or [0])[0]
+        aa = ((x.get('away_avg') or {}).get('ga') or [0])[0]
+        try:
+            dgd = (float(hg) - float(ha)) - (float(ag) - float(aa))
+            if abs(dgd) >= 0.4:
+                step = 0.8 if (main == '主胜' and dgd > 0) or (main == '客胜' and dgd < 0) else -0.8
+                adj += step
+                why.append('场均净胜差 %+.2f（主 %.2f/客 %.2f）%+.1f' % (dgd, float(hg) - float(ha),
+                                                                      float(ag) - float(aa), step))
+        except (TypeError, ValueError):
+            pass
+        # 交锋
+        rec = str(x.get('h2h_rec') or '')
+        mm = re.match(r'(\d+)胜(\d+)和(\d+)负', rec)
+        if mm:
+            w, dd, l = (int(v) for v in mm.groups())
+            if main == '主胜' and w > l:
+                adj += 0.8
+                why.append('交锋 %d胜%d和%d负 利主 %+.1f' % (w, dd, l, 0.8))
+            elif main == '客胜' and l > w:
+                adj += 0.8
+                why.append('交锋 %d胜%d和%d负 利客 %+.1f' % (w, dd, l, 0.8))
+            elif main == '主胜' and l > w:
+                adj -= 0.8
+                why.append('交锋 %d胜%d和%d负 不利主 %+.1f' % (w, dd, l, -0.8))
+            elif main == '客胜' and w > l:
+                adj -= 0.8
+                why.append('交锋 %d胜%d和%d负 不利客 %+.1f' % (w, dd, l, -0.8))
+        if not why:
+            continue
+        adj = max(-3.0, min(3.0, adj))
+        base = m.get('main_p')
+        try:
+            base = float(base)
+        except (TypeError, ValueError):
+            continue
+        m['main_p'] = round(base + adj, 1)
+        m['conf'] = m['main_p']
+        note = '【数据因子·进数值】' + '；'.join(why) + '｜合计 %+.1f（封顶 ±3）→ 把握度 %.1f%% → %.1f%%' % (
+            adj, base, m['main_p'])
+        ana = str(m.get('ana') or '')
+        if '【数据因子·进数值】' not in ana:
+            m['ana'] = note + '\n' + ana
+        hits += 1
+    if hits:
+        html = html[:s] + json.dumps(d, ensure_ascii=False, separators=(',', ':')) + html[e:]
+        print('[fix_today] 近况/交锋/净胜球 因子进数值 %d 场' % hits)
+    return html
+
+
+def _enrich_sfc_ana(html):
+    """任九 14 场分析加厚：
+
+    ① 并入当日竞足同场（同队名）的定价/变盘/数据因子要点；
+    ② 任九自己的欧赔变盘（sfc_delta.json）；
+    ③ 没被竞足挂到的场次，补「三线对照」（欧赔去水 / 同档校准 / 爆冷分）。
+    """
+    sd = load('sfc_delta.json') or {}
+    by_no = {str(x.get('no')): x for x in (sd.get('matches') or [])}
+    live_d, _, _ = _json_var(html, '__LIVE__')
+    live = (live_d.get('matches') or []) if isinstance(live_d, dict) else []
+    data, s, e = _json_var(html, '__SFC_NOW__')
+    if data is None:
+        return html
+    rows = data if isinstance(data, list) else (data.get('matches') or [])
+    touched = 0
+    for it in rows:
+        if not isinstance(it, dict):
+            continue
+        ana = str(it.get('ana') or '')
+        if '【加厚·' in ana:
+            continue
+        parts = []
+        # ① 竞足同场
+        peer = None
+        for m in live:
+            if _same_team(it.get('h'), m.get('h')) and _same_team(it.get('a'), m.get('a')):
+                peer = m
+                break
+        if peer:
+            bits = ['竞足同场：%s 挂「%s」%s%%' % (peer.get('no'), peer.get('main'),
+                                               peer.get('main_p'))]
+            pa = str(peer.get('ana') or '')
+            for key in ('【变盘】', '【数据因子·进数值】', '【同档校准·已开】'):
+                i2 = pa.find(key)
+                if i2 >= 0:
+                    line = pa[i2:].split('\n')[0]
+                    bits.append(line)
+            parts.append('【加厚·竞足同场】' + '；'.join(bits))
+        # ② 任九欧赔变盘
+        x = by_no.get(str(it.get('no')))
+        if x and x.get('moves', 0) >= 1 or (x and x.get('tag') and x['tag'] != '盘口稳定'):
+            first = '/'.join('%.2f' % v for v in x.get('first') or [])
+            last = '/'.join('%.2f' % v for v in x.get('last') or [])
+            p = x.get('pct') or [0, 0, 0]
+            parts.append('【加厚·欧赔变盘】初盘 %s → 现盘 %s（主 %+.1f%% / 平 %+.1f%% / 客 %+.1f%%），%d 次调整｜%s'
+                         % (first, last, p[0], p[1], p[2], x.get('moves', 0), x.get('tag')))
+        # ③ 三线对照（没竞足同场时给，避免空场）
+        if not peer:
+            try:
+                raw = float(it.get('fus', [0, 0, 0])[['主胜', '平局', '客胜'].index(it.get('rec'))])
+                cal = float(it.get('conf') or it.get('main_p') or raw)
+                parts.append('【加厚·三线对照】欧赔去水 %.1f%% → 校准后 %.1f%%（差 %+.1f）；'
+                             '本场竞足今日未挂，任九口径独立成立' % (raw, cal, cal - raw))
+            except (TypeError, ValueError, IndexError):
+                pass
+        if parts:
+            it['ana'] = '\n'.join(parts) + '\n' + ana
+            touched += 1
+    if touched:
+        html = html[:s] + json.dumps(data, ensure_ascii=False, separators=(',', ':')) + html[e:]
+        print('[fix_today] 任九分析加厚 %d 场（并竞足/变盘/三线对照）' % touched)
+    return html
+
+
+def _inject_refresh_button(html):
+    """页面右下角「立即更新」按钮：点一下强刷到最新构建版本，并显示这版数据的构建时间。"""
+    if 'id="hbRefreshBtn"' in html:
+        return html
+    stamp = __import__('datetime').datetime.now().strftime('%m-%d %H:%M')
+    btn = (
+        '<div id="hbRefreshBtn" style="position:fixed;right:10px;bottom:74px;z-index:99;'
+        'display:flex;align-items:center;gap:6px;padding:7px 11px;border-radius:20px;'
+        'background:#d33;color:#fff;font-size:11px;font-weight:700;'
+        'box-shadow:0 3px 10px rgba(0,0,0,.35);cursor:pointer" '
+        'onclick="(function(){var u=location.pathname+\'?v=\'+Date.now();'
+        'location.replace(u);})()">'
+        '<span>🔄 立即更新</span>'
+        '<span style="font-weight:400;opacity:.85;font-size:10px">数据 %s</span></div>' % stamp
+    )
+    i = html.rfind('</body>')
+    if i < 0:
+        return html + btn
+    return html[:i] + btn + html[i:]
+
+
+def _json_var(html, name):
+    """按括号配平取出 window.NAME = {...}/[...] 的值（正则非贪婪在多级嵌套上会截断）。"""
+    k = html.find('window.' + name + '=')
+    if k < 0:
+        k = html.find('window.' + name + ' =')
+    if k < 0:
+        return None, None, None
+    s = -1
+    for i in range(k, len(html)):
+        if html[i] in '[{':
+            s = i
+            break
+    op = html[s]
+    cl = ']' if op == '[' else '}'
+    depth = 0
+    i = s
+    while i < len(html):
+        c = html[i]
+        if c == op:
+            depth += 1
+        elif c == cl:
+            depth -= 1
+            if depth == 0:
+                break
+        elif c == '"':
+            i += 1
+            while i < len(html) and html[i] != '"':
+                if html[i] == '\\':
+                    i += 1
+                i += 1
+        i += 1
+    try:
+        return json.loads(html[s:i + 1]), s, i + 1
+    except Exception as e:
+        print('[fix_today] %s 解析失败：%s' % (name, e))
+        return None, s, i + 1
+
+
+def _apply_calibration(html, rows=None, coach=None):
+    """把「历史同档真实命中率 + 8 因子」真正算进显示概率（可选开关 __CALIB_ON__）。
+
+    口径（写死在页面上，避免黑箱）：
+      校准概率 = 0.7 × 赔率去水概率 + 0.3 × 同档历史真实命中率
+      再叠加 8 因子有界修正（合计封顶 ±5 个百分点），逐项写明
+    翻转保护：校准后次选反超主选 ≥ 3.0 个百分点才改方向，否则只改数值
+    """
+    try:
+        rows = rows if rows is not None else _diverge_rows(html)
+        if not rows:
+            return html
+        buckets = [(0, 40), (40, 50), (50, 60), (60, 70), (70, 80), (80, 200)]
+        stat = {b: {'n': 0, 'hit': 0} for b in buckets}
+        for r in rows:
+            if not r.get('real') or r.get('main_p') in (None, '') or not r.get('main'):
+                continue
+            mp = float(r['main_p'])
+            bk = next((b for b in buckets if b[0] <= mp < b[1]), None)
+            if not bk:
+                continue
+            stat[bk]['n'] += 1
+            if r['real'] == r['main']:
+                stat[bk]['hit'] += 1
+        coach = coach if coach is not None else (load('coach_map.json') or {})
+
+        data, s, e = _json_var(html, '__SFC_NOW__')
+        if data is None:
+            return html
+        rows_obj = data if isinstance(data, list) else (data.get('matches') or [])
+        for it in rows_obj:
+            if not isinstance(it, dict):
+                continue
+            fus = it.get('fus') or []
+            rec = it.get('rec')
+            if len(fus) != 3 or rec not in ('主胜', '平局', '客胜'):
+                continue
+            idx = ['主胜', '平局', '客胜'].index(rec)
+            raw = float(fus[idx])
+            bk = next((b for b in buckets if b[0] <= raw < b[1]), None)
+            st = stat.get(bk, {'n': 0, 'hit': 0})
+            hist = (100.0 * st['hit'] / st['n']) if st['n'] >= 10 else None
+            cal = 0.7 * raw + 0.3 * hist if hist is not None else raw
+            notes = []
+            if hist is not None:
+                notes.append('档 %d-%d%%：历史同档 %d 场真实命中 %.1f%%' % (bk[0], bk[1], st['n'], hist))
+            else:
+                notes.append('档 %d-%d%%：历史同档仅 %d 场（<10，样本不足，不参与校准）' % (bk[0], bk[1], st['n']))
+            # 8 因子（有界）
+            adj = 0.0
+            hr, ar = it.get('gap'), None
+            try:
+                hr, ar = int(it.get('hr') or 0), int(it.get('ar') or 0)
+            except Exception:
+                hr = ar = None
+            if hr and ar:
+                weak_home = hr > ar
+                if rec == '主胜' and weak_home:
+                    adj -= 2.0
+                    notes.append('名次背离（主推名次弱势方）-2.0')
+                elif rec == '客胜' and not weak_home:
+                    adj -= 2.0
+                    notes.append('名次背离（主推名次弱势方）-2.0')
+            dp = float(fus[1])
+            if dp >= 27:
+                adj -= 1.5
+                notes.append('平局率 %.1f%% ≥27%% -1.5' % dp)
+            for side in (it.get('h'), it.get('a')):
+                if side and (side in (coach or {})):
+                    adj -= 1.5
+                    notes.append('%s 帅位动荡 -1.5' % side)
+                    break
+            adj = max(-5.0, min(5.0, adj))
+            cal = max(1.0, min(99.0, cal + adj))
+            tot = sum(fus)
+            scale = (100.0 - cal) / (tot - raw) if tot - raw > 0 else 1.0
+            new = [f * scale for f in fus]
+            new[idx] = cal
+            # 翻转保护
+            alt_i = max([i for i in range(3) if i != idx], key=lambda i: new[i])
+            flipped = new[alt_i] - cal >= 3.0
+            if flipped:
+                notes.append('校准后 %s %.1f%% 反超主选 %.1f 个百分点 → 方向改为 %s'
+                             % (['主胜', '平局', '客胜'][alt_i], new[alt_i], new[alt_i] - cal,
+                                ['主胜', '平局', '客胜'][alt_i]))
+                it['rec_pre_cal'] = rec
+                it['rec'] = ['主胜', '平局', '客胜'][alt_i]
+                idx = alt_i
+            else:
+                notes.append('未翻转（次选最高 %.1f%%，与主选差 %.1f）' % (new[alt_i], new[alt_i] - cal))
+            it['fus_raw'] = fus
+            it['fus'] = [round(x, 1) for x in new]
+            it['conf'] = round(new[idx], 1)
+            it['conf_raw'] = round(raw, 1)
+            it['calib'] = {'on': True, 'hist': round(hist, 1) if hist is not None else None,
+                           'n': st['n'], 'adj': round(adj, 1), 'flip': bool(flipped)}
+            head = '【校准·已开启】原 %.1f%% → %.1f%%（0.7×赔率 + 0.3×同档历史；8因子 %+.1f）。%s。' % (
+                it['conf_raw'], it['conf'], adj, '；'.join(notes))
+            if not (it.get('ana') or '').startswith('【校准'):
+                it['ana'] = head + (it.get('ana') or '')
+        out = json.dumps(data, ensure_ascii=False, separators=(',', ':'))
+        html2 = html[:s] + out + html[e:]
+        print('[fix_today] 校准已开启：14 场按 0.7×赔率 + 0.3×同档历史 重算（8因子封顶 ±5）')
+        return html2
+    except Exception as e:
+        print('[fix_today] 校准失败：%s' % e)
+        return html
+
+
+def _rebuild_cold(html, sp, rows=None):
+    """爆冷风险雷达：必须用「当期 14 场」重算，否则标题是当期、卡片是上一期。
+
+    翻车率口径沿用原雷达：按赛前主推概率分档，用已开赛的历史记录实算
+    （(D).rows 里有 real + main + main_p 的场次）。
+    """
+    if not sp:
+        return html
+    if rows is None:
+        rows = _diverge_rows(html)
+    buckets = [(0, 40), (40, 50), (50, 60), (60, 70), (70, 80), (80, 200)]
+    stat = {b: {'n': 0, 'flop': 0} for b in buckets}
+    for r in rows:
+        if not r.get('real') or not r.get('main') or r.get('main_p') in (None, ''):
+            continue
+        mp = float(r['main_p'])
+        bk = next((b for b in buckets if b[0] <= mp < b[1]), None)
+        if not bk:
+            continue
+        stat[bk]['n'] += 1
+        if r['real'] != r['main']:
+            stat[bk]['flop'] += 1
+
+    out = []
+    for m in sp:
+        o = m.get('o') or {}
+        fus = m.get('fus') or []
+        main = m.get('rec') or m.get('main') or ''
+        if len(fus) != 3 or main not in ('主胜', '平局', '客胜'):
+            continue
+        mp = float(fus[['主胜', '平局', '客胜'].index(main)])
+        dp = float(fus[1])
+        bk = next((b for b in buckets if b[0] <= mp < b[1]), None)
+        st = stat.get(bk, {'n': 0, 'flop': 0})
+        base = (100.0 * st['flop'] / st['n']) if st['n'] else None
+        hr, ar = m.get('hrank'), m.get('arank')
+        div = 0.0
+        if hr not in (None, '') and ar not in (None, ''):
+            d = abs(int(hr) - int(ar))
+            strong_is_home = int(hr) < int(ar)
+            if (main == '主胜' and not strong_is_home) or (main == '客胜' and strong_is_home):
+                div = round(d * 0.6, 1)
+        score = (base if base is not None else 50.0) + max(0.0, dp - 24.0) * 0.8 + div
+        lvl = '高' if score >= 55 else ('中' if score >= 45 else '低')
+        ana = '🧊 爆冷风险 %s（%.1f）｜主推%s%.1f%%，处%d-%d%%档，历史同档%d场命中%s（翻车%s）。' % (
+            lvl, score, main, mp, bk[0], bk[1], st['n'],
+            ('%.1f%%' % (100 - base)) if base is not None else '暂无',
+            ('%.1f%%' % base) if base is not None else '暂无')
+        if hr not in (None, '') and ar not in (None, ''):
+            ana += '主队%s第%s、客队第%s，%s。' % (
+                m.get('lg') or '', hr, ar,
+                '市场定价与排名相反（背离%.1f位）' % div if div > 0 else '与定价方向一致')
+        ana += '平局率%.1f%%。' % dp
+        if dp >= 27:
+            ana += '形态：平局闷死。'
+        elif div > 0:
+            ana += '形态：主推方即名次弱势方，失手风险来自平局或反向穿透。'
+        else:
+            ana += '形态：无突出形态。'
+        out.append({'no': m.get('no'), 'h': m.get('h'), 'a': m.get('a'), 'lg': m.get('lg'),
+                    'tm': m.get('tm') or m.get('date'), 'main': main, 'mp': mp, 'dp': dp,
+                    'base': base if base is not None else 50.0, 'bn': st['n'],
+                    'div': div, 'score': round(score, 1), 'lvl': lvl, 'ana': ana})
+    if not out:
+        return html
+    out.sort(key=lambda x: -x['score'])
+    return replace_var(html, '__SFC_COLD__', out)[0]
+
+
+def _append_current_div(html, sp, iss):
+    """把当期 14 场追加进 __R9_DIV__（背离追踪表），并标记 current 期号。
+
+    原表只跑到上一期，且上一次的赛果没回填，页面上就只看到「上一期的对阵 + 未开赛」。
+    """
+    if not sp or not iss:
+        return html
+    pat = re.compile(r'window\.__R9_DIV__\s*=\s*(\{.*?\})\s*;\s*</script>', re.S)
+    m = pat.search(html)
+    if not m:
+        print('[fix_today] 未找到 __R9_DIV__，跳过背离补当期')
+        return html
+    try:
+        d = json.loads(m.group(1))
+    except Exception:
+        print('[fix_today] __R9_DIV__ 解析失败，跳过')
+        return html
+    rows = d.get('rows') or []
+    # 同一期如果表里已经有（可能来自旧数据/别的期号映射），先整期剔除，再按当期 14 场重写，
+    # 否则会出现「期号是 26166、比赛却是别的期的对阵」。
+    rows = [r for r in rows if str(r.get('issue')) != str(iss)]
+    added = 0
+    for x in sp:
+        hr, ar = x.get('hrank'), x.get('arank')
+        gap = abs(int(hr) - int(ar)) if (hr not in (None, '') and ar not in (None, '')) else None
+        band = None
+        if gap is not None:
+            band = ('一致' if gap == 0 else '差1-2位' if gap <= 2 else '差3-5位' if gap <= 5
+                    else '差6-9位' if gap <= 9 else '差10位以上')
+        rows.append({
+            'issue': str(iss), 'no': x.get('no'), 'lg': x.get('lg'), 'date': x.get('date'),
+            'h': x.get('h'), 'a': x.get('a'), 'hr': hr, 'ar': ar,
+            'main': x.get('rec') or x.get('main'), 'main_p': x.get('main_p'),
+            'div': round(float(x.get('gap') or 0), 1), 'gap': gap, 'band': band,
+            'ft': None, 'real': None, 'hit': None,
+        })
+        added += 1
+    # ★ 去重：同一期同一场次号只保留最后一条（新追加的为准），
+    #   否则会出现「26166 既有拜仁/科隆、又有上一批挪超对阵」混在一张表里
+    _seen = {}
+    for r in rows:
+        _seen[(str(r.get('issue')), str(r.get('no')))] = r
+    rows = list(_seen.values())
+    d['rows'] = rows
+    d['current'] = str(iss)
+    html, ok = replace_var(html, '__R9_DIV__', d)
+    if ok:
+        print('[fix_today] 背离表当期 %s 重写 %d 场（原表期号止于 %s）'
+              % (iss, added, max([str(r.get('issue')) for r in rows if r.get('issue')] or ['—'])))
+    return html
 
 
 def replace_var(html, name, value):
@@ -497,7 +1460,8 @@ def main():
     if not ok3:
         print('[fix_today] 未找到 __COMBO_HISTORY__')
 
-    # 任九页头：模板里 <span id="sfcIssueTxt"> 写死的是旧期（2026-09-20 · 第 26131 期），
+    # 背离追踪表补当期：原表只到上一期（赛果为空），页面看起来像「还在显示上一期的比赛」。
+    # 把当期 14 场按同样的档位口径追加进 __R9_DIV__.rows，并标记 current。
     # 页面 JS 虽然会用 SFC._期次 覆盖，但用户先看到的就是这行旧文案 —— 直接按当期改写。
     sp = load('sfc_pick.json') or []
     if sp:
@@ -515,26 +1479,107 @@ def main():
             if m3:
                 html = html[:m3.start(2)] + ('停售 %s' % dl) + html[m3.end(2):]
         print('[fix_today] 任九页头改写为 第 %s 期 · %s · 停售 %s' % (iss, day, dl or '—'))
+        html = _append_current_div(html, sp, iss)
+        # ★ 每期都跑：先回填赛果（旧期 real 空 → 用「竞彩赛果公告」补），再算雷达/校准
+        html = _backfill_div_results(html, iss)
+        html = _merge_bj_mobile(html)
+        html = _apply_odds_delta(html)
+        html = _archive_picks(html)
+        html = _backfill_review(html)
+        html = _inject_bj_today(html)
+        html = _apply_calibration_multi(html)
+        html = _merge_jc_okooo(html)
+        html = _apply_intel_factors(html)
+        html = _backfill_combo_all(html)
+        html = _enrich_sfc_ana(html)
+        html = _inject_refresh_button(html)
+        html = _rebuild_cold(html, sp)
+        # ★ 校准开关：结果回填出来的历史同档命中率 + 8 因子，是否真的写进显示概率
+        if os.path.exists(os.path.join(DATA, '_calib_on.json')) or True:
+            html = _apply_calibration(html, _diverge_rows(html), load('coach_map.json') or {})
 
-    # 退役/告别/卸任公告：只搬运公开标题（直播吧），不挂靠当期球队、不预测
+    # 退役/告别/帅位公告：只搬运公开标题（直播吧），不挂靠当期球队、不预测
     rn = load('retire_news.json') or {}
-    items = (rn.get('items') or [])[:12]
-    if items and '</body>' in html:
-        lis = []
-        for it in items:
+    _cmap = load('coach_map.json') or {}
+    # 本期相关队名（用于给帅位新闻排序：涉及本期球队的优先）
+    _teams = set()
+    for f in ('sfc_pick.json', 'full.json', '_bj_latest_full.json'):
+        d = load(f) or {}
+        ms = d.get('matches') if isinstance(d, dict) else d
+        for m in (ms or []):
+            for k in ('h', 'a'):
+                v = (m.get(k) or '').strip()
+                if len(v) >= 2:
+                    _teams.add(v)
+    _TEAM_LINES = set()
+    for _tn, _xs in (_cmap.items()):
+        for _x in _xs:
+            _TEAM_LINES.add(_x)
+
+    # 噪音过滤：青训/校园/女足/回忆类不进顶部速览（仍保留在页尾卡片里）
+    _NOISE = ('女足', '中学', '小学', '大学', '青训', '梯队', '回忆', '当年', '昔日', '历史')
+
+    def _rank_coach(it):
+        title = it.get('title') or ''
+        related = 1 if ('%s（%s）' % (title, it.get('date') or '')) in _TEAM_LINES else 0
+        noise = 1 if any(x in title for x in _NOISE) else 0
+        return (-related, noise, -(int((it.get('date') or '2026-01-01').replace('-', '') or 0)))
+
+    _all = sorted((rn.get('items') or []), key=lambda x: (x.get('date') or ''), reverse=True)
+    _coach_raw = [it for it in _all if (it.get('kind') == 'coach')]
+    coach_items = sorted(_coach_raw, key=_rank_coach)[:8]
+    player_items = [it for it in _all if (it.get('kind') != 'coach')][:8]
+    # 顶部速览只要「非噪音 + 有日期」的，最多 3 条
+    coach_top = [it for it in sorted(_coach_raw, key=_rank_coach)
+                 if not any(x in (it.get('title') or '') for x in _NOISE)][:3]
+    items = coach_items + player_items
+
+    # ① 顶部「帅位动态」条：教练/主帅变动直接放在任九页头下方，不用滚到页尾
+    if coach_top:
+        def _one(it, i):
             t = (it.get('title') or '').replace('&', '&amp;').replace('<', '&lt;')
-            u = it.get('url') or '#'
             d = it.get('date') or ''
-            lis.append('<li style="margin:5px 0;line-height:1.7"><span style="color:#8a8a8a">%s</span> '
-                       '<a href="%s" target="_blank" rel="noopener noreferrer" style="color:#fff;text-decoration:none">%s</a></li>'
-                       % (d, u, t))
+            return ('<a href="%s" target="_blank" rel="noopener noreferrer" '
+                    'style="color:#ffd166;text-decoration:none">%s</a>'
+                    '<span style="color:#8a8a8a"> · %s</span>' % (it.get('url') or '#', t, d))
+        strip = ('<div id="coachStrip" style="margin:10px 12px 2px;padding:10px 12px;border-radius:10px;'
+                 'background:rgba(255,209,102,.08);border:1px solid rgba(255,209,102,.28);font-size:12px;line-height:1.75">'
+                 '<div style="font-weight:800;font-size:13px;margin-bottom:4px;color:#ffd166">👔 帅位动态（教练 / 主帅变动）</div>'
+                 '%s</div>') % '<br>'.join(_one(it, i) for i, it in enumerate(coach_top))
+        anchor = '<div class="sfc-ops" style="flex-wrap:wrap">'
+        if anchor in html:
+            html = html.replace(anchor, strip + anchor, 1)
+            print('[fix_today] 顶部帅位动态条注入 %d 条' % len(coach_top))
+
+    if items and '</body>' in html:
+        def _lis(lst, badge, color):
+            out = []
+            for it in lst:
+                t = (it.get('title') or '').replace('&', '&amp;').replace('<', '&lt;')
+                u = it.get('url') or '#'
+                d = it.get('date') or ''
+                out.append('<li style="margin:5px 0;line-height:1.7">'
+                           '<span style="color:%s;font-size:11px">%s</span> '
+                           '<span style="color:#8a8a8a">%s</span> '
+                           '<a href="%s" target="_blank" rel="noopener noreferrer" '
+                           'style="color:#fff;text-decoration:none">%s</a></li>' % (color, badge, d, u, t))
+            return ''.join(out)
+        sec = ''
+        if coach_items:
+            sec += ('<div style="font-weight:800;font-size:13px;margin:8px 0 4px;color:#ffd166">'
+                    '👔 教练 / 主帅（%d 条）</div><ul style="font-size:12px;padding-left:16px;margin:0">%s</ul>'
+                    % (len(coach_items), _lis(coach_items, '帅位', '#ffd166')))
+        if player_items:
+            sec += ('<div style="font-weight:800;font-size:13px;margin:10px 0 4px">'
+                    '⚽ 球员退役 / 告别（%d 条）</div><ul style="font-size:12px;padding-left:16px;margin:0">%s</ul>'
+                    % (len(player_items), _lis(player_items, '球员', '#64b5f6')))
         blk = ('<div id="retireNewsCard" style="margin:12px 12px 16px;padding:12px 14px;border-radius:10px;'
                'background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12)">'
                '<div style="font-weight:800;font-size:14px;margin-bottom:4px">📰 退役 / 告别 / 卸任公告</div>'
-               '<div style="font-size:11px;color:#9a9a9a;margin-bottom:6px">公开新闻源：直播吧足球频道。只搬标题不预测，点标题看原文。</div>'
-               '<ul style="font-size:12px;padding-left:16px;margin:0">%s</ul></div>') % ''.join(lis)
+               '<div style="font-size:11px;color:#9a9a9a;margin-bottom:6px">公开新闻源：直播吧足球频道（近 14 天）。'
+               '只搬标题不预测，点标题看原文。</div>%s</div>') % sec
         html = html.replace('</body>', blk + '\n</body>', 1)
-        print('[fix_today] 退役公告区块注入 %d 条' % len(items))
+        print('[fix_today] 公告区块注入：教练 %d 条 / 球员 %d 条' % (len(coach_items), len(player_items)))
 
     # 战意文案：国际赛没有俱乐部联赛积分榜，原来那句"项目内无该组小组积分快照"又长又像缺数据，改成明确口径
     html = html.replace(
@@ -550,7 +1595,29 @@ def main():
     tmp = PAGE + '.tmp'
     with io.open(tmp, 'w', encoding='utf-8', newline='\n') as f:
         f.write(html)
-    os.replace(tmp, PAGE)
+    # Windows 上 index.html 常被浏览器/上传进程占用 → os.replace 会 PermissionError，
+    # 这里退化为「重试 + 原地覆盖」，避免整轮循环报废。
+    last = None
+    for i in range(6):
+        try:
+            os.replace(tmp, PAGE)
+            last = None
+            break
+        except OSError as ex:
+            last = ex
+            time.sleep(1.5)
+            try:
+                with io.open(PAGE, 'w', encoding='utf-8', newline='\n') as f:
+                    f.write(html)
+                os.remove(tmp)
+                last = None
+                break
+            except OSError as ex2:
+                last = ex2
+                time.sleep(1.5)
+    if last is not None:
+        print('[fix_today] 写页面失败（被占用）：%s' % last)
+        return 2
     print('[fix_today] 页面已更新 %d B' % len(html.encode('utf-8')))
     return 0
 

@@ -1,17 +1,13 @@
 name: daily
 
-# 发布器（只负责把已生成的页面发到 GitHub Pages）
-#
-# 为什么不再在 Actions 里抓数据：
-#   GitHub 机房 IP 被体彩（HTTP 567）和澳客（HTTP 405）直接封掉，
-#   在 runner 上抓不到任何赔率/情报。数据必须由本机（家宽 IP）抓：
-#   本机跑 python scripts/build.py → 提交 index.html 与 engine/data → 本工作流发布。
-#
-# 触发：每 30 分钟一次（兜底重发最新提交里的页面），也可手动 Run workflow。
+# 发布器：本机负责抓数据+构建+推送，本工作流负责「一推就发」，并每 30 分钟兜底重发。
+# 为什么不在 runner 上抓数据：GitHub 机房 IP 被体彩(567)/澳客(405)按地域拦截。
 on:
+  push:
+    branches: [main]
   schedule:
     - cron: '17,47 * * * *'
-  workflow_dispatch:
+  workflow_dispatch: {}
 
 permissions:
   contents: read
@@ -20,7 +16,7 @@ permissions:
 
 concurrency:
   group: pages-deploy
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   deploy:
@@ -31,12 +27,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: 产物检查
+        run: |
+          SIZE=$(stat -c%s index.html)
+          echo "index.html = $SIZE bytes"
+          grep -c "【变盘】" index.html || true
+          grep -c "立即更新" index.html || true
+
       - name: 收进 public/
         run: |
           mkdir -p public
           cp index.html public/index.html
           printf '' > public/.nojekyll
-          ls -l public
 
       - name: 打包 Pages 产物
         uses: actions/upload-pages-artifact@v3
