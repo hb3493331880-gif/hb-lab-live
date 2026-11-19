@@ -510,8 +510,19 @@ if os.path.exists(bjdc_path):
     if _nFix:
         print('  北单补算概率：%d 场（SP 有值但 fus 缺失）' % _nFix)
 
+    # 北单页只放「在售/未开赛」：抓回来的 _bj_latest_full 跨 4 个销售日（含已完赛 18 场，
+    # 前一销售日还有「中国 vs 巴林」这类旧场），原样注入会让用户看到上一期的比赛还在。
+    # 已完赛的场次整块转进复盘，不再出现在「在售」列表。
+    _bj_all = bjdc.get('matches', [])
+    _bj_live = [m for m in _bj_all if not m.get('ft')]
+    _bj_done = [m for m in _bj_all if m.get('ft')]
+    _bjdc_out = {k: v for k, v in bjdc.items() if k != 'matches'}
+    _bjdc_out['matches'] = _bj_live
+    _bjdc_out['done_total'] = len(_bj_done)
+    print('  北单在售 %d 场（已完赛 %d 场转复盘，不再列在售）' % (len(_bj_live), len(_bj_done)))
+
     inline += '<script>window.__BJDC__=%s;</script>\n' % jd(
-        bjdc, ensure_ascii=False, separators=(',', ':'))
+        _bjdc_out, ensure_ascii=False, separators=(',', ':'))
 
 # 北单基本面调研（逐场：排名/状态/伤停/交锋/战意 + 矛盾提示）
 bjdc_r_path = os.path.join(BASE, 'data', 'bjdc_research.json')
@@ -725,7 +736,19 @@ except Exception:
 #   原写法 _SFC_DL.get(期号, '2026-10-11 20:30') —— 26138 的截止被当成默认值，
 #   导致 26150/26151 一直显示 10-11，比比赛日 10-28 还早 17 天（用户当场发现）。
 #   期次表未覆盖时，必须标「待核实」，而不是编一个看似合理的日期。
-SFC_DEADLINE = _SFC_DL.get(SFC_ISSUE) or ('%s 截止时间待核实（期次表未收录，请查500足彩页）' % SFC_ISSUE)
+# ★ 第五二条（本次修复）：停售时间别写「待核实」——澳客期次页本身就标了停售时间，
+#   fetch_sfc_okooo.py 已经把它落进 data/sfc_okooo.json；这里按当期读回来。
+_SFC_META = {}
+try:
+    _mp = os.path.join(BASE, 'data', 'sfc_okooo.json')
+    if os.path.exists(_mp):
+        _SFC_META = json.load(open(_mp, encoding='utf-8'))
+except Exception:
+    _SFC_META = {}
+if str(_SFC_META.get('issue') or '') == str(SFC_ISSUE) and _SFC_META.get('deadline'):
+    SFC_DEADLINE = '停售 %s（澳客期次页标注）' % _SFC_META['deadline']
+else:
+    SFC_DEADLINE = _SFC_DL.get(SFC_ISSUE) or ('%s 截止时间待核实（期次表未收录，请查澳客/体彩页）' % SFC_ISSUE)
 # ★★ 第一八〇条（第一三五条复发）：任九曾有两套数据源并存
 #   data/sfc_pick.json（选号卡片读 __SFC_PICK__）与 data/sfc26132.json（__SFC_NOW__）
 #   两者在 002 澳大利亚vs巴西（客胜 67.6% vs 88.2%、tot 2.82 vs 3.89）、
