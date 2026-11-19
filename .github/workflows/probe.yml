@@ -9,6 +9,7 @@ jobs:
     steps:
       - name: 探测各站可达性
         run: |
+          set +e
           UA_PC="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36"
           UA_M="Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1"
           probe () { code=$(curl -s -o /tmp/o -w "%{http_code}" -m 20 -A "$2" "$1" 2>/dev/null); sz=$(wc -c < /tmp/o 2>/dev/null); printf "%-6s %8s  %s\n" "$code" "$sz" "$1"; }
@@ -40,3 +41,4 @@ jobs:
           probe "https://sports.163.com/" "$UA_PC"
           echo "=== 免费代理/中转 ==="
           probe "https://r.jina.ai/https://m.okooo.com/zucai/?LotteryNo=26166" "$UA_PC"
+
