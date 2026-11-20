@@ -1,0 +1,27 @@
+name: probe5
+on:
+  workflow_dispatch: {}
+jobs:
+  p:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 球队页是否带主教练
+        run: |
+          set +e
+          UA="Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1"
+          for s in f350 f43; do
+            echo "=== /team/$s/"
+            curl -sS -m 25 -A "$UA" -e "https://m.okooo.com/" -o t.html "https://m.okooo.com/team/$s/"
+            wc -c t.html
+            grep -o "教练[^<|]\{0,25\}" t.html | head -6
+            grep -o "主帅[^<|]\{0,25\}" t.html | head -6
+            python3 - <<PY
+          import re, io
+          t = io.open('t.html', encoding='gbk', errors='ignore').read()
+          t2 = re.sub(r'<script.*?</script>', '', t, flags=re.S)
+          t2 = re.sub(r'<[^>]+>', '|', t2)
+          t2 = re.sub(r'\|+', '|', t2)
+          i = t2.find('教练')
+          print('idx', i, t2[max(0, i-80):i+120] if i >= 0 else 'none')
+          PY
+          done
