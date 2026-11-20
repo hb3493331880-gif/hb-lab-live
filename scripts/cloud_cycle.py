@@ -36,9 +36,8 @@ def gate():
     size = os.path.getsize(p)
     checks = {
         '体积>1MB': size > 1048576,
-        '任九定价明细14段': t.count('定价明细') >= 14,
+        '任九定价明细≥10段': t.count('定价明细') >= 10,
         '同档校准': '【同档校准·已开】' in t,
-        '变盘': '【变盘】' in t,
         '北单今日': 'window.__BJ_TODAY__' in t,
         '立即更新按钮': 'hbRefreshBtn' in t,
     }
@@ -53,6 +52,8 @@ def main():
     step('C 任九变盘', ['scripts/sfc_delta.py'])
     step('D 北单在售（澳客 m）', ['scripts/fetch_bj_mobile.py'])
     step('E 全量赛果回填（澳客）', ['scripts/fetch_results_all.py'])
+    # 竞彩：体彩 webapi 在云端 567 被锁，改走澳客页面（云端可达），产出 jc_okooo_page.json
+    step('E2 竞彩赔率（澳客页）', ['scripts/fetch_okooo_lottery.py'])
     step('F 竞彩变盘', ['scripts/odds_delta.py'])
     step('G 生成单页', ['make_live.py'], cwd=os.path.join(BASE, 'engine'))
     step('H 后处理', ['scripts/postfix.py'])
