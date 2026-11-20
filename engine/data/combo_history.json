@@ -16,9 +16,10 @@
     "odd": 1.58,
     "p": 55.6,
     "conf": 42,
-    "actual": null,
-    "hit": null,
-    "note": "该日评分档案未入库"
+    "actual": "主胜",
+    "hit": true,
+    "note": "该日评分档案未入库",
+    "ft": "3-2"
    },
    {
     "no": "周日004",
@@ -29,13 +30,18 @@
     "odd": 1.65,
     "p": 53.2,
     "conf": 40,
-    "actual": null,
-    "hit": null,
-    "note": "该日评分档案未入库"
+    "actual": "主胜",
+    "hit": true,
+    "note": "该日评分档案未入库",
+    "ft": "5-4"
    }
   ],
   "result": "pending",
-  "frozen": true
+  "frozen": true,
+  "hit": true,
+  "odd_all": 2.61,
+  "payout": 5.21,
+  "profit": 3.21
  },
  "2026-11-16": {
   "date": "2026-11-16",
@@ -54,9 +60,10 @@
     "odd": 1.41,
     "p": 62.2,
     "conf": 47,
-    "actual": null,
-    "hit": null,
-    "note": "该日评分档案未入库"
+    "actual": "客胜",
+    "hit": true,
+    "note": "该日评分档案未入库",
+    "ft": "0-3"
    },
    {
     "no": "周一003",
@@ -67,13 +74,18 @@
     "odd": 1.9,
     "p": 46.2,
     "conf": 35,
-    "actual": null,
-    "hit": null,
-    "note": "该日评分档案未入库"
+    "actual": "主胜",
+    "hit": true,
+    "note": "该日评分档案未入库",
+    "ft": "2-1"
    }
   ],
   "result": "pending",
-  "frozen": true
+  "frozen": true,
+  "hit": true,
+  "odd_all": 2.68,
+  "payout": 5.36,
+  "profit": 3.36
  },
  "2026-11-18": {
   "date": "2026-11-18",
@@ -92,8 +104,9 @@
     "odd": 1.1,
     "p": 79.8,
     "conf": 66,
-    "actual": null,
-    "hit": null
+    "actual": "主胜",
+    "hit": true,
+    "ft": "2-1"
    },
    {
     "no": "周三004",
@@ -110,7 +123,11 @@
    }
   ],
   "result": "pending",
-  "frozen": true
+  "frozen": true,
+  "hit": false,
+  "odd_all": 2.45,
+  "payout": 0.0,
+  "profit": -2.0
  },
  "2026-11-19": {
   "date": "2026-11-19",
@@ -129,8 +146,9 @@
     "odd": 2.18,
     "p": 40.3,
     "conf": 26,
-    "actual": null,
-    "hit": null
+    "actual": "主胜",
+    "hit": false,
+    "ft": "2-1"
    },
    {
     "no": "周四004",
@@ -147,7 +165,11 @@
    }
   ],
   "result": "pending",
-  "frozen": true
+  "frozen": true,
+  "hit": false,
+  "odd_all": 3.79,
+  "payout": 0.0,
+  "profit": -2.0
  },
  "2026-11-20": {
   "date": "2026-11-20",
