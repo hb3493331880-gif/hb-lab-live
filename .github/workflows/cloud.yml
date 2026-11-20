@@ -24,7 +24,23 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: 本机刚推过就跳过（避免云端覆盖本机更全的那版）
+        id: check
+        run: |
+          set +e
+          LAST_EPOCH=$(git log -1 --format=%ct)
+          NOW=$(date +%s)
+          AGE=$(( (NOW - LAST_EPOCH) / 60 ))
+          AUTHOR=$(git log -1 --format=%an)
+          echo "last commit by $AUTHOR · ${AGE} 分钟前"
+          if [ "$AUTHOR" != "hb-cloud-bot" ] && [ $AGE -lt 25 ]; then
+            echo "skip=1" >> $GITHUB_OUTPUT
+          else
+            echo "skip=0" >> $GITHUB_OUTPUT
+          fi
+
       - uses: actions/setup-python@v5
+        if: steps.check.outputs.skip == '0'
         with:
           python-version: '3.11'
 
