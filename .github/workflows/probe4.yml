@@ -1,39 +1,26 @@
 name: probe4
 on:
-  workflow_dispatch:
-permissions:
-  contents: write
+  workflow_dispatch: {}
 jobs:
-  probe4:
+  p:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-      - name: 在 runner 上跑澳客竞彩/北单解析
+      - name: 找球队页/主教练字段
         run: |
           set +e
-          out=probe_log4.txt
-          : > $out
-          echo "run at $(date -u '+%F %T') UTC" >> $out
-          echo "=== 竞彩 ===" >> $out
-          python scripts/fetch_okooo_lottery.py jc >> $out 2>&1
-          echo "=== 北单 ===" >> $out
-          python scripts/fetch_okooo_lottery.py bj >> $out 2>&1
-          echo "=== 竞彩前 5 场 ===" >> $out
-          python - <<'PY' >> $out 2>&1
-          import json, io
-          d = json.load(io.open('engine/data/jc_okooo_page.json', encoding='utf-8'))
-          for m in d['matches'][:5]:
-              print(m['order'], m['lg'], m['h'], 'vs', m['a'], 'SP', m['sp'], 'rq', m['hcap'], 'sph', m['sph'])
-          print('总场次', d['count'])
-          PY
-          echo done
-      - name: 提交结果
-        run: |
-          git config user.name  "probe-bot"
-          git config user.email "probe-bot@users.noreply.github.com"
-          git add probe_log4.txt
-          git commit -m "test(probe4): runner 上解析澳客竞彩/北单" || true
-          git push || true
+          UA="Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1"
+          curl -sS -m 25 -A "$UA" -e "https://m.okooo.com/" -o m.html "https://m.okooo.com/match/history.php?MatchID=1336396&from="
+          echo "--- team links ---"
+          grep -oE 'href="[^"]*(team|Team)[^"]*"' m.html | head -10
+          echo "--- 教练 keyword count ---"
+          grep -c "教练" m.html || true
+          TID=$(grep -oE 'TeamID=[0-9]+' m.html | head -1 | cut -d= -f2)
+          echo "TID=$TID"
+          if [ -n "$TID" ]; then
+            for u in "https://m.okooo.com/team/?TeamID=$TID" "https://m.okooo.com/team/index.php?TeamID=$TID"; do
+              echo "=== $u"
+              curl -sS -m 25 -A "$UA" -e "https://m.okooo.com/" -o t.html "$u"
+              wc -c t.html
+              grep -o "教练[^<|]\{0,25\}" t.html | head -6
+            done
+          fi
