@@ -42,13 +42,15 @@ def gate():
         '立即更新按钮': 'hbRefreshBtn' in t,
     }
     print('[gate] %d bytes · ' % size + ' · '.join('%s=%s' % (k, v) for k, v in checks.items()))
+    print('[gate] 定价明细=%d 加厚=%d 竞彩覆盖=%d' % (t.count('定价明细'), t.count('加厚'), t.count('竞彩赔率云端覆盖')))
     return all(checks.values())
 
 
 def main():
     # 云端可达：澳客 m 站（期次页/北单/赛果/变盘）
-    step('A 任九 14 场赔率（澳客 m）', ['scripts/fetch_sfc_okooo.py'])
+    # 顺序很重要：先抓赛程（会写 0 赔率），再补赔率，否则赔率被覆盖成空
     step('B 任九期次与赛程（澳客 m）', ['scripts/fetch_sfc.py'])
+    step('A 任九 14 场赔率（澳客 m）', ['scripts/fetch_sfc_okooo.py'])
     step('C 任九变盘', ['scripts/sfc_delta.py'])
     step('D 北单在售（澳客 m）', ['scripts/fetch_bj_mobile.py'])
     step('E 全量赛果回填（澳客）', ['scripts/fetch_results_all.py'])
