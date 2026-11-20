@@ -893,15 +893,54 @@ def _apply_intel_factors(html):
     return html
 
 
-def _enrich_sfc_ana(html):
-    """任九 14 场分析加厚：
+def _r9_ctx():
+    """从 _r9_diverge.json 取「名次差分档」与「联赛平局率」两套历史统计。"""
+    d = load('_r9_diverge.json') or {}
+    bands = d.get('bands') or {}
+    rows = d.get('rows') or []
+    lgd, alln, alld = {}, 0, 0
+    for r in rows:
+        lg = str(r.get('lg') or '')
+        lgd.setdefault(lg, [0, 0])
+        lgd[lg][0] += 1
+        alln += 1
+        if r.get('real') == '平局':
+            lgd[lg][1] += 1
+            alld += 1
+    league = {k: (v[0], round(v[1] * 100.0 / v[0], 1)) for k, v in lgd.items() if v[0] >= 8}
+    return bands, league, (alln, round(alld * 100.0 / alln, 1) if alln else 0)
 
-    ① 并入当日竞足同场（同队名）的定价/变盘/数据因子要点；
-    ② 任九自己的欧赔变盘（sfc_delta.json）；
-    ③ 没被竞足挂到的场次，补「三线对照」（欧赔去水 / 同档校准 / 爆冷分）。
+
+def _band_of(gap):
+    g = abs(int(gap or 0))
+    if g <= 0:
+        return '一致'
+    if g <= 2:
+        return '差1-2位'
+    if g <= 5:
+        return '差3-5位'
+    if g <= 9:
+        return '差6-9位'
+    return '差10位以上'
+
+
+def _enrich_sfc_ana(html):
+    """任九 14 场分析加厚（14/14 全覆盖，全部用已有数据算，不编造）：
+
+    ① 【定价明细】欧赔 → 去水三项概率、主推/次选差、单选还是双选；
+    ② 【欧赔变盘】初盘 → 现盘 + 变盘标签（sfc_delta.json，无二次报价就明说）；
+    ③ 【名次同档】位次差 → 历史分档的 主/平/客 分布与命中率（_r9_diverge.json）；
+    ④ 【平局风险】本场平局率 vs 该联赛历史平局率 vs 全样本；
+    ⑤ 【竞足同场】把当日竞足同场那一路的完整分析逐条并进来。
     """
     sd = load('sfc_delta.json') or {}
     by_no = {str(x.get('no')): x for x in (sd.get('matches') or [])}
+    bands, league, (alln, alld) = _r9_ctx()
+    # 页面 JSON 不含排名，回 sfc_pick.json 取（键=场次号）
+    rk = {}
+    for r in (load('sfc_pick.json') or []):
+        if isinstance(r, dict):
+            rk[str(r.get('no'))] = (r.get('hrank'), r.get('arank'), r.get('lg'))
     live_d, _, _ = _json_var(html, '__LIVE__')
     live = (live_d.get('matches') or []) if isinstance(live_d, dict) else []
     data, s, e = _json_var(html, '__SFC_NOW__')
@@ -913,48 +952,84 @@ def _enrich_sfc_ana(html):
         if not isinstance(it, dict):
             continue
         ana = str(it.get('ana') or '')
-        if '【加厚·' in ana:
+        if '【加厚·定价明细】' in ana:
             continue
         parts = []
-        # ① 竞足同场
+        odds = it.get('odds') or []
+        p = it.get('p') or it.get('fus') or []
+        # ① 定价明细
+        if len(odds) >= 3 and len(p) >= 3:
+            parts.append('【加厚·定价明细】欧赔 %s/%s/%s → 去水 主 %.1f%% / 平 %.1f%% / 客 %.1f%%；'
+                         '主推 %s %.1f%%，次选 %s %.1f%%（相差 %.1f 个百分点，%s）'
+                         % ('%.2f' % odds[0], '%.2f' % odds[1], '%.2f' % odds[2],
+                            p[0], p[1], p[2], it.get('main'), float(it.get('main_p') or p[0]),
+                            it.get('alt'), float(it.get('alt_p') or 0), float(it.get('gap') or 0),
+                            '可单押' if float(it.get('gap') or 0) >= 15 else ('建议带双选' if float(it.get('gap') or 0) >= 8 else '必须双选兜住')))
+        # ② 欧赔变盘
+        x = by_no.get(str(it.get('no')))
+        if x and (x.get('first') or x.get('last')):
+            first = '/'.join('%.2f' % v for v in (x.get('first') or []))
+            last = '/'.join('%.2f' % v for v in (x.get('last') or []))
+            pp = x.get('pct') or [0, 0, 0]
+            parts.append('【加厚·欧赔变盘】初盘 %s → 现盘 %s（主 %+.1f%% / 平 %+.1f%% / 客 %+.1f%%），%d 次调整｜%s'
+                         % (first, last, pp[0], pp[1], pp[2], int(x.get('moves') or 0), x.get('tag') or '—'))
+        elif odds:
+            parts.append('【加厚·欧赔变盘】本场暂时只有一版报价（%s），无二次调整记录，'
+                         '方向以初盘定价为准' % '/'.join('%.2f' % v for v in odds))
+        # ③ 名次同档
+        try:
+            hr, ar, plg = rk.get(str(it.get('no')), (it.get('hrank'), it.get('arank'), it.get('lg')))
+            hr, ar = int(hr or 0), int(ar or 0)
+            if hr and ar:
+                gap = hr - ar
+                bd = _band_of(gap)
+                b = bands.get(bd) or {}
+                if b.get('n'):
+                    n = b['n']
+                    parts.append('【加厚·名次同档】%s 第%d vs %s 第%d（位次差 %d）→「%s」档历史 %d 场：'
+                                 '主 %.0f%% / 平 %.0f%% / 客 %.0f%%，该档主推命中 %.0f%%%s'
+                                 % (it.get('h'), hr, it.get('a'), ar, abs(gap), bd, n,
+                                    100.0 * b.get('主胜', 0) / n, 100.0 * b.get('平局', 0) / n,
+                                    100.0 * b.get('客胜', 0) / n, 100.0 * b.get('hit', 0) / n,
+                                    '' if n >= 10 else '（样本不足 10，仅作参考）'))
+        except (TypeError, ValueError):
+            pass
+        # ④ 平局风险
+        try:
+            dp = float(it.get('draw_p') or p[1])
+            lgname = str(it.get('lg') or '')
+            lgn, lgd = league.get(lgname, (0, None))
+            ref = ('%s 历史平局率 %.1f%%（%d 场）' % (lgname, lgd, lgn)) if lgd else \
+                  ('%s 归档不足 8 场，改看全样本' % lgname)
+            verdict = ('低于参照，平局可少带' if dp < (lgd or alld) - 3 else
+                       ('高于参照，平局要防' if dp > (lgd or alld) + 3 else '与参照接近，属常规风险'))
+            parts.append('【加厚·平局风险】本场平局 %.1f%%；%s；全样本 %.1f%% → %s%s'
+                         % (dp, ref, alld, verdict,
+                            '，本期平局候选标记为真' if it.get('draw_cand') and dp > (lgd or alld) else ''))
+        except (TypeError, ValueError):
+            pass
+        # ⑤ 竞足同场（整段并进来）
         peer = None
         for m in live:
             if _same_team(it.get('h'), m.get('h')) and _same_team(it.get('a'), m.get('a')):
                 peer = m
                 break
         if peer:
-            bits = ['竞足同场：%s 挂「%s」%s%%' % (peer.get('no'), peer.get('main'),
-                                               peer.get('main_p'))]
             pa = str(peer.get('ana') or '')
-            for key in ('【变盘】', '【数据因子·进数值】', '【同档校准·已开】'):
-                i2 = pa.find(key)
-                if i2 >= 0:
-                    line = pa[i2:].split('\n')[0]
-                    bits.append(line)
-            parts.append('【加厚·竞足同场】' + '；'.join(bits))
-        # ② 任九欧赔变盘
-        x = by_no.get(str(it.get('no')))
-        if x and x.get('moves', 0) >= 1 or (x and x.get('tag') and x['tag'] != '盘口稳定'):
-            first = '/'.join('%.2f' % v for v in x.get('first') or [])
-            last = '/'.join('%.2f' % v for v in x.get('last') or [])
-            p = x.get('pct') or [0, 0, 0]
-            parts.append('【加厚·欧赔变盘】初盘 %s → 现盘 %s（主 %+.1f%% / 平 %+.1f%% / 客 %+.1f%%），%d 次调整｜%s'
-                         % (first, last, p[0], p[1], p[2], x.get('moves', 0), x.get('tag')))
-        # ③ 三线对照（没竞足同场时给，避免空场）
-        if not peer:
-            try:
-                raw = float(it.get('fus', [0, 0, 0])[['主胜', '平局', '客胜'].index(it.get('rec'))])
-                cal = float(it.get('conf') or it.get('main_p') or raw)
-                parts.append('【加厚·三线对照】欧赔去水 %.1f%% → 校准后 %.1f%%（差 %+.1f）；'
-                             '本场竞足今日未挂，任九口径独立成立' % (raw, cal, cal - raw))
-            except (TypeError, ValueError, IndexError):
-                pass
+            lines = ['竞足编号 %s，挂「%s」%.1f%%' % (peer.get('no'), peer.get('main'),
+                                                float(peer.get('main_p') or 0))]
+            for seg in [t for t in pa.split('\n') if t.strip()]:
+                seg = seg.strip()
+                if seg.startswith('【结论】'):
+                    continue
+                lines.append(seg)
+            parts.append('【加厚·竞足同场·逐条并入】' + ' ／ '.join(lines))
         if parts:
             it['ana'] = '\n'.join(parts) + '\n' + ana
             touched += 1
     if touched:
         html = html[:s] + json.dumps(data, ensure_ascii=False, separators=(',', ':')) + html[e:]
-        print('[fix_today] 任九分析加厚 %d 场（并竞足/变盘/三线对照）' % touched)
+        print('[fix_today] 任九分析加厚 %d 场（定价/变盘/名次同档/平局风险/竞足同场）' % touched)
     return html
 
 

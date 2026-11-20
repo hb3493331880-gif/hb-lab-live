@@ -3642,7 +3642,7 @@ function srowHTML(m, pick){
         ? `📌 推荐 <b>${SFC_REC(m.rec)}</b>　把握 ${m.conf}%　${m.recwhy||''}`
         : (m.note||'')}
     </div>
-    ${m.ana?`<div style="margin-top:3px;font-size:9.5px;line-height:1.65;color:var(--sub);padding:4px 6px;background:var(--line2);border-radius:4px">📝 ${m.ana}</div>`:''}
+    ${m.ana?`<div style="margin-top:3px;font-size:10px;line-height:1.7;color:var(--sub);padding:5px 7px;background:var(--line2);border-radius:4px;white-space:pre-line">📝 ${m.ana}</div>`:''}
     ${(()=>{ const p=m.pre||{}; if(!p || (!p.st && !p.h2h && !p.extra)) return '';
       return `<div class="srow-pre">
         <div class="pre-line">${(p.st&&p.st[0])?`主：<span>${p.st[0]}</span>`:''}</div>
@@ -3716,11 +3716,17 @@ function renderR9Div(){
       <b>此表只作逐日记录，不构成结论</b>。表中命中率随时会随新场次变动。</div>`;
   }
   // 明细表（倒序：新期在上）；默认只展示最近 28 场，避免手机端过长
-  const rsAll = rows.slice().reverse();
+  // ★ 只显示「有赛果」的行 + 当前期（未开赛）的行，避免旧期无结果的场次混进来被当成当前期
+  const curIssue = String(D.current || SFC._期次 || '');
+  // 同一期同一场次号只留最后一条，避免新旧两批对阵混在同一张表里
+  const _uniq = {}; rows.forEach(r => { _uniq[String(r.issue)+'-'+String(r.no)] = r; });
+  const rowsUniq = Object.keys(_uniq).map(k => _uniq[k]);
+  const rowsShow = rowsUniq.filter(r => (r.real && r.real !== '') || (curIssue && String(r.issue) === curIssue));
+  const rsAll = rowsShow.slice().reverse();
   const LIM = 28;
   const rs = (_r9divAll || rsAll.length <= LIM) ? rsAll : rsAll.slice(0, LIM);
   s += `<div style="font-size:11px;color:var(--dim);margin:6px 0 4px">
-    逐场明细（新→旧，共 ${rsAll.length} 场${rs.length<rsAll.length?'，显示最近 '+rs.length+' 场':''}）</div>`;
+    逐场明细（新→旧，共 ${rsAll.length} 场${rs.length<rsAll.length?'，显示最近 '+rs.length+' 场':''}${curIssue?'；当前期 '+curIssue+' 未开赛的场次单列':''}）</div>`;
   s += `<table style="width:100%;font-size:10.5px;border-collapse:collapse">
     <tr style="color:var(--dim);text-align:left">
       <th style="padding:3px 2px">场次</th><th>对阵</th><th>推</th>
@@ -3750,7 +3756,8 @@ function renderR9(){
   $('r9list').innerHTML = list.map(m=>srowHTML(m, sfc[m.no])).join('');
   try{ renderR9Div(); }catch(e){ console.log('R9DIV_ERR', e && e.message); }
   $('sfcTotal').textContent = list.length || 0;
-  $('sfcIssueTxt').textContent = `胜负彩 第 ${SFC._期次||'—'} 期 · ${list.length} 场选 9 场`;
+  const _first = (list[0] && list[0].date) ? list[0].date : '';
+  $('sfcIssueTxt').textContent = `胜负彩 · 第 ${SFC._期次||'—'} 期${_first?' · '+_first:''} · ${list.length} 场选 9 场`;
   $('sfcDeadline').textContent = SFC._截止 || '—';
   /* 第一七一条：胜负彩是「整期 14 场」投注，截止 = 首场开赛前。
      首场一旦开赛，整期就停售了 —— 必须显式提示，不能让用户以为还能买。 */
@@ -5312,10 +5319,14 @@ function tick(){
     if(mt && mt.length===6) end=new Date(+mt[1],+mt[2]-1,+mt[3],+mt[4],+mt[5],0);
     else if(mt) end=new Date(d.getFullYear(),+mt[1]-1,+mt[2],+mt[3],+mt[4],0);
   }catch(e){ end=null; }
-  if(!end || isNaN(end.getTime())){ $('cd').textContent = dl ? ('截止 '+dl) : '截止见任九页'; return; }
+  if(!end || isNaN(end.getTime())){ $('cd').textContent = dl ? ('停售 '+dl) : '停售时间见任九页'; return; }
   let s=Math.floor((end-d)/1000);
   if(s<0){ $('cd').textContent='已截止'; return; }
-  $('cd').textContent='截止 '+String(Math.floor(s/3600)).padStart(2,'0')+':'+String(Math.floor(s%3600/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
+  if(s>=86400){
+    $('cd').textContent='距停售 '+Math.floor(s/86400)+' 天 '+String(Math.floor(s%86400/3600)).padStart(2,'0')+':'+String(Math.floor(s%3600/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
+    return;
+  }
+  $('cd').textContent='距停售 '+String(Math.floor(s/3600)).padStart(2,'0')+':'+String(Math.floor(s%3600/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
 }
 setInterval(tick,1000); tick();
 /* ---------- init ---------- */
@@ -8477,20 +8488,35 @@ function todayBlock(){
   /* ---- 北单 ---- */
   var hb=document.getElementById('p-bjdc');
   if(hb){
+    /* ★ 数据源：优先用构造器注入的 window.__BJ_TODAY__（手机版列表 + 官方 WDL.xml 报价），
+       没有才退回模板里内置的旧批次 BJ（396-402） */
+    var BJSRC = (window.__BJ_TODAY__ && window.__BJ_TODAY__.length) ? window.__BJ_TODAY__ : BJ;
+    var nBj = BJSRC.length;
+    var nNo = 0; BJSRC.forEach(function(x){ if(!x.sp || !x.sp.length) nNo++; });
     var H2='<div class="card" style="padding:10px 11px;margin-bottom:8px;'+
       'border-left:3px solid var(--red)">'+
       '<div style="font-size:11px;font-weight:700;margin-bottom:2px">'+
-      '🔴 今日北单 · 在售 7 场（396-402）</div>'+
+      '🔴 今日北单 · 在售 '+nBj+' 场</div>'+
       '<div style="font-size:9px;color:var(--dim);margin-bottom:6px">'+
-      '390-395 已完赛下架。SP为奖池浮动值，<b>平局概率已用联赛基准校正</b>'+
-      '（丹甲36.2% / 阿甲29.0% / 罗甲27.7% / 巴甲27.7%）。</div>'+
+      'SP 来自官方报价表（按场次陆续开价，未开价的标「未开价」，不是抓不到）；'+
+      '<b>平局概率已用联赛基准校正</b>'+
+      (nNo?('　本轮有 '+nNo+' 场官方还没开价。'):'')+'</div>'+
       '<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:9px">'+
       '<tr style="color:var(--dim)"><th style="text-align:left;padding:2px">编号</th>'+
       '<th style="text-align:left;padding:2px">对阵</th>'+
       '<th style="text-align:center;padding:2px">SP</th>'+
       '<th style="text-align:center;padding:2px">推算(主/平/客)</th>'+
       '<th style="text-align:center;padding:2px">推荐</th></tr>';
-    BJ.forEach(function(x){
+    BJSRC.forEach(function(x){
+      if(!x.sp || !x.sp.length){
+        H2+='<tr style="border-bottom:1px solid var(--line2)">'+
+          '<td style="padding:3px">'+(x.no||'')+'</td>'+
+          '<td style="padding:3px">'+(x.m||'')+'</td>'+
+          '<td style="padding:3px;text-align:center;color:var(--dim)">未开价</td>'+
+          '<td style="padding:3px;text-align:center;color:var(--dim)">—</td>'+
+          '<td style="padding:3px;text-align:center;color:var(--dim)">—</td></tr>';
+        return;
+      }
       var mx=Math.max(x.h,x.d,x.a);
       var rc=x.h===mx?'主胜':(x.d===mx?'平局':'客胜');
       var col=rc==='平局'?'var(--gold)':'var(--green)';
@@ -8504,16 +8530,16 @@ function todayBlock(){
           x.h+'% / <span style="color:'+dcol+'"><b>'+x.d+'%</b></span> / '+x.a+'%</td>'+
         '<td style="padding:3px;text-align:center;color:'+col+'"><b>'+rc+'</b></td></tr>';
     });
+    var topD = BJSRC.filter(function(x){return x.sp && x.sp.length;})
+      .sort(function(a,b){return b.d-a.d;}).slice(0,3)
+      .map(function(x){return '<b>'+x.no+' '+x.m+' '+x.d+'%</b>';}).join('、');
     H2+='</table></div>'+
-      '<div style="margin-top:5px;padding:6px 7px;background:rgba(230,170,0,.13);'+
+      (topD?('<div style="margin-top:5px;padding:6px 7px;background:rgba(230,170,0,.13);'+
       'border-radius:5px;font-size:9px;line-height:1.85">'+
-      '<b style="color:var(--gold)">★ 平局机会在这三场</b><br>'+
-      '<b>396 加拉茨钢铁 40%</b>（最高）— 罗甲同分低比分对局，'+
-      'SP平局2.72甚至低于主胜2.80，钱在往平局走<br>'+
-      '<b>402 拉努斯 37%</b> — 阿甲次级别<br>'+
-      '<b>400 巴拉卡斯 37%</b><br>'+
-      '<span style="color:var(--dim)">独立验证：搜索到的第三方分析师对396也推平局'+
-      '（1-1/0-0/2-2），397推客胜、398推客胜 —— 与本次推算方向一致。</span></div>';
+      '<b style="color:var(--gold)">★ 平局机会最高的三场</b>（按联赛基准校正后的平局概率）<br>'+
+      topD+'<br>'+
+      '<span style="color:var(--dim)">北单只做胜平负：平局概率高不等于该买平，'+
+      '仍要看主客两端是否真的没差（表里推算三列就是判据）。</span></div>'):'');
     H2+='</div>';
     mk(hb,'oddsBox','todayBjBox',H2);
   }
