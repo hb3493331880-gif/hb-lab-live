@@ -159,9 +159,9 @@
     "odd": 1.74,
     "p": 50.4,
     "conf": 36,
-    "actual": "主胜",
-    "hit": true,
-    "ft": "2-0"
+    "actual": "平局",
+    "hit": false,
+    "ft": "1-1"
    }
   ],
   "result": "pending",
@@ -188,9 +188,9 @@
     "odd": 1.62,
     "p": 54.2,
     "conf": 40,
-    "actual": "主胜",
-    "hit": true,
-    "ft": "2-0"
+    "actual": "平局",
+    "hit": false,
+    "ft": "1-1"
    },
    {
     "no": "周五002",
