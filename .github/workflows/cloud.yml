@@ -1,0 +1,72 @@
+name: cloud
+
+# 云端更新（电脑关机/睡眠时兜底）：GitHub 机房实测能直接访问澳客 m 站（200），
+# 体彩(567)/500(403) 抓不到就跳过对应步骤，只用澳客口径重建页面。
+# 注意：用 GITHUB_TOKEN 提交不会触发其它工作流，所以发布也在这里直接做。
+on:
+  schedule:
+    - cron: '11,41 * * * *'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-deploy
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 云端一轮（抓澳客 → 建页 → 门禁）
+        id: cycle
+        run: |
+          set +e
+          python scripts/cloud_cycle.py
+          rc=$?
+          echo "rc=$rc"
+          if [ $rc -eq 2 ]; then
+            git checkout -- index.html 2>/dev/null || true
+            echo "gate=fail" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+          echo "gate=pass" >> $GITHUB_OUTPUT
+
+      - name: 提交新页面
+        if: steps.cycle.outputs.gate == 'pass'
+        run: |
+          git config user.name  "hb-cloud-bot"
+          git config user.email "hb-cloud-bot@users.noreply.github.com"
+          git add index.html engine/data || true
+          if git diff --cached --quiet; then
+            echo "无变化，跳过提交"
+          else
+            git commit -m "cloud: 云端自动更新 $(date -u '+%F %H:%M') UTC"
+            git push
+          fi
+
+      - name: 打包 Pages 产物
+        if: steps.cycle.outputs.gate == 'pass'
+        run: |
+          mkdir -p public
+          cp index.html public/index.html
+          printf '' > public/.nojekyll
+
+      - uses: actions/upload-pages-artifact@v3
+        if: steps.cycle.outputs.gate == 'pass'
+        with:
+          path: public
+
+      - name: 发布到 GitHub Pages
+        if: steps.cycle.outputs.gate == 'pass'
+        uses: actions/deploy-pages@v4
