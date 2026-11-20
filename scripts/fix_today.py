@@ -765,6 +765,45 @@ def _merge_jc_okooo(html):
     if up:
         html = html[:s] + json.dumps(d, ensure_ascii=False, separators=(',', ':')) + html[e:]
         print('[fix_today] 竞彩赔率云端覆盖 %d 场' % up)
+
+    # 云端抓不到体彩全量时，把澳客页里有价格、但页面还没列的场次补进来（不编数据）
+    added = 0
+    have = set()
+    for m in d.get('matches') or []:
+        have.add(_norm_team(m.get('h')) + '|' + _norm_team(m.get('a')))
+    LB = ['主胜', '平局', '客胜']
+    for x in ms:
+        sp = x.get('sp') or []
+        if len(sp) != 3 or any((not v) or float(v) <= 1.01 for v in sp):
+            continue
+        k = _norm_team(x.get('h')) + '|' + _norm_team(x.get('a'))
+        if k in have:
+            continue
+        try:
+            inv = [1.0 / float(v) for v in sp]
+            tot = sum(inv)
+            p = [round(v / tot * 100, 1) for v in inv]
+        except (ValueError, ZeroDivisionError):
+            continue
+        bi = max(range(3), key=lambda i: p[i])
+        ai = max([j for j in range(3) if j != bi], key=lambda j: p[j])
+        ana = ('【竞彩补位·澳客口径】体彩接口在云端被封，本场由澳客页面补入：'
+               '欧赔 %s/%s/%s → 去水 主 %.1f%% / 平 %.1f%% / 客 %.1f%%，主推 %s %.1f%%（与次选 %s %.1f%% 差 %.1f）。'
+               '情报（伤停/阵容/教练）本场云端未取到，可回到开机的本机口径再核对。'
+               % ('%.2f' % float(sp[0]), '%.2f' % float(sp[1]), '%.2f' % float(sp[2]),
+                  p[0], p[1], p[2], LB[bi], p[bi], LB[ai], p[ai], round(p[bi] - p[ai], 1)))
+        d.setdefault('matches', []).append({
+            'no': x.get('order') or '', 'lg': x.get('lg') or '', 'tm': (x.get('tm') or '')[11:16] or '',
+            'h': x.get('h'), 'a': x.get('a'), 'sp': [round(float(v), 2) for v in sp],
+            'odds': [round(float(v), 2) for v in sp], 'o': [round(float(v), 2) for v in sp],
+            'p': p, 'fus': p, 'main': LB[bi], 'main_p': p[bi], 'draw_p': p[1],
+            'rec': LB[bi], 'alt': LB[ai], 'alt_p': p[ai], 'gap': round(p[bi] - p[ai], 1),
+            'conf': p[bi], 'two': False, 'done': False, 'src': '澳客（云端补位）', 'ana': ana,
+        })
+        added += 1
+    if added:
+        html = html[:s] + json.dumps(d, ensure_ascii=False, separators=(',', ':')) + html[e:]
+        print('[fix_today] 竞彩按澳客补位 %d 场（云端抓不到体彩时的兜底）' % added)
     return html
 
 
@@ -890,6 +929,130 @@ def _apply_intel_factors(html):
     if hits:
         html = html[:s] + json.dumps(d, ensure_ascii=False, separators=(',', ':')) + html[e:]
         print('[fix_today] 近况/交锋/净胜球 因子进数值 %d 场' % hits)
+    return html
+
+
+def _sfc_intel_block(x, it):
+    """把一场的澳客情报（近况/交锋/伤停/阵容/技术/积分榜）拼成分析卡片里的段落。"""
+    seg = []
+
+    def wl(o):
+        return '%d胜%d平%d负' % (o.get('w', 0), o.get('d', 0), o.get('l', 0))
+
+    ho, ao = x.get('home') or {}, x.get('away') or {}
+    if ho or ao:
+        s = '【情报·近况】主 %s 近10场 %s' % (it.get('h'), wl(ho)) if ho else ''
+        if ao:
+            s += ('；客 %s 近10场 %s' % (it.get('a'), wl(ao))) if s else ('【情报·近况】客 %s 近10场 %s' % (it.get('a'), wl(ao)))
+        v = ho.get('venue') or {}
+        if v:
+            s += '（主场 %d胜%d平%d负）' % (v.get('w', 0), v.get('d', 0), v.get('l', 0))
+        seg.append(s)
+    h2h = x.get('h2h') or {}
+    if h2h:
+        seg.append('【情报·交锋】历史交手 主队视角 %d胜%d平%d负（样本有限，仅作方向参考）'
+                   % (h2h.get('w', 0), h2h.get('d', 0), h2h.get('l', 0)))
+    inj = x.get('inj')
+    if inj:
+        seg.append('【情报·伤停】%s' % inj)
+    val, body = x.get('value') or [], x.get('body') or []
+    if val or body:
+        s = '【情报·阵容】'
+        if len(val) >= 2:
+            s += '身价 主 %s / 客 %s' % (val[0], val[1])
+        if len(body) >= 2:
+            s += ('；' if len(val) >= 2 else '') + '身高年龄 主 %s / 客 %s' % (body[0], body[1])
+        seg.append(s)
+    tech = x.get('tech') or {}
+    if tech:
+        g, l, s_, p = tech.get('goal'), tech.get('loss'), tech.get('shot'), tech.get('poss')
+        if g or l or s_ or p:
+            parts = []
+            if g:
+                parts.append('场均进球 主%.1f/客%.1f' % (g['home']['all'], g['away']['all']))
+            if l:
+                parts.append('场均失球 主%.1f/客%.1f' % (l['home']['all'], l['away']['all']))
+            if s_:
+                parts.append('场均射门 主%.0f/客%.0f' % (s_['home']['all'], s_['away']['all']))
+            if p:
+                parts.append('控球 主%.0f%%/客%.0f%%' % (p['home']['all'], p['away']['all']))
+            seg.append('【情报·技术统计】' + '；'.join(parts))
+    hr, ar = (ho.get('rank'), ho.get('pts')), (ao.get('rank'), ao.get('pts'))
+    if hr[0] and ar[0]:
+        seg.append('【情报·积分榜】主 %s 第%d（%d分） / 客 %s 第%d（%d分），位次差 %d'
+                   % (it.get('h'), hr[0], hr[1], it.get('a'), ar[0], ar[1], abs(hr[0] - ar[0])))
+    return '\n'.join([s for s in seg if s])
+
+
+def _apply_sfc_intel(html):
+    """任九 14 场：把 sfc_intel.json（澳客近况/交锋/伤停/阵容/技术/积分榜）写进每场 ana。"""
+    blob = load('sfc_intel.json') or {}
+    ms = blob.get('matches') if isinstance(blob, dict) else None
+    if not ms:
+        return html
+    data, s, e = _json_var(html, '__SFC_NOW__')
+    if data is None:
+        return html
+    rows = data if isinstance(data, list) else (data.get('matches') or [])
+    hit = 0
+    for it in rows:
+        if not isinstance(it, dict):
+            continue
+        x = ms.get(str(it.get('no')))
+        if not x:
+            continue
+        ana = str(it.get('ana') or '')
+        if '【情报·近况】' in ana or '【情报·交锋】' in ana:
+            continue
+        blk = _sfc_intel_block(x, it)
+        if not blk:
+            continue
+        it['ana'] = blk + '\n' + ana
+        hit += 1
+    if hit:
+        html = html[:s] + json.dumps(data, ensure_ascii=False, separators=(',', ':')) + html[e:]
+        print('[fix_today] 任九逐场情报注入 %d 场（近况/交锋/伤停/阵容/技术/积分榜）' % hit)
+    return html
+
+
+def _inject_coach_news(html):
+    """把「教练/帅位」相关新闻挂进对应场次的分析卡片（不再只放在顶部公告区）。
+
+    数据源 retire_map.json：{队名: [标题（日期）]}，只搬运公开标题，不预测。
+    """
+    rmap = load('retire_map.json') or {}
+    if not isinstance(rmap, dict) or not rmap:
+        return html
+    touched = 0
+    for var in ('__SFC_NOW__', '__LIVE__'):
+        data, s, e = _json_var(html, var)
+        if data is None:
+            continue
+        rows = data if isinstance(data, list) else (data.get('matches') or [])
+        n_loc = 0
+        for it in rows:
+            if not isinstance(it, dict):
+                continue
+            ana = str(it.get('ana') or '')
+            if '【教练·帅位】' in ana:
+                continue
+            news = []
+            for side, key in ((it.get('h'), '主'), (it.get('a'), '客')):
+                for team, items in rmap.items():
+                    if _same_team(side, team):
+                        for t in (items or [])[:2]:
+                            if '教练' in t or '主帅' in t or '帅位' in t or '下课' in t or '上任' in t:
+                                news.append('%s %s：%s' % (key, side, t))
+                        break
+            if not news:
+                continue
+            it['ana'] = '【教练·帅位】' + '；'.join(news[:3]) + '\n' + ana
+            n_loc += 1
+        if n_loc:
+            html = html[:s] + json.dumps(data, ensure_ascii=False, separators=(',', ':')) + html[e:]
+            touched += n_loc
+    if touched:
+        print('[fix_today] 教练/帅位新闻进分析卡片 %d 场' % touched)
     return html
 
 
@@ -1567,6 +1730,8 @@ def main():
         html = _apply_intel_factors(html)
         html = _backfill_combo_all(html)
         html = _enrich_sfc_ana(html)
+        html = _apply_sfc_intel(html)
+        html = _inject_coach_news(html)
         html = _inject_refresh_button(html)
         html = _rebuild_cold(html, sp)
         # ★ 校准开关：结果回填出来的历史同档命中率 + 8 因子，是否真的写进显示概率

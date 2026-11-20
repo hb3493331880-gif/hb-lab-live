@@ -40,6 +40,7 @@ def gate():
         '同档校准': '【同档校准·已开】' in t,
         '北单今日': 'window.__BJ_TODAY__' in t,
         '立即更新按钮': 'hbRefreshBtn' in t,
+        '任九逐场情报': t.count('【情报·近况】') >= 6,
     }
     print('[gate] %d bytes · ' % size + ' · '.join('%s=%s' % (k, v) for k, v in checks.items()))
     print('[gate] 定价明细=%d 加厚=%d 竞彩覆盖=%d' % (t.count('定价明细'), t.count('加厚'), t.count('竞彩赔率云端覆盖')))
@@ -52,6 +53,7 @@ def main():
     step('B 任九期次与赛程（澳客 m）', ['scripts/fetch_sfc.py'])
     step('A 任九 14 场赔率（澳客 m）', ['scripts/fetch_sfc_okooo.py'])
     step('C 任九变盘', ['scripts/sfc_delta.py'])
+    step('C2 任九逐场情报（澳客近况/交锋/伤停/阵容/积分）', ['scripts/fetch_sfc_intel.py'])
     step('D 北单在售（澳客 m）', ['scripts/fetch_bj_mobile.py'])
     step('E 全量赛果回填（澳客）', ['scripts/fetch_results_all.py'])
     # 竞彩：体彩 webapi 在云端 567 被锁，改走澳客页面（云端可达），产出 jc_okooo_page.json
