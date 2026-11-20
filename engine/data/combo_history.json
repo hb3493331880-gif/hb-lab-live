@@ -201,11 +201,16 @@
     "odd": 1.37,
     "p": 64.1,
     "conf": 50,
-    "actual": null,
-    "hit": null
+    "actual": "客胜",
+    "hit": false,
+    "ft": "0-1"
    }
   ],
   "result": "pending",
-  "frozen": true
+  "frozen": true,
+  "hit": false,
+  "odd_all": 2.22,
+  "payout": 0.0,
+  "profit": -2.0
  }
 }
