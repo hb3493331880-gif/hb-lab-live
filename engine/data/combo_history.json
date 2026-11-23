@@ -296,5 +296,47 @@
   "odd_all": 2.22,
   "payout": 0.0,
   "profit": -2.0
+ },
+ "2026-11-23": {
+  "date": "2026-11-23",
+  "name": "2串1",
+  "generated": "2026-11-23 00:24:06",
+  "odd": 2.22,
+  "pr": 0.3474,
+  "widened": false,
+  "legs": [
+   {
+    "no": "周四004",
+    "h": "西雅图",
+    "a": "盐湖城",
+    "pick": "主胜",
+    "pick_i": 0,
+    "odd": 1.62,
+    "p": 54.2,
+    "conf": 40,
+    "actual": "平局",
+    "hit": false,
+    "ft": "1-1"
+   },
+   {
+    "no": "周五002",
+    "h": "柏太阳神",
+    "a": "千叶市原",
+    "pick": "主胜",
+    "pick_i": 0,
+    "odd": 1.37,
+    "p": 64.1,
+    "conf": 50,
+    "actual": "客胜",
+    "hit": false,
+    "ft": "0-1"
+   }
+  ],
+  "result": "pending",
+  "frozen": true,
+  "hit": false,
+  "odd_all": 2.22,
+  "payout": 0.0,
+  "profit": -2.0
  }
 }
