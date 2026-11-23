@@ -2726,6 +2726,17 @@ window.liveBadge = function liveBadge(manual, err){
   }else{
     var base = window.LIVE_RT.base || '';
     var isFile = !window.LIVE_RT.fromPage;
+    /* ★★ 第二一二条：手机上连不到电脑本地服务器时，原来写「○ 内置数据」→
+       用户误以为页面在跑假数据、根本没更新。实际页面内嵌的就是最新一轮抓到的数据，
+       所以这里改成显示「● 数据 时间 · 自动刷新」，只有真的连 LIVE 都没有才说内置。 */
+    if(window.__LIVE__ && window.__LIVE__.matches && window.__LIVE__.matches.length){
+      var g = String(window.__LIVE__.generated || '');
+      const a = liveAge(window.__LIVE__);
+      b.innerHTML = '<span style="color:#0a0;font-weight:700">● 已载入最新</span> · 数据 ' + (g || a.txt)
+        + ' <span style="font-size:9px;color:var(--sub)">每15分钟自动更新</span>';
+      b.title = '页面内嵌数据生成时间：' + g + '\n后台本机每 15 分钟、云端每 30 分钟自动重建并发布。\n手机端每 2 分钟自检，有新版本会自动刷新。点这里可立即拉最新。';
+      return;
+    }
     b.innerHTML = '<span style="color:#a60">○ 内置数据</span>'
       + (err? ' · ' + err : '');
     b.title = isFile
@@ -5297,11 +5308,52 @@ async function testConn(){
     toast(res.ok ? '连接成功' : '连接失败：' + JSON.stringify(j).slice(0,80));
   }catch(err){ toast('网络请求失败（浏览器直连通常被 CORS 拦截，属正常）'); }
 }
-async function syncLive(){
-  // 单文件版不走浏览器直连（CORS + Key 明文），改为引导导入
-  toast('请跑 sync.py 生成 matches.json，再在「我的」里导入');
-  openApi();
+/* ★★ 第二一〇条：「立即更新」原来只弹一句提示、什么都不拉 → 用户点了没反应，误以为不会更新。
+   现在改成真刷新：带随机参数强制绕过 GitHub Pages / 手机浏览器缓存，重新拉线上最新这一版页面。 */
+function hardReload(){
+  try{ toast('正在拉取最新数据…'); }catch(e){}
+  try{
+    const u = location.pathname + '?v=' + Date.now() + location.hash;
+    setTimeout(function(){ location.replace(u); }, 200);
+  }catch(e){ location.reload(true); }
 }
+async function syncLive(){
+  // 单文件版：直接重载页面拉最新（后台每 15 分钟会自动推新版页面）
+  hardReload();
+}
+/* ★★ 第二一一条：页面自检新鲜度。每 2 分钟静默 fetch 一次线上同一页，
+   读出里面的 "generated" 时间；比自己新就自动硬刷新。
+   → 手机放着不动也会自动变成最新，不用手动点。 */
+(function(){
+  if(location.protocol === 'file:') return;
+  const CHECK_MS = 120000;
+  let lastCheck = 0, busy = false;
+  async function pull(){
+    if(busy || !LIVE) return;
+    busy = true; lastCheck = Date.now();
+    try{
+      const r = await fetch(location.pathname + '?fresh=' + Date.now(), {cache:'no-store'});
+      if(!r.ok) return;
+      const t = await r.text();
+      const i = t.indexOf('window.__LIVE__={');
+      if(i < 0) return;
+      const seg = t.slice(i, i + 200);
+      const m = seg.match(/"generated"\s*:\s*"([^"]+)"/);
+      if(!m) return;
+      const nowGen = m[1], oldGen = String((LIVE && LIVE.generated) || '');
+      if(nowGen && nowGen !== oldGen){
+        try{ toast('发现新数据（数据 ' + nowGen + '），自动更新中…'); }catch(e){}
+        setTimeout(function(){ location.replace(location.pathname + '?v=' + Date.now()); }, 900);
+      }
+    }catch(e){
+    }finally{ busy = false; }
+  }
+  setInterval(pull, CHECK_MS);
+  setTimeout(pull, 8000);
+  document.addEventListener('visibilitychange', function(){
+    if(document.visibilityState === 'visible' && Date.now() - lastCheck > 60000) pull();
+  });
+})();
 /* ---------- 主题 / toast / 时钟 ---------- */
 function toggleTheme(){ document.body.classList.toggle('dark'); }
 let tt;

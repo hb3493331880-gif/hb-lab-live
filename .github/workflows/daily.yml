@@ -45,11 +45,28 @@ jobs:
         with:
           path: public
 
+      # ★ 第二一三条：发布偶发失败的真正原因（已抓日志确认）
+      #   upload-pages-artifact 成功、artifact 已 finalize，
+      #   但紧接着 deploy-pages 调 artifacts API 却返回 "Found 0 artifact(s)"
+      #   → 产物刚上传完、索引还没同步（GitHub 侧竞态），不是我们构建的问题。
+      #   修法：发布前等 10 秒让产物索引落盘；失败再自动重试一次。
+      - name: 等待产物索引就绪
+        run: sleep 10
+
       - name: 发布到 GitHub Pages
         id: deployment
+        continue-on-error: true
+        uses: actions/deploy-pages@v4
+
+      - name: 发布重试（仅在上一步失败时）
+        id: deployment_retry
+        if: steps.deployment.outcome == 'failure'
         uses: actions/deploy-pages@v4
 
       - name: 回读线上首页
+        if: always()
         run: |
-          curl -sS -o /tmp/live.html -w "HTTP %{http_code}  %{size_download} B\n" "${{ steps.deployment.outputs.page_url }}" || true
+          curl -sS -o /tmp/live.html -w "HTTP %{http_code}  %{size_download} B\n" "https://hb3493331880-gif.github.io/hb-lab-live/" || true
           grep -o '<title>[^<]*</title>' /tmp/live.html || true
+          grep -o 'window.__LIVE__="generated"[^,]*' /tmp/live.html | head -1 || true
+          grep -o '"generated":"[^"]*"' /tmp/live.html | tail -1 || true

@@ -1019,10 +1019,17 @@ def _inject_coach_news(html):
     """把「教练/帅位」相关新闻挂进对应场次的分析卡片（不再只放在顶部公告区）。
 
     数据源 retire_map.json：{队名: [标题（日期）]}，只搬运公开标题，不预测。
+    ★ 第二一四条：以前没有新闻的场次整块不出现，用户以为「教练那块丢了」。
+      现在 14 场固定都有【教练·帅位】：有新闻就说新闻，没有就明确写「无公开消息」，
+      不编造教练姓名；coach_map.json 里若有人工核过的教练名才补上。
     """
     rmap = load('retire_map.json') or {}
-    if not isinstance(rmap, dict) or not rmap:
-        return html
+    cmap = load('coach_map.json') or {}
+    if not isinstance(rmap, dict):
+        rmap = {}
+    if not isinstance(cmap, dict):
+        cmap = {}
+    KWS = ('教练', '主帅', '帅位', '下课', '上任', '主教练', '教头', '执教', '带队', '换帅', '代理')
     touched = 0
     for var in ('__SFC_NOW__', '__LIVE__'):
         data, s, e = _json_var(html, var)
@@ -1037,22 +1044,35 @@ def _inject_coach_news(html):
             if '【教练·帅位】' in ana:
                 continue
             news = []
+            names = []
             for side, key in ((it.get('h'), '主'), (it.get('a'), '客')):
                 for team, items in rmap.items():
                     if _same_team(side, team):
-                        for t in (items or [])[:2]:
-                            if '教练' in t or '主帅' in t or '帅位' in t or '下课' in t or '上任' in t:
+                        for t in (items or [])[:3]:
+                            if any(k in t for k in KWS):
                                 news.append('%s %s：%s' % (key, side, t))
                         break
-            if not news:
-                continue
-            it['ana'] = '【教练·帅位】' + '；'.join(news[:3]) + '\n' + ana
+                for team, nm in cmap.items():
+                    if _same_team(side, team) and nm:
+                        names.append('%s %s：%s' % (key, side, nm))
+                        break
+            if news:
+                head = '【教练·帅位】' + '；'.join(news[:3])
+                if names:
+                    head += '｜现任：' + '；'.join(names)
+            elif names:
+                head = '【教练·帅位】现任 ' + '；'.join(names) + '（人工核对表 coach_map.json）'
+            else:
+                head = ('【教练·帅位】%s vs %s：今日无换帅/帅位相关公开新闻；'
+                        '澳客与体彩接口都不提供「现任主教练」字段，按规矩不臆造姓名'
+                        % (it.get('h'), it.get('a')))
+            it['ana'] = head + '\n' + ana
             n_loc += 1
         if n_loc:
             html = html[:s] + json.dumps(data, ensure_ascii=False, separators=(',', ':')) + html[e:]
             touched += n_loc
     if touched:
-        print('[fix_today] 教练/帅位新闻进分析卡片 %d 场' % touched)
+        print('[fix_today] 教练/帅位块写入分析卡片 %d 场' % touched)
     return html
 
 
@@ -1122,12 +1142,21 @@ def _enrich_sfc_ana(html):
         p = it.get('p') or it.get('fus') or []
         # ① 定价明细
         if len(odds) >= 3 and len(p) >= 3:
+            # ★ 第二一六条：有些场次页面没写 main 字段 → 原来打印「主推 None」。按概率最大回推
+            _L3 = ['主胜', '平局', '客胜']
+            main_lbl = it.get('main') or _L3[[float(x or 0) for x in p].index(max(float(x or 0) for x in p))]
             parts.append('【加厚·定价明细】欧赔 %s/%s/%s → 去水 主 %.1f%% / 平 %.1f%% / 客 %.1f%%；'
                          '主推 %s %.1f%%，次选 %s %.1f%%（相差 %.1f 个百分点，%s）'
                          % ('%.2f' % odds[0], '%.2f' % odds[1], '%.2f' % odds[2],
-                            p[0], p[1], p[2], it.get('main'), float(it.get('main_p') or p[0]),
-                            it.get('alt'), float(it.get('alt_p') or 0), float(it.get('gap') or 0),
+                            p[0], p[1], p[2], main_lbl, float(it.get('main_p') or p[0]),
+                            it.get('alt') or '', float(it.get('alt_p') or 0), float(it.get('gap') or 0),
                             '可单押' if float(it.get('gap') or 0) >= 15 else ('建议带双选' if float(it.get('gap') or 0) >= 8 else '必须双选兜住')))
+        else:
+            # ★ 第二一五条：缺欧赔的场次原来整段没有，卡片看起来就「少一块」；现在明确说明口径
+            parts.append('【加厚·定价明细】本场只拿到官方固定奖金（%s），没有完整欧赔三档，'
+                         '无法去水比对；主推按官方概率 %s，方向以官方口径为准'
+                         % ('/'.join('%.2f' % v for v in odds) if odds else '暂无',
+                            ('%s %.1f%%' % (it.get('main'), float(it.get('main_p') or 0))) if it.get('main') else '见上方卡片'))
         # ② 欧赔变盘
         x = by_no.get(str(it.get('no')))
         if x and (x.get('first') or x.get('last')):

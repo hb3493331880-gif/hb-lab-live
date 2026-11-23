@@ -83,6 +83,16 @@ jobs:
         with:
           path: public
 
-      - name: 发布到 GitHub Pages
+      - name: 等待产物索引就绪
         if: steps.cycle.outputs.gate == 'pass'
+        run: sleep 10
+
+      - name: 发布到 GitHub Pages
+        id: deployment
+        if: steps.cycle.outputs.gate == 'pass'
+        continue-on-error: true
+        uses: actions/deploy-pages@v4
+
+      - name: 发布重试（仅在上一步失败时）
+        if: steps.cycle.outputs.gate == 'pass' && steps.deployment.outcome == 'failure'
         uses: actions/deploy-pages@v4
